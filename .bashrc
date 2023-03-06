@@ -139,7 +139,7 @@ alias rmd='/bin/rm  --recursive --force --verbose '
 
 # Alias's for multiple directory listing commands
 alias la='ls -Alh' # show hidden files
-alias ls='ls -aFh --color=always' # add colors and file type extensions
+alias ls='ls -AFh --color=always' # add colors and file type extensions
 alias lx='ls -lXBh' # sort by extension
 alias lk='ls -lSrh' # sort by size
 alias lc='ls -lcrh' # sort by change time
@@ -607,6 +607,6 @@ if [ -f "/usr/share/autojump/autojump.sh" ]; then
 elif [ -f "/usr/share/autojump/autojump.bash" ]; then
 	. /usr/share/autojump/autojump.bash
 else
-	echo "can't found the autojump script"
+	echo "can't find the autojump script"
 fi
 
