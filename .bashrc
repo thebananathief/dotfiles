@@ -82,6 +82,7 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 
 # Alias's to change the directory
 alias web='cd /var/www/html'
+alias tdev='cd /mnt/c/MegaSync/Media Server/talos.dev/provision'
 
 # Alias's to mount ISO files
 # mount -o loop /home/NAMEOFISO.iso /home/ISOMOUNTDIR/
@@ -100,9 +101,6 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 
 # Edit this .bashrc file
 alias ebrc='edit ~/.bashrc'
-
-# Show help for this .bashrc file
-alias hlp='less ~/.bashrc_help'
 
 # alias to show the date
 alias da='date "+%Y-%m-%d %A %T %Z"'
@@ -138,7 +136,6 @@ alias bd='cd "$OLDPWD"'
 alias rmd='/bin/rm  --recursive --force --verbose '
 
 # Alias's for multiple directory listing commands
-alias la='ls -Alh' # show hidden files
 alias ls='ls -AFh --color=always' # add colors and file type extensions
 alias lx='ls -lXBh' # sort by extension
 alias lk='ls -lSrh' # sort by size
@@ -146,10 +143,9 @@ alias lc='ls -lcrh' # sort by change time
 alias lu='ls -lurh' # sort by access time
 alias lr='ls -lRh' # recursive ls
 alias lt='ls -ltrh' # sort by date
-alias lm='ls -alh |more' # pipe through 'more'
 alias lw='ls -xAh' # wide listing format
 alias ll='ls -Fls' # long listing format
-alias labc='ls -lap' #alphabetical sort
+alias labc='ls -lAp' #alphabetical sort
 alias lf="ls -l | egrep -v '^d'" # files only
 alias ldir="ls -l | egrep '^d'" # directories only
 
