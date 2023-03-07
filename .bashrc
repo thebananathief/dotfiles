@@ -82,7 +82,7 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 
 # Alias's to change the directory
 alias web='cd /var/www/html'
-alias tdev='cd /mnt/c/MegaSync/Media Server/talos.dev/provision'
+alias tdev='cd "/mnt/c/MegaSync/Media Server/talos.dev/provision"'
 
 # Alias's to mount ISO files
 # mount -o loop /home/NAMEOFISO.iso /home/ISOMOUNTDIR/
