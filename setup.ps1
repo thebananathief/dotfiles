@@ -33,6 +33,8 @@ function Install-Starship() {
 
 ### PowerShell ###
 function Install-Pwsh() {
+    Write-Host "----- POWERSHELL -----"
+
     winget install -e --accept-source-agreements --accept-package-agreements --id Microsoft.PowerShell
 
     $Documents = (New-Object -ComObject Shell.Application).NameSpace('shell:Personal').Self.Path
@@ -61,6 +63,8 @@ function Install-Pwsh() {
 
 ### WindowsTerminal ###
 function Install-WT() {
+    Write-Host "----- WINDOWS TERMINAL -----"
+
     winget install -e --accept-source-agreements --accept-package-agreements --id Microsoft.WindowsTerminal
 
     $WTFamilyName = $(Get-AppxPackage | Where-Object Name -eq Microsoft.WindowsTerminal).PackageFamilyName
@@ -78,11 +82,13 @@ function Install-WT() {
 
 ### Prompts ###
 function Install-Prmpt() {
+    Write-Host "----- PROMPT -----"
+
     $Key = $null
     do {
-        Write-Host "P = Install oh-my-posh`nS = Install Starship prompt"
+        Write-Host "P = Install oh-my-posh`nS = Install Starship prompt`nN = Skip prompt setup"
         $Key = [System.Console]::ReadKey()
-    } while ($Key.Key -notmatch "^P|^S")
+    } while ($Key.Key -notmatch "^P|^S|^N")
 
     Write-Host
     Switch ($Key.Key) {
@@ -92,11 +98,14 @@ function Install-Prmpt() {
         s {
             Install-Starship
         }
+        n {}
     }
 }
 
 ### Cove NerdFont ###
 function Install-CoveNF() {
+    Write-Host "----- NERDFONT -----"
+
     $Key = $null
     do {
         Write-Host "Download Cascaydia Cove NerdFont? (Y | N)"
