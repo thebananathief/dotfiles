@@ -26,4 +26,4 @@ Copy-Item shell-setup\WindowsTerminal\settings.json $WTData -Force
 Copy-Item shell-setup\starship.toml ~\.config -Force
 
 # Delete the setup repo
-Remove-Item shell-setup -Recurse -Force
+# Remove-Item shell-setup -Recurse -Force
