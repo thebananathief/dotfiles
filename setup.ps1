@@ -1,5 +1,43 @@
-# Choco install
-# Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+# Winget info: https://learn.microsoft.com/en-us/windows/package-manager/winget/
+
+function Install-Font {  
+    param  
+    (  
+        [System.IO.FileInfo]$fontFile  
+    )  
+          
+    try { 
+        #get font name
+        $gt = [Windows.Media.GlyphTypeface]::new($fontFile.FullName)
+        $family = $gt.Win32FamilyNames['en-us']
+        if ($null -eq $family) { $family = $gt.Win32FamilyNames.Values.Item(0) }
+        $face = $gt.Win32FaceNames['en-us']
+        if ($null -eq $face) { $face = $gt.Win32FaceNames.Values.Item(0) }
+        $fontName = ("$family $face").Trim() 
+            
+        switch ($fontFile.Extension) {  
+            ".ttf" {$fontName = "$fontName (TrueType)"}  
+            ".otf" {$fontName = "$fontName (OpenType)"}  
+        }  
+
+        write-host "Installing font: $fontFile with font name '$fontName'"
+
+        If (!(Test-Path ("$($env:windir)\Fonts\" + $fontFile.Name))) {  
+            write-host "Copying font: $fontFile"
+            Copy-Item -Path $fontFile.FullName -Destination ("$($env:windir)\Fonts\" + $fontFile.Name) -Force 
+        } else {  write-host "Font already exists: $fontFile" }
+
+        If (!(Get-ItemProperty -Name $fontName -Path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Fonts" -ErrorAction SilentlyContinue)) {  
+            write-host "Registering font: $fontFile"
+            New-ItemProperty -Name $fontName -Path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Fonts" -PropertyType string -Value $fontFile.Name -Force -ErrorAction SilentlyContinue | Out-Null  
+        } else {  write-host "Font already registered: $fontFile" }
+            
+        [System.Runtime.Interopservices.Marshal]::ReleaseComObject($oShell) | out-null 
+        Remove-Variable oShell
+    } catch {
+        write-host "Error installing font: $fontFile. " $_.exception.message
+    }
+}
 
 function Install-Posh() {
     winget install -e --accept-source-agreements --accept-package-agreements --id JanDeDobbeleer.OhMyPosh
@@ -32,8 +70,12 @@ function Install-Starship() {
 function Install-Pwsh() {
     Write-Host "----- POWERSHELL -----"
 
-    # Terminal Icons Install
+    # Terminal Icons
     Install-Module -Name Terminal-Icons -Repository PSGallery
+
+    # Powershell Windows Update
+    Install-Module -Name PSWindowsUpdate
+    Add-WUServiceManager -MicrosoftUpdate
 
     winget install -e --accept-source-agreements --accept-package-agreements --id Microsoft.PowerShell
 
@@ -119,9 +161,14 @@ function Install-CoveNF() {
         # You will also need to set your Nerd Font of choice in your window defaults or in the Windows Terminal Settings.
         $Downloads = (New-Object -ComObject Shell.Application).NameSpace('shell:Downloads').Self.Path
         Invoke-RestMethod https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/CascadiaCode.zip?WT.mc_id=-blog-scottha -o "$Downloads\cove.zip"
-        Invoke-Item $Downloads
+        Expand-Archive -LiteralPath "$Downloads\cove.zip" -DestinationPath "$Downloads\CoveNF"
 
-        # TODO: See if I can install the fonts too
+        #Loop through fonts in the same directory as the script and install/uninstall them
+        foreach ($FontItem in (Get-ChildItem -Path "$Downloads\CoveNF" | Where-Object {$_.Name -match '.+\.ttf|.+\.otf'})) {  
+            Install-Font -fontFile $FontItem.FullName  
+        }
+        
+        Invoke-Item $Downloads
         Write-Host "Cove NerdFont downloaded to $Downloads`n"
     }
 }

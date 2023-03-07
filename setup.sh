@@ -1,4 +1,5 @@
 #!/bin/bash
+# TODO: install trash-cli, neovim, tree, htop, neofetch, nala, tldr, smartmontools
 
 RC='\e[0m'
 RED='\e[31m'
