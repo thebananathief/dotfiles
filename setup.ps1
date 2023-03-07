@@ -8,6 +8,7 @@ function Install-Posh() {
     winget install -e --accept-source-agreements --accept-package-agreements JanDeDobbeleer.OhMyPosh
 
     # TODO: Install posh config
+    Write-Host "oh-my-posh was installed"
 }
 
 function Install-Starship() {
@@ -26,8 +27,8 @@ function Install-Starship() {
     #     Get-Item -Path "$Config\starship.toml" | Move-Item -Destination starship.toml.bak
     # }
 
-    Write-Host "Copying Starship config to $env:USERPROFILE\.config..."
     Invoke-RestMethod https://raw.githubusercontent.com/thebananathief/shell-setup/main/starship.toml -o "$Config\starship.toml"
+    Write-Host "Starship installed, config at $env:USERPROFILE\.config`n"
 }
 
 ### PowerShell ###
@@ -52,8 +53,8 @@ function Install-Pwsh() {
     #     Get-Item -Path $PROFILE | Move-Item -Destination Microsoft.PowerShell_profile.ps1.bak
     # }
 
-    Write-Host "Copying PowerShell profile to $PROFILE..."
     Invoke-RestMethod https://raw.githubusercontent.com/thebananathief/shell-setup/main/Microsoft.PowerShell_profile.ps1 -o $PROFILE
+    Write-Host "Copied PowerShell profile to $PROFILE`n"
 }
 
 ### WindowsTerminal ###
@@ -69,9 +70,8 @@ function Install-WT() {
     #     Get-Item -Path "$WTData\settings.json" | Move-Item -Destination settings.json.bak
     # }
 
-    Write-Host "Copying WindowsTerminal config to $WTData..."
-    # Copy-Item shell-setup\WindowsTerminal\settings.json $WTData -Force
     Invoke-RestMethod https://raw.githubusercontent.com/thebananathief/shell-setup/main/WindowsTerminal/settings.json -o "$WTData\settings.json"
+    Write-Host "WindowsTerminal installed, config at $WTData`n"
 }
 
 ### Prompts ###
@@ -80,9 +80,9 @@ function Install-Prmpt() {
     do {
         Write-Host "P = Install oh-my-posh`nS = Install Starship prompt"
         $Key = [System.Console]::ReadKey()
-        Write-Host -NoNewline "`r"
     } while ($Key.Key -notmatch "^P|^S")
 
+    Write-Host
     Switch ($Key.Key) {
         p {
             Install-Posh
@@ -99,9 +99,9 @@ function Install-CoveNF() {
     do {
         Write-Host "Download Cascaydia Cove NerdFont? (Y | N)"
         $Key = [System.Console]::ReadKey()
-        Write-Host -NoNewline "`r"
     } while ($Key.Key -notmatch "^Y|^N")
     
+    Write-Host
     if ($Key.Key -like 'y') {
         # Font Install
         # You will have to extract and Install this font manually, alternatively use the oh my posh font installer (Must be run as admin)
@@ -112,6 +112,7 @@ function Install-CoveNF() {
         Invoke-Item $Downloads
 
         # TODO: See if I can install the fonts too
+        Write-Host "Cove NerdFont downloaded to $Downloads`n"
     }
 }
 
