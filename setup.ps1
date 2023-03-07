@@ -1,4 +1,16 @@
 # Winget info: https://learn.microsoft.com/en-us/windows/package-manager/winget/
+#Requires -RunAsAdministrator
+
+function AdminCheck {
+    # if (!([bool](([System.Security.Principal.WindowsIdentity]::GetCurrent()).groups -match "S-1-5-32-544")))
+    Write-Host "You should run this script in an admin terminal!"
+}
+
+function Install-Scoop {
+    & powershell.exe -WindowStyle Minimized -NoProfile -NonInteractive -Command {Invoke-WebRequest -useb get.scoop.sh | Invoke-Expression}
+    & powershell.exe -WindowStyle Minimized -NoProfile -NonInteractive -Command {scoop install neofetch}
+    & powershell.exe -WindowStyle Minimized -NoProfile -NonInteractive -Command {scoop install neovim}
+}
 
 function Install-Font {  
     param  
@@ -39,14 +51,14 @@ function Install-Font {
     }
 }
 
-function Install-Posh() {
+function Install-Posh {
     winget install -e --accept-source-agreements --accept-package-agreements --id JanDeDobbeleer.OhMyPosh
 
     # TODO: Install posh config
     Write-Host "oh-my-posh was installed"
 }
 
-function Install-Starship() {
+function Install-Starship {
     winget install -e --accept-source-agreements --accept-package-agreements --id Starship.Starship
 
     $Config = "$env:USERPROFILE\.config"
@@ -67,7 +79,7 @@ function Install-Starship() {
 }
 
 ### PowerShell ###
-function Install-Pwsh() {
+function Install-Pwsh {
     Write-Host "----- POWERSHELL -----"
 
     # Terminal Icons
@@ -104,7 +116,7 @@ function Install-Pwsh() {
 }
 
 ### WindowsTerminal ###
-function Install-WT() {
+function Install-WT {
     Write-Host "----- WINDOWS TERMINAL -----"
 
     winget install -e --accept-source-agreements --accept-package-agreements --id Microsoft.WindowsTerminal
@@ -123,7 +135,7 @@ function Install-WT() {
 }
 
 ### Prompts ###
-function Install-Prmpt() {
+function Install-Prmpt {
     Write-Host "----- PROMPT -----"
 
     $Key = $null
@@ -145,7 +157,7 @@ function Install-Prmpt() {
 }
 
 ### Cove NerdFont ###
-function Install-CoveNF() {
+function Install-CoveNF {
     Write-Host "----- NERDFONT -----"
 
     $Key = $null
@@ -155,15 +167,13 @@ function Install-CoveNF() {
     } while ($Key.Key -notmatch "^Y|^N")
     
     if ($Key.Key -like 'y') {
-        # Font Install
         # You will have to extract and Install this font manually, alternatively use the oh my posh font installer (Must be run as admin)
-        # oh-my-posh font install
         # You will also need to set your Nerd Font of choice in your window defaults or in the Windows Terminal Settings.
         $Downloads = (New-Object -ComObject Shell.Application).NameSpace('shell:Downloads').Self.Path
         Invoke-RestMethod https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/CascadiaCode.zip?WT.mc_id=-blog-scottha -o "$Downloads\cove.zip"
         Expand-Archive -LiteralPath "$Downloads\cove.zip" -DestinationPath "$Downloads\CoveNF"
+        Remove-Item -Path "$Downloads\cove.zip"
 
-        #Loop through fonts in the same directory as the script and install/uninstall them
         foreach ($FontItem in (Get-ChildItem -Path "$Downloads\CoveNF" | Where-Object {$_.Name -match '.+\.ttf|.+\.otf'})) {  
             Install-Font -fontFile $FontItem.FullName  
         }
@@ -173,10 +183,12 @@ function Install-CoveNF() {
     }
 }
 
+AdminCheck
+Install-Scoop
 Install-Pwsh
-Install-WT
 Install-Prmpt
 Install-CoveNF
+Install-WT
 
 # Re-initialize the powershell profile
 & $profile
