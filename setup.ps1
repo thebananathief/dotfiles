@@ -182,7 +182,7 @@ function Install-CoveNF {
 
 if (!([bool](([System.Security.Principal.WindowsIdentity]::GetCurrent()).groups -match "S-1-5-32-544"))) {
     Write-Host "You should run this script in an admin terminal!"
-    Exit
+    Break
 }
 
 Install-Scoop
