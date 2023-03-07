@@ -36,12 +36,12 @@ function Install-Starship() {
 
     # Detect Version of Powershell & Create Profile directories if they do not exist.
     if ($PSVersionTable.PSEdition -eq "Core" ) { 
-        if (!(Test-Path -Path "$Documents\Powershell")) {
+        if (!(Test-Path -Path "$Documents\Powershell" -PathType Container)) {
             New-Item -Path "$Documents\Powershell" -ItemType "directory"
         }
     }
     elseif ($PSVersionTable.PSEdition -eq "Desktop") {
-        if (!(Test-Path -Path "$Documents\WindowsPowerShell")) {
+        if (!(Test-Path -Path "$Documents\WindowsPowerShell" -PathType Container)) {
             New-Item -Path "$Documents\WindowsPowerShell" -ItemType "directory"
         }
     }
