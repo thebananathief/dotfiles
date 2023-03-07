@@ -17,6 +17,14 @@ elif [ -f /etc/bash_completion ]; then
 	. /etc/bash_completion
 fi
 
+# Alias definitions.
+# You may want to put all your additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
 #######################################################
 # EXPORTS
 #######################################################
@@ -81,7 +89,7 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 # alias SERVERNAME='ssh YOURWEBSITE.com -l USERNAME -p PORTNUMBERHERE'
 
 # Alias's to change the directory
-alias web='cd /var/www/html'
+# alias web='cd /var/www/html'
 alias tdev='cd "/mnt/c/MegaSync/Media Server/talos.dev/provision"'
 
 # Alias's to mount ISO files
