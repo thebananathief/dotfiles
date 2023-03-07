@@ -134,7 +134,6 @@ Install-CoveNF
 # Re-initialize the powershell profile
 & $profile
 
-Write-Host
-
-Write-Host "If you're missing icons, make sure you download the Cove NerdFont`nFinished! -- Enjoy your pretty terminal!"
+Write-Host "`nFinished! -- Enjoy your pretty terminal!"
+Write-Host "If you're missing icons, make sure you download the Cove NerdFont"
 # Write-Host "Finished! -- This repository now resides in $env:USERPROFILE\shell-setup"
