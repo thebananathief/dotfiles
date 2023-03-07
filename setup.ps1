@@ -1,37 +1,3 @@
-#If the file does not exist, create it.
-if (!(Test-Path -Path $PROFILE -PathType Leaf)) {
-    try {
-        # Detect Version of Powershell & Create Profile directories if they do not exist.
-        if ($PSVersionTable.PSEdition -eq "Core" ) { 
-            if (!(Test-Path -Path ($env:USERPROFILE + "\Documents\Powershell"))) {
-                New-Item -Path ($env:USERPROFILE + "\Documents\Powershell") -ItemType "directory"
-            }
-        }
-        elseif ($PSVersionTable.PSEdition -eq "Desktop") {
-            if (!(Test-Path -Path ($env:USERPROFILE + "\Documents\WindowsPowerShell"))) {
-                New-Item -Path ($env:USERPROFILE + "\Documents\WindowsPowerShell") -ItemType "directory"
-            }
-        }
-
-        Invoke-RestMethod https://github.com/ChrisTitusTech/powershell-profile/raw/main/Microsoft.PowerShell_profile.ps1 -o $PROFILE
-        Write-Host "The profile @ [$PROFILE] has been created."
-    }
-    catch {
-        throw $_.Exception.Message
-    }
-}
-# If the file already exists, show the message and do nothing.
- else {
-		 Get-Item -Path $PROFILE | Move-Item -Destination oldprofile.ps1
-		 Invoke-RestMethod https://github.com/ChrisTitusTech/powershell-profile/raw/main/Microsoft.PowerShell_profile.ps1 -o $PROFILE
-		 Write-Host "The profile @ [$PROFILE] has been created and old profile removed."
- }
-
-
-
-
-
-
 # Choco install
 # Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 
@@ -51,45 +17,64 @@ function Install-Starship() {
 
     # Ensure config folder exists
     if (!(Test-Path -Path $Config -PathType Container)) {
-        New-Item -Path $Config
+        New-Item -Path $Config -ItemType "directory"
     }
 
     # Keep old config
-    if (Test-Path -Path "$Config\starship.toml" -PathType Leaf) {
-        Write-Host "Found an existing Starship config, renaming..."
-        Get-Item -Path "$Config\starship.toml" | Move-Item -Destination starship.toml.bak
-    }
+    # if (Test-Path -Path "$Config\starship.toml" -PathType Leaf) {
+    #     Write-Host "Found an existing Starship config, renaming..."
+    #     Get-Item -Path "$Config\starship.toml" | Move-Item -Destination starship.toml.bak
+    # }
 
     Write-Host "Copying Starship config to $env:USERPROFILE\.config..."
     Invoke-RestMethod https://raw.githubusercontent.com/thebananathief/shell-setup/main/starship.toml -o "$Config\starship.toml"
 }
 
-### PowerShell profile ###
+### PowerShell ###
 {
-    # Keep old profile
-    if (Test-Path -Path $PROFILE -PathType Leaf) {
-        Write-Host "Found an existing PowerShell profile, renaming..."
-        Get-Item -Path $PROFILE | Move-Item -Destination Microsoft.PowerShell_profile.ps1.bak
+    $Documents = (New-Object -ComObject Shell.Application).NameSpace('shell:Personal').Self.Path
+
+    # Detect Version of Powershell & Create Profile directories if they do not exist.
+    if ($PSVersionTable.PSEdition -eq "Core" ) { 
+        if (!(Test-Path -Path "$Documents\Powershell")) {
+            New-Item -Path "$Documents\Powershell" -ItemType "directory"
+        }
     }
+    elseif ($PSVersionTable.PSEdition -eq "Desktop") {
+        if (!(Test-Path -Path "$Documents\WindowsPowerShell")) {
+            New-Item -Path "$Documents\WindowsPowerShell" -ItemType "directory"
+        }
+    }
+
+    # Keep old profile
+    # if (Test-Path -Path $PROFILE -PathType Leaf) {
+    #     Write-Host "Found an existing PowerShell profile, renaming..."
+    #     Get-Item -Path $PROFILE | Move-Item -Destination Microsoft.PowerShell_profile.ps1.bak
+    # }
 
     Write-Host "Copying PowerShell profile to $PROFILE..."
     Invoke-RestMethod https://raw.githubusercontent.com/thebananathief/shell-setup/main/Microsoft.PowerShell_profile.ps1 -o $PROFILE
 }
 
-### WindowsTerminal config ###
+### WindowsTerminal ###
 {
+    winget install -e --accept-source-agreements --accept-package-agreements Microsoft.WindowsTerminal
+
     $WTFamilyName = $(Get-AppxPackage | Where-Object Name -eq Microsoft.WindowsTerminal).PackageFamilyName
     $WTData = "$env:LOCALAPPDATA\Packages\$WTFamilyName\LocalState"
-    # if (Test-Path "$WTData\settings.json") {
+
+    # Keep old config
+    # if (Test-Path -Path "$WTData\settings.json" -PathType Leaf) {
     #     Write-Host "Found an existing WindowsTerminal config, renaming..."
-    #     Rename-Item "$WTData\settings.json" settings.json.bak
+    #     Get-Item -Path "$WTData\settings.json" | Move-Item -Destination settings.json.bak
     # }
+
     Write-Host "Copying WindowsTerminal config to $WTData..."
     # Copy-Item shell-setup\WindowsTerminal\settings.json $WTData -Force
     Invoke-RestMethod https://raw.githubusercontent.com/thebananathief/shell-setup/main/WindowsTerminal/settings.json -o "$WTData\settings.json"
 }
 
-### Prompt install ###
+### Prompts ###
 {
     $Key = $null
     do {
