@@ -75,7 +75,7 @@ function Install-WT() {
 }
 
 ### Prompts ###
-function Install-Prmt() {
+function Install-Prmpt() {
     $Key = $null
     do {
         Write-Host "P = Install oh-my-posh`nS = Install Starship prompt"
@@ -117,7 +117,7 @@ function Install-CoveNF() {
 
 Install-Pwsh
 Install-WT
-Install-Prmt
+Install-Prmpt
 Install-CoveNF
 
 # Re-initialize the powershell profile
