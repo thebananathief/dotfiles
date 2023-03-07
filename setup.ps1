@@ -3,13 +3,13 @@ if (!(Test-Path -Path $PROFILE -PathType Leaf)) {
     try {
         # Detect Version of Powershell & Create Profile directories if they do not exist.
         if ($PSVersionTable.PSEdition -eq "Core" ) { 
-            if (!(Test-Path -Path ($env:userprofile + "\Documents\Powershell"))) {
-                New-Item -Path ($env:userprofile + "\Documents\Powershell") -ItemType "directory"
+            if (!(Test-Path -Path ($env:USERPROFILE + "\Documents\Powershell"))) {
+                New-Item -Path ($env:USERPROFILE + "\Documents\Powershell") -ItemType "directory"
             }
         }
         elseif ($PSVersionTable.PSEdition -eq "Desktop") {
-            if (!(Test-Path -Path ($env:userprofile + "\Documents\WindowsPowerShell"))) {
-                New-Item -Path ($env:userprofile + "\Documents\WindowsPowerShell") -ItemType "directory"
+            if (!(Test-Path -Path ($env:USERPROFILE + "\Documents\WindowsPowerShell"))) {
+                New-Item -Path ($env:USERPROFILE + "\Documents\WindowsPowerShell") -ItemType "directory"
             }
         }
 
@@ -26,68 +26,112 @@ if (!(Test-Path -Path $PROFILE -PathType Leaf)) {
 		 Invoke-RestMethod https://github.com/ChrisTitusTech/powershell-profile/raw/main/Microsoft.PowerShell_profile.ps1 -o $PROFILE
 		 Write-Host "The profile @ [$PROFILE] has been created and old profile removed."
  }
-& $profile
 
-function install-posh() {
-    winget install -e --accept-source-agreements --accept-package-agreements JanDeDobbeleer.OhMyPosh
-}
 
-function install-starship() {
-    # winget install -e --accept-source-agreements --accept-package-agreements Starship.Starship
-}
 
-# Font Install
-# You will have to extract and Install this font manually, alternatively use the oh my posh font installer (Must be run as admin)
-# oh-my-posh font install
-# You will also need to set your Nerd Font of choice in your window defaults or in the Windows Terminal Settings.
-# Invoke-RestMethod https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/CascadiaCode.zip?WT.mc_id=-blog-scottha -o cove.zip
+
+
 
 # Choco install
-#
 # Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 
 # Terminal Icons Install
-#
-# Install-Module -Name Terminal-Icons -Repository PSGallery
+Install-Module -Name Terminal-Icons -Repository PSGallery
 
+function Install-Posh() {
+    winget install -e --accept-source-agreements --accept-package-agreements JanDeDobbeleer.OhMyPosh
 
+    # TODO: Install posh config
+}
 
+function Install-Starship() {
+    winget install -e --accept-source-agreements --accept-package-agreements Starship.Starship
 
+    $Config = "$env:USERPROFILE\.config"
 
+    # Ensure config folder exists
+    if (!(Test-Path -Path $Config -PathType Container)) {
+        New-Item -Path $Config
+    }
 
+    # Keep old config
+    if (Test-Path -Path "$Config\starship.toml" -PathType Leaf) {
+        Write-Host "Found an existing Starship config, renaming..."
+        Get-Item -Path "$Config\starship.toml" | Move-Item -Destination starship.toml.bak
+    }
 
-# Clone the repository
-# git clone https://github.com/thebananathief/shell-setup
+    Write-Host "Copying Starship config to $env:USERPROFILE\.config..."
+    Invoke-RestMethod https://raw.githubusercontent.com/thebananathief/shell-setup/main/starship.toml -o "$Config\starship.toml"
+}
 
-# Copy the powershell profile
-# if (Test-Path $PROFILE) {
-#     Write-Host "Found an existing PowerShell profile, renaming..."
-#     Rename-Item $PROFILE Microsoft.PowerShell_profile.ps1.bak
-# }
-Write-Host "Copying PowerShell profile to $PROFILE..."
-# Copy-Item shell-setup\Microsoft.PowerShell_profile.ps1 $PROFILE -Force
-Invoke-RestMethod https://raw.githubusercontent.com/thebananathief/shell-setup/main/Microsoft.PowerShell_profile.ps1 -o $PROFILE
+### PowerShell profile ###
+{
+    # Keep old profile
+    if (Test-Path -Path $PROFILE -PathType Leaf) {
+        Write-Host "Found an existing PowerShell profile, renaming..."
+        Get-Item -Path $PROFILE | Move-Item -Destination Microsoft.PowerShell_profile.ps1.bak
+    }
 
-# Copy the WindowsTerminal config
-$WTFamilyName = $(Get-AppxPackage | Where-Object Name -eq Microsoft.WindowsTerminal).PackageFamilyName
-$WTData = "$env:LOCALAPPDATA\Packages\$WTFamilyName\LocalState"
-# if (Test-Path "$WTData\settings.json") {
-#     Write-Host "Found an existing WindowsTerminal config, renaming..."
-#     Rename-Item "$WTData\settings.json" settings.json.bak
-# }
-Write-Host "Copying WindowsTerminal config to $WTData..."
-# Copy-Item shell-setup\WindowsTerminal\settings.json $WTData -Force
-Invoke-RestMethod https://raw.githubusercontent.com/thebananathief/shell-setup/main/WindowsTerminal/settings.json -o "$WTData\settings.json"
+    Write-Host "Copying PowerShell profile to $PROFILE..."
+    Invoke-RestMethod https://raw.githubusercontent.com/thebananathief/shell-setup/main/Microsoft.PowerShell_profile.ps1 -o $PROFILE
+}
 
-# Copy the starship config
-# if (Test-Path ~/.config -eq $False) {
-#     New-Item ~/.config/
-# }
-Write-Host "Copying Starship config to $env:USERPROFILE\.config..."
-# Copy-Item shell-setup\starship.toml ~\.config -Force
-Invoke-RestMethod https://raw.githubusercontent.com/thebananathief/shell-setup/main/starship.toml -o "$env:USERPROFILE\.config\starship.toml"
+### WindowsTerminal config ###
+{
+    $WTFamilyName = $(Get-AppxPackage | Where-Object Name -eq Microsoft.WindowsTerminal).PackageFamilyName
+    $WTData = "$env:LOCALAPPDATA\Packages\$WTFamilyName\LocalState"
+    # if (Test-Path "$WTData\settings.json") {
+    #     Write-Host "Found an existing WindowsTerminal config, renaming..."
+    #     Rename-Item "$WTData\settings.json" settings.json.bak
+    # }
+    Write-Host "Copying WindowsTerminal config to $WTData..."
+    # Copy-Item shell-setup\WindowsTerminal\settings.json $WTData -Force
+    Invoke-RestMethod https://raw.githubusercontent.com/thebananathief/shell-setup/main/WindowsTerminal/settings.json -o "$WTData\settings.json"
+}
+
+### Prompt install ###
+{
+    $Key = $null
+    do {
+        Write-Host "P = Install oh-my-posh`nS = Install Starship prompt"
+        $Key = [System.Console]::ReadKey()
+        Write-Host -NoNewline "`r"
+    } while ($Key.Key -notmatch "^P|^S")
+
+    Switch ($Key.Key) {
+        p {
+            Install-Posh
+        }
+        s {
+            Install-Starship
+        }
+    }
+}
+
+### Cove NerdFont ###
+{
+    $Key = $null
+    do {
+        Write-Host "Download Cascaydia Cove NerdFont? (Y | N)"
+        $Key = [System.Console]::ReadKey()
+        Write-Host -NoNewline "`r"
+    } while ($Key.Key -notmatch "^Y|^N")
+    
+    if ($Key.Key -like 'y') {
+        # Font Install
+        # You will have to extract and Install this font manually, alternatively use the oh my posh font installer (Must be run as admin)
+        # oh-my-posh font install
+        # You will also need to set your Nerd Font of choice in your window defaults or in the Windows Terminal Settings.
+        $Downloads = (New-Object -ComObject Shell.Application).NameSpace('shell:Downloads').Self.Path
+        Invoke-RestMethod https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/CascadiaCode.zip?WT.mc_id=-blog-scottha -o "$Downloads\cove.zip"
+        Invoke-Item $Downloads
+    }
+}
+
+# Re-initialize the powershell profile
+& $profile
 
 Write-Host
 
-Write-Host "Finished! -- Enjoy your pretty terminal!"
+Write-Host "If you're missing icons, make sure you download the Cove NerdFont`nFinished! -- Enjoy your pretty terminal!"
 # Write-Host "Finished! -- This repository now resides in $env:USERPROFILE\shell-setup"
