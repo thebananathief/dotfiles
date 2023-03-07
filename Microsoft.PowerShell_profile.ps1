@@ -224,8 +224,9 @@ function tdev {
   Set-Location -Path "C:\MegaSync\Media Server\talos.dev"
 }
 
-## Final Line to set prompt
-oh-my-posh init pwsh --config "~\AppData\Local\Programs\oh-my-posh\themes\talos.omp.json" | Invoke-Expression
+# Set prompt for prettiness
+Invoke-Expression (& 'C:\Program Files\starship\bin\starship.exe' init powershell)
+# oh-my-posh init pwsh --config "~\AppData\Local\Programs\oh-my-posh\themes\talos.omp.json" | Invoke-Expression
 
 # Import the Chocolatey Profile that contains the necessary code to enable
 # tab-completions to function for `choco`.

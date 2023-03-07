@@ -7,10 +7,17 @@ Set-Location shell-setup
 
 # Copy the powershell profile
 if (Test-Path $PROFILE) {
+    Write-Host "Found an existing PowerShell profile, renaming..."
     Rename-Item $PROFILE Microsoft.PowerShell_profile.ps1.bak
 }
-Copy-Item Microsoft.PowerShell_profile.ps1 $PROFILE -verbose
+Write-Host "Copying PowerShell profile to $PROFILE..."
+Copy-Item Microsoft.PowerShell_profile.ps1 $PROFILE
 
 # Copy the WindowsTerminal config
 
+
 # Copy the starship config
+
+
+# Delete the setup repo
+Remove-Item . -Recurse -Force
