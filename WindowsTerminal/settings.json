@@ -32,8 +32,8 @@
     "copyFormatting": "none",
     "copyOnSelect": false,
     "defaultProfile": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
-    "initialCols": 125,
-    "initialRows": 35,
+    "initialCols": 130,
+    "initialRows": 40,
     "launchMode": "default",
     "profiles": 
     {
@@ -44,9 +44,8 @@
             "experimental.retroTerminalEffect": false,
             "font": 
             {
-                "face": "Cascadia Mono",
-                "size": 12,
-                "weight": "medium"
+                "face": "CaskaydiaCove NF",
+                "size": 13
             },
             "opacity": 80,
             "useAcrylic": false
@@ -66,18 +65,18 @@
                 "source": "Windows.Terminal.Wsl"
             },
             {
-                "commandline": "ssh talosdev",
-                "guid": "{e5819730-33f4-5795-8991-2ea4a93dd81c}",
+                "commandline": "ssh talos",
+                "guid": "{0d26c58c-7b13-531e-a08a-28207c8244dc}",
                 "hidden": false,
-                "icon": "\ud83e\udd16",
-                "name": "TALOSDEV SSH"
+                "icon": "\ud83d\ude80",
+                "name": "Talos LIVE"
             },
             {
-                "commandline": "ssh talos",
-                "guid": "{6b2156b3-9977-4e30-a654-3d9850609884}",
+                "commandline": "ssh talosdev",
+                "guid": "{1ca3116a-300a-5d14-b92c-4ebd18d6eab1}",
                 "hidden": false,
-                "icon": "ms-appdata:///Local/icons8-mechanism-67.png",
-                "name": "TALOS"
+                "icon": "\ud83e\udd16",
+                "name": "Talos DEV"
             },
             {
                 "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
@@ -91,16 +90,22 @@
                 "source": "Windows.Terminal.Azure"
             },
             {
-                "guid": "{f3b9bffd-fc92-5b27-a851-a73fbffca2df}",
+                "guid": "{09a05b81-91b0-508d-8597-fdfb96347b79}",
                 "hidden": true,
                 "name": "Developer Command Prompt for VS 2022",
                 "source": "Windows.Terminal.VisualStudio"
             },
             {
-                "guid": "{ba5957bc-ed12-53fe-94db-5403b2daf765}",
+                "guid": "{6856f273-0f05-54d3-9d23-ba28c843acab}",
                 "hidden": true,
                 "name": "Developer PowerShell for VS 2022",
                 "source": "Windows.Terminal.VisualStudio"
+            },
+            {
+                "guid": "{16208362-94fc-5b1f-a491-5b2624d5ab56}",
+                "hidden": true,
+                "name": "Visual Studio Debug Console",
+                "source": "VSDebugConsole"
             }
         ]
     },
