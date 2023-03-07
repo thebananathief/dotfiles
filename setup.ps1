@@ -180,20 +180,19 @@ function Install-CoveNF {
     }
 }
 
-if (!([bool](([System.Security.Principal.WindowsIdentity]::GetCurrent()).groups -match "S-1-5-32-544"))) {
+if (([bool](([System.Security.Principal.WindowsIdentity]::GetCurrent()).groups -match "S-1-5-32-544"))) {
+    Install-Scoop
+    Install-Pwsh
+    Install-Prmpt
+    Install-CoveNF
+    Install-WT
+
+    # Re-initialize the powershell profile
+    & $profile
+    
+    Write-Host "`nFinished! -- Enjoy your pretty terminal!"
+    Write-Host "If you're missing icons, make sure you download the Cove NerdFont"
+    # Write-Host "Finished! -- This repository now resides in $env:USERPROFILE\shell-setup"
+} else {
     Write-Host "You should run this script in an admin terminal!"
-    Break
 }
-
-Install-Scoop
-Install-Pwsh
-Install-Prmpt
-Install-CoveNF
-Install-WT
-
-# Re-initialize the powershell profile
-& $profile
-
-Write-Host "`nFinished! -- Enjoy your pretty terminal!"
-Write-Host "If you're missing icons, make sure you download the Cove NerdFont"
-# Write-Host "Finished! -- This repository now resides in $env:USERPROFILE\shell-setup"
