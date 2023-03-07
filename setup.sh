@@ -1,4 +1,5 @@
 #!/bin/bash
+# Stolen from: https://github.com/christitustech/mybash
 # TODO: install trash-cli, neovim, tree, htop, neofetch, nala, tldr, smartmontools
 
 RC='\e[0m'

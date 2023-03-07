@@ -6,6 +6,7 @@ Recommend running this as admin, from any terminal other than WindowsTerminal, a
 ```
 irm https://raw.githubusercontent.com/thebananathief/shell-setup/main/setup.ps1 | iex
 ```
+- Install `[scoop](https://github.com/ScoopInstaller/Scoop)` and `neovim`, `neofetch` using scoop
 - Install PowerShell Core and configure profile
 - Terminal-Icons module
 - Install WindowsTerminal and configure settings
