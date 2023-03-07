@@ -5,14 +5,14 @@
 Install-Module -Name Terminal-Icons -Repository PSGallery
 
 function Install-Posh() {
-    winget install -e --accept-source-agreements --accept-package-agreements JanDeDobbeleer.OhMyPosh
+    winget install -e --accept-source-agreements --accept-package-agreements --id JanDeDobbeleer.OhMyPosh
 
     # TODO: Install posh config
     Write-Host "oh-my-posh was installed"
 }
 
 function Install-Starship() {
-    winget install -e --accept-source-agreements --accept-package-agreements Starship.Starship
+    winget install -e --accept-source-agreements --accept-package-agreements --id Starship.Starship
 
     $Config = "$env:USERPROFILE\.config"
 
@@ -33,6 +33,8 @@ function Install-Starship() {
 
 ### PowerShell ###
 function Install-Pwsh() {
+    winget install -e --accept-source-agreements --accept-package-agreements --id Microsoft.PowerShell
+
     $Documents = (New-Object -ComObject Shell.Application).NameSpace('shell:Personal').Self.Path
 
     # Detect Version of Powershell & Create Profile directories if they do not exist.
@@ -54,12 +56,12 @@ function Install-Pwsh() {
     # }
 
     Invoke-RestMethod https://raw.githubusercontent.com/thebananathief/shell-setup/main/Microsoft.PowerShell_profile.ps1 -o $PROFILE
-    Write-Host "Copied PowerShell profile to $PROFILE`n"
+    Write-Host "PowerShell Core installed, this terminal's profile is at $PROFILE`n"
 }
 
 ### WindowsTerminal ###
 function Install-WT() {
-    winget install -e --accept-source-agreements --accept-package-agreements Microsoft.WindowsTerminal
+    winget install -e --accept-source-agreements --accept-package-agreements --id Microsoft.WindowsTerminal
 
     $WTFamilyName = $(Get-AppxPackage | Where-Object Name -eq Microsoft.WindowsTerminal).PackageFamilyName
     $WTData = "$env:LOCALAPPDATA\Packages\$WTFamilyName\LocalState"
@@ -101,7 +103,6 @@ function Install-CoveNF() {
         $Key = [System.Console]::ReadKey()
     } while ($Key.Key -notmatch "^Y|^N")
     
-    Write-Host
     if ($Key.Key -like 'y') {
         # Font Install
         # You will have to extract and Install this font manually, alternatively use the oh my posh font installer (Must be run as admin)
