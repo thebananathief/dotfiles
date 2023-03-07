@@ -10,7 +10,7 @@ Write-Host "Copying PowerShell profile to $PROFILE..."
 Copy-Item shell-setup\Microsoft.PowerShell_profile.ps1 $PROFILE -Force
 
 # Copy the WindowsTerminal config
-$WTFamilyName = Get-AppxPackage | Where-Object Name -eq Microsoft.WindowsTerminal | Select-Object PackageFamilyName
+$WTFamilyName = $(Get-AppxPackage | Where-Object Name -eq Microsoft.WindowsTerminal).PackageFamilyName
 $WTData = "$env:LOCALAPPDATA\Packages\$WTFamilyName\LocalState"
 if (Test-Path "$WTData\settings.json") {
     Write-Host "Found an existing WindowsTerminal config, renaming..."
