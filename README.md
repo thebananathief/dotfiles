@@ -7,11 +7,10 @@ Recommend running this as admin, from any terminal other than WindowsTerminal, a
 irm https://raw.githubusercontent.com/thebananathief/shell-setup/main/setup.ps1 | iex
 ```
 
-## Features
-- Either oh-my-posh or Starship prompts
-
-### Windows
+## What it does
+### setup.ps1
+- Install PowerShell Core and configure profile
 - Terminal-Icons module
-- WindowsTerminal settings
-- PowerShell profile
-- Cove NerdFont download
+- Install WindowsTerminal and configure settings
+- Installs oh-my-posh or Starship prompt, or none
+- Downloads Cove NerdFont

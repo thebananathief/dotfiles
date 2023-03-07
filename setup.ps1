@@ -1,9 +1,6 @@
 # Choco install
 # Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 
-# Terminal Icons Install
-Install-Module -Name Terminal-Icons -Repository PSGallery
-
 function Install-Posh() {
     winget install -e --accept-source-agreements --accept-package-agreements --id JanDeDobbeleer.OhMyPosh
 
@@ -34,6 +31,9 @@ function Install-Starship() {
 ### PowerShell ###
 function Install-Pwsh() {
     Write-Host "----- POWERSHELL -----"
+
+    # Terminal Icons Install
+    Install-Module -Name Terminal-Icons -Repository PSGallery
 
     winget install -e --accept-source-agreements --accept-package-agreements --id Microsoft.PowerShell
 
