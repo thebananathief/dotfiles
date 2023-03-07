@@ -1,12 +1,9 @@
 # Winget info: https://learn.microsoft.com/en-us/windows/package-manager/winget/
-#Requires -RunAsAdministrator
 
-function AdminCheck {
-    # if (!([bool](([System.Security.Principal.WindowsIdentity]::GetCurrent()).groups -match "S-1-5-32-544")))
-    Write-Host "You should run this script in an admin terminal!"
-}
-
+### Scoop ###
 function Install-Scoop {
+    Write-Host "----- SCOOP -----"
+
     & powershell.exe -WindowStyle Minimized -NoProfile -NonInteractive -Command {Invoke-WebRequest -useb get.scoop.sh | Invoke-Expression}
     & powershell.exe -WindowStyle Minimized -NoProfile -NonInteractive -Command {scoop install neofetch}
     & powershell.exe -WindowStyle Minimized -NoProfile -NonInteractive -Command {scoop install neovim}
@@ -183,7 +180,11 @@ function Install-CoveNF {
     }
 }
 
-AdminCheck
+if (!([bool](([System.Security.Principal.WindowsIdentity]::GetCurrent()).groups -match "S-1-5-32-544"))) {
+    Write-Host "You should run this script in an admin terminal!"
+    Exit
+}
+
 Install-Scoop
 Install-Pwsh
 Install-Prmpt
