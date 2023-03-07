@@ -2,9 +2,6 @@
 # Stolen from: https://github.com/ChrisTitusTech/powershell-profile
 # irm https://raw.githubusercontent.com/thebananathief/shell-setup/stable/setup.ps1?token=GHSAT0AAAAAAB7NOO2NRABMDMKG7BQEQ6SGZAIJHHQ | iex
 
-git clone https://github.com/thebananathief/shell-setup.git
-Set-Location shell-setup
-
 $GITPATH = $PWD.Path
 Write-Host '$GITPATH = ' + $GITPATH
 
@@ -164,7 +161,7 @@ function Install-Prmpt {
     # Re-initialize the powershell profile
     & $profile
     
-    Write-Host "Finished!"
+    Write-Host "Finished! - May need to restart your shell"
 # } else {
 #     Write-Host "You should run this script in an admin terminal!"
     # throw "Script needs to be ran as admin"

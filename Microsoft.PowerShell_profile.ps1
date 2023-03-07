@@ -21,8 +21,6 @@ $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
 $principal = New-Object Security.Principal.WindowsPrincipal $identity
 $isAdmin = $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 
-# If so and the current host is a command line, then change to red color 
-# as warning to user that they are operating in an elevated context
 # Useful shortcuts for traversing directories
 function cd.. { Set-Location .. }
 Set-Alias -Name .. -Value cd..
@@ -30,6 +28,8 @@ function cd... { Set-Location ..\.. }
 Set-Alias -Name ... -Value cd...
 function cd.... { Set-Location ..\..\.. }
 Set-Alias -Name .... -Value cd....
+
+function g { Set-Location $HOME\Documents\Github }
 
 # Compute file hashes - useful for checking successful downloads 
 function md5 { Get-FileHash -Algorithm MD5 $args }
@@ -92,13 +92,12 @@ function admin {
 Set-Alias -Name su -Value admin
 Set-Alias -Name sudo -Value admin
 
-
 # Make it easy to edit this profile once it's installed
 function Edit-Profile {
     if ($host.Name -match "ise") {
-        $psISE.CurrentPowerShellTab.Files.Add($profile.CurrentUserAllHosts)
+        $psISE.CurrentPowerShellTab.Files.Add($profile)
     } else {
-        notepad $profile.CurrentUserAllHosts
+        edit $profile
     }
 }
 
@@ -139,9 +138,11 @@ if (Test-CommandExists nvim) {
 }
 Set-Alias -Name vim -Value $EDITOR
 Set-Alias -Name edit -Value $EDITOR
+Set-Alias -Name e -Value $EDITOR
 
-function ll { Get-ChildItem -Path $pwd -File }
-# function g { Set-Location $HOME\Documents\Github }
+# function ll { Get-ChildItem -Path $pwd -File }
+
+# Git helpers
 function gcom {
     git add .
     git commit -m "$args"
@@ -151,38 +152,35 @@ function lazyg {
     git commit -m "$args"
     git push
 }
+Set-Alias -Name qg -Value lazyg
+
 function Get-PubIP {
     (Invoke-WebRequest http://ifconfig.me/ip ).Content
 }
 Set-Alias -Name getip -Value Get-PubIP
 function uptime {
     #Windows Powershell    
-    Get-WmiObject win32_operatingsystem | Select-Object csname, @{
-        LABEL      = 'LastBootUpTime';
-        EXPRESSION = { $_.ConverttoDateTime($_.lastbootuptime) }
-    }
+    # Get-WmiObject win32_operatingsystem | Select-Object csname, @{
+    #     LABEL      = 'LastBootUpTime';
+    #     EXPRESSION = { $_.ConverttoDateTime($_.lastbootuptime) }
+    # }
 
     #Powershell Core / Powershell 7+ (Uncomment the below section and comment out the above portion)
-
-    <#
-        $bootUpTime = Get-WmiObject win32_operatingsystem | Select-Object lastbootuptime
-        $plusMinus = $bootUpTime.lastbootuptime.SubString(21,1)
-        $plusMinusMinutes = $bootUpTime.lastbootuptime.SubString(22, 3)
-        $hourOffset = [int]$plusMinusMinutes/60
-        $minuteOffset = 00
-        if ($hourOffset -contains '.') { $minuteOffset = [int](60*[decimal]('.' + $hourOffset.ToString().Split('.')[1]))}       
-          if ([int]$hourOffset -lt 10 ) { $hourOffset = "0" + $hourOffset + $minuteOffset.ToString().PadLeft(2,'0') } else { $hourOffset = $hourOffset + $minuteOffset.ToString().PadLeft(2,'0') }
-        $leftSplit = $bootUpTime.lastbootuptime.Split($plusMinus)[0]
-        $upSince = [datetime]::ParseExact(($leftSplit + $plusMinus + $hourOffset), 'yyyyMMddHHmmss.ffffffzzz', $null)
-        Get-WmiObject win32_operatingsystem | Select-Object @{LABEL='Machine Name'; EXPRESSION={$_.csname}}, @{LABEL='Last Boot Up Time'; EXPRESSION={$upsince}}
-        #>
-
+    $bootUpTime = Get-WmiObject win32_operatingsystem | Select-Object lastbootuptime
+    $plusMinus = $bootUpTime.lastbootuptime.SubString(21,1)
+    $plusMinusMinutes = $bootUpTime.lastbootuptime.SubString(22, 3)
+    $hourOffset = [int]$plusMinusMinutes/60
+    $minuteOffset = 00
+    if ($hourOffset -contains '.') { $minuteOffset = [int](60*[decimal]('.' + $hourOffset.ToString().Split('.')[1]))}       
+        if ([int]$hourOffset -lt 10 ) { $hourOffset = "0" + $hourOffset + $minuteOffset.ToString().PadLeft(2,'0') } else { $hourOffset = $hourOffset + $minuteOffset.ToString().PadLeft(2,'0') }
+    $leftSplit = $bootUpTime.lastbootuptime.Split($plusMinus)[0]
+    $upSince = [datetime]::ParseExact(($leftSplit + $plusMinus + $hourOffset), 'yyyyMMddHHmmss.ffffffzzz', $null)
+    Get-WmiObject win32_operatingsystem | Select-Object @{LABEL='Machine Name'; EXPRESSION={$_.csname}}, @{LABEL='Last Boot Up Time'; EXPRESSION={$upsince}}
 
     #Works for Both (Just outputs the DateTime instead of that and the machine name)
     # net statistics workstation | Select-String "since" | foreach-object {$_.ToString().Replace('Statistics since ', '')}
-        
 }
-function reload-profile {
+function srcPrf {
     & $profile
 }
 function find-file($name) {

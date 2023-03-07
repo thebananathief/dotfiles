@@ -118,9 +118,6 @@ alias cls='clear'
 alias apt-get='sudo apt-get'
 alias multitail='multitail --no-repeat -c'
 alias freshclam='sudo freshclam'
-alias vi='nvim'
-alias svi='sudo vi'
-alias vis='nvim "+set si"'
 
 # Change directory aliases
 alias home='cd ~'
@@ -211,12 +208,16 @@ alias kssh="kitty +kitten ssh"
 # Set the default editor
 export EDITOR=nvim
 export VISUAL=nvim
+
 alias pico='edit'
 alias spico='sedit'
 alias nano='edit'
 alias snano='sedit'
 alias vim='edit'
-alias vi='edit'
+alias vi='nvim'
+alias svi='sudo vi'
+alias vis='nvim "+set si"'
+
 alias e='edit'
 alias se='sedit'
 
@@ -241,17 +242,6 @@ edit ()
 	else
 		pico "$@"
 	fi
-
-	# if [ "$(type -t jpico)" = "file" ]; then
-	# 	# Use JOE text editor http://joe-editor.sourceforge.net/
-	# 	jpico -nonotice -linums -nobackups "$@"
-	# elif [ "$(type -t nano)" = "file" ]; then
-	# 	nano -c "$@"
-	# elif [ "$(type -t pico)" = "file" ]; then
-	# 	pico "$@"
-	# else
-	# 	nvim "$@"
-	# fi
 }
 sedit ()
 {
@@ -269,17 +259,6 @@ sedit ()
 	else
 		sudo pico "$@"
 	fi
-
-	# if [ "$(type -t jpico)" = "file" ]; then
-	# 	# Use JOE text editor http://joe-editor.sourceforge.net/
-	# 	sudo jpico -nonotice -linums -nobackups "$@"
-	# elif [ "$(type -t nano)" = "file" ]; then
-	# 	sudo nano -c "$@"
-	# elif [ "$(type -t pico)" = "file" ]; then
-	# 	sudo pico "$@"
-	# else
-	# 	sudo nvim "$@"
-	# fi
 }
 
 # Extracts any archive(s) (if unp isn't installed)
@@ -470,35 +449,6 @@ ver ()
 			echo "Error: Unknown distribution"
 			exit 1
 		fi
-	fi
-}
-
-# Automatically install the needed support files for this .bashrc file
-install_bashrc_support ()
-{
-	local dtype
-	dtype=$(distribution)
-
-	if [ $dtype == "redhat" ]; then
-		sudo yum install multitail tree joe
-	elif [ $dtype == "suse" ]; then
-		sudo zypper install multitail
-		sudo zypper install tree
-		sudo zypper install joe
-	elif [ $dtype == "debian" ]; then
-		sudo apt-get install multitail tree joe neovim trash-cli
-	elif [ $dtype == "gentoo" ]; then
-		sudo emerge multitail
-		sudo emerge tree
-		sudo emerge joe
-	elif [ $dtype == "mandriva" ]; then
-		sudo urpmi multitail
-		sudo urpmi tree
-		sudo urpmi joe
-	elif [ $dtype == "slackware" ]; then
-		echo "No install support for Slackware"
-	else
-		echo "Unknown distribution"
 	fi
 }
 

@@ -88,6 +88,75 @@ installStarship(){
     fi
 }
 
+# Show the current distribution
+distribution ()
+{
+	local dtype
+	# Assume unknown
+	dtype="unknown"
+	
+	# First test against Fedora / RHEL / CentOS / generic Redhat derivative
+	if [ -r /etc/rc.d/init.d/functions ]; then
+		source /etc/rc.d/init.d/functions
+		[ zz`type -t passed 2>/dev/null` == "zzfunction" ] && dtype="redhat"
+	
+	# Then test against SUSE (must be after Redhat,
+	# I've seen rc.status on Ubuntu I think? TODO: Recheck that)
+	elif [ -r /etc/rc.status ]; then
+		source /etc/rc.status
+		[ zz`type -t rc_reset 2>/dev/null` == "zzfunction" ] && dtype="suse"
+	
+	# Then test against Debian, Ubuntu and friends
+	elif [ -r /lib/lsb/init-functions ]; then
+		source /lib/lsb/init-functions
+		[ zz`type -t log_begin_msg 2>/dev/null` == "zzfunction" ] && dtype="debian"
+	
+	# Then test against Gentoo
+	elif [ -r /etc/init.d/functions.sh ]; then
+		source /etc/init.d/functions.sh
+		[ zz`type -t ebegin 2>/dev/null` == "zzfunction" ] && dtype="gentoo"
+	
+	# For Mandriva we currently just test if /etc/mandriva-release exists
+	# and isn't empty (TODO: Find a better way :)
+	elif [ -s /etc/mandriva-release ]; then
+		dtype="mandriva"
+
+	# For Slackware we currently just test if /etc/slackware-version exists
+	elif [ -s /etc/slackware-version ]; then
+		dtype="slackware"
+
+	fi
+	echo $dtype
+}
+
+# Automatically install the needed support files for this .bashrc file
+install_bashrc_support(){
+	local dtype
+	dtype=$(distribution)
+
+	if [ $dtype == "redhat" ]; then
+		sudo yum install multitail tree joe
+	elif [ $dtype == "suse" ]; then
+		sudo zypper install multitail
+		sudo zypper install tree
+		sudo zypper install joe
+	elif [ $dtype == "debian" ]; then
+		sudo apt-get install multitail tree neovim trash-cli
+	elif [ $dtype == "gentoo" ]; then
+		sudo emerge multitail
+		sudo emerge tree
+		sudo emerge joe
+	elif [ $dtype == "mandriva" ]; then
+		sudo urpmi multitail
+		sudo urpmi tree
+		sudo urpmi joe
+	elif [ $dtype == "slackware" ]; then
+		echo "No install support for Slackware"
+	else
+		echo "Unknown distribution"
+	fi
+}
+
 linkConfig() {
     ## Check if a bashrc file is already there.
     OLD_BASHRC="${HOME}/.bashrc"
@@ -108,6 +177,7 @@ linkConfig() {
 checkEnv
 installDepend
 installStarship
+install_bashrc_support
 if linkConfig; then
     echo -e "${GREEN}Done!\nrestart your shell to see the changes.${RC}"
 else
