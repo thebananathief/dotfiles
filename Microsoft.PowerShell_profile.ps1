@@ -134,7 +134,7 @@ if (Test-CommandExists nvim) {
     $EDITOR='sublime_text'
 }
 Set-Alias -Name vim -Value $EDITOR
-
+Set-Alias -Name edit -Value $EDITOR
 
 function ll { Get-ChildItem -Path $pwd -File }
 # function g { Set-Location $HOME\Documents\Github }

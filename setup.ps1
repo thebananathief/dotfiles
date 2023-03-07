@@ -31,7 +31,7 @@ function Install-Starship() {
 }
 
 ### PowerShell ###
-{
+function Install-Pwsh() {
     $Documents = (New-Object -ComObject Shell.Application).NameSpace('shell:Personal').Self.Path
 
     # Detect Version of Powershell & Create Profile directories if they do not exist.
@@ -57,7 +57,7 @@ function Install-Starship() {
 }
 
 ### WindowsTerminal ###
-{
+function Install-WT() {
     winget install -e --accept-source-agreements --accept-package-agreements Microsoft.WindowsTerminal
 
     $WTFamilyName = $(Get-AppxPackage | Where-Object Name -eq Microsoft.WindowsTerminal).PackageFamilyName
@@ -75,7 +75,7 @@ function Install-Starship() {
 }
 
 ### Prompts ###
-{
+function Install-Prmt() {
     $Key = $null
     do {
         Write-Host "P = Install oh-my-posh`nS = Install Starship prompt"
@@ -94,7 +94,7 @@ function Install-Starship() {
 }
 
 ### Cove NerdFont ###
-{
+function Install-CoveNF() {
     $Key = $null
     do {
         Write-Host "Download Cascaydia Cove NerdFont? (Y | N)"
@@ -110,8 +110,15 @@ function Install-Starship() {
         $Downloads = (New-Object -ComObject Shell.Application).NameSpace('shell:Downloads').Self.Path
         Invoke-RestMethod https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/CascadiaCode.zip?WT.mc_id=-blog-scottha -o "$Downloads\cove.zip"
         Invoke-Item $Downloads
+
+        # TODO: See if I can install the fonts too
     }
 }
+
+Install-Pwsh
+Install-WT
+Install-Prmt
+Install-CoveNF
 
 # Re-initialize the powershell profile
 & $profile
