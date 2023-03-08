@@ -5,10 +5,11 @@ iatest=$(expr index "$-" i)
 # SOURCED ALIAS'S AND SCRIPTS BY zachbrowne.me
 #######################################################
 
+# These are loaded automatically by the shell
 # Source global definitions
-if [ -f /etc/bashrc ]; then
-	 . /etc/bashrc
-fi
+# if [ -f /etc/bash.bashrc ]; then
+# 	 . /etc/bash.bashrc
+# fi
 
 # Enable bash programmable completion features in interactive shells
 if [ -f /usr/share/bash-completion/bash_completion ]; then
@@ -39,8 +40,9 @@ export HISTSIZE=500
 # Don't put duplicate lines in the history and do not add lines that start with a space
 export HISTCONTROL=erasedups:ignoredups:ignorespace
 
+# HANDLED IN /etc/bash.bashrc
 # Check the window size after each command and, if necessary, update the values of LINES and COLUMNS
-shopt -s checkwinsize
+# shopt -s checkwinsize
 
 # Causes bash to append to history instead of overwriting it so if you start a new terminal, you have old session history
 shopt -s histappend
@@ -213,36 +215,58 @@ alias pico='edit'
 alias spico='sedit'
 alias nano='edit'
 alias snano='sedit'
-alias vim='nvim'
+alias vim='edit'
+alias vi='edit'
+alias e='edit'
+alias se='sedit'
 
 #######################################################
 # SPECIAL FUNCTIONS
 #######################################################
 
-# Use the best version of pico installed
+# Universal text editor functions
 edit ()
 {
-	if [ "$(type -t jpico)" = "file" ]; then
-		# Use JOE text editor http://joe-editor.sourceforge.net/
-		jpico -nonotice -linums -nobackups "$@"
+	if [ "$(type -t nvim)" = "file" ]; then
+		nvim "$@"
+	elif [ "$(type -t vim)" = "file" ]; then
+		vim -c "$@"
+	elif [ "$(type -t vi)" = "file" ]; then
+		vi -c "$@"
 	elif [ "$(type -t nano)" = "file" ]; then
 		nano -c "$@"
-	elif [ "$(type -t pico)" = "file" ]; then
-		pico "$@"
+	elif [ "$(type -t jpico)" = "file" ]; then
+		# Use JOE text editor http://joe-editor.sourceforge.net/
+		jpico -nonotice -linums -nobackups "$@"
 	else
-		nvim "$@"
+		pico "$@"
 	fi
+
+	# if [ "$(type -t jpico)" = "file" ]; then
+	# 	# Use JOE text editor http://joe-editor.sourceforge.net/
+	# 	jpico -nonotice -linums -nobackups "$@"
+	# elif [ "$(type -t nano)" = "file" ]; then
+	# 	nano -c "$@"
+	# elif [ "$(type -t pico)" = "file" ]; then
+	# 	pico "$@"
+	# else
+	# 	nvim "$@"
+	# fi
 }
 sedit ()
 {
 	if [ "$(type -t nvim)" = "file" ]; then
 		sudo nvim "$@"
+	elif [ "$(type -t vim)" = "file" ]; then
+		sudo vim -c "$@"
+	elif [ "$(type -t vi)" = "file" ]; then
+		sudo vi -c "$@"
 	elif [ "$(type -t nano)" = "file" ]; then
 		sudo nano -c "$@"
 	elif [ "$(type -t jpico)" = "file" ]; then
 		# Use JOE text editor http://joe-editor.sourceforge.net/
 		sudo jpico -nonotice -linums -nobackups "$@"
-	elif [ "$(type -t pico)" = "file" ]; then
+	else
 		sudo pico "$@"
 	fi
 
