@@ -24,8 +24,12 @@ $isAdmin = $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administ
 # If so and the current host is a command line, then change to red color 
 # as warning to user that they are operating in an elevated context
 # Useful shortcuts for traversing directories
+function cd.. { Set-Location .. }
+Set-Alias -Name .. -Value cd..
 function cd... { Set-Location ..\.. }
+Set-Alias -Name ... -Value cd...
 function cd.... { Set-Location ..\..\.. }
+Set-Alias -Name .... -Value cd....
 
 # Compute file hashes - useful for checking successful downloads 
 function md5 { Get-FileHash -Algorithm MD5 $args }

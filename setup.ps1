@@ -1,6 +1,8 @@
 # Winget info: https://learn.microsoft.com/en-us/windows/package-manager/winget/
 # Stolen from: https://github.com/ChrisTitusTech/powershell-profile
-# TODO: Better way to grab files is to do the same as setup.sh, clone the repo, link/copy files and keep/delete the repo
+
+$GITPATH = $PWD.Path
+Write-Host '$GITPATH = ' + $GITPATH
 
 ### Package Managers ###
 function Install-PkgMngrs {
@@ -93,8 +95,12 @@ function Install-Pwsh {
     #     Get-Item -Path $PROFILE | Move-Item -Destination Microsoft.PowerShell_profile.ps1.bak
     # }
 
-    Invoke-RestMethod https://raw.githubusercontent.com/thebananathief/shell-setup/stable/Microsoft.PowerShell_profile.ps1?token=GHSAT0AAAAAAB7NOO2NATXAWRXYTEG3P4F4ZAID33A -o $PROFILE
-    Write-Host "PowerShell Core installed, this terminal's profile is at $PROFILE"
+    # Invoke-RestMethod https://raw.githubusercontent.com/thebananathief/shell-setup/stable/Microsoft.PowerShell_profile.ps1?token=GHSAT0AAAAAAB7NOO2NATXAWRXYTEG3P4F4ZAID33A -o $PROFILE
+    
+    $Cmd = "New-Item -ItemType SymbolicLink -Force -Path `"$PROFILE`" -Value `"$GITPATH\Microsoft.PowerShell_profile.ps1`""
+    Start-Process -FilePath "pwsh.exe" -Wait -Verb RunAs -ArgumentList "-NoProfile -Command `"$Cmd`""
+    
+    Write-Host "PowerShell Core installed`n$PROFILE -> $GITPATH\Microsoft.PowerShell_profile.ps1"
 }
 
 ### WindowsTerminal ###
@@ -112,8 +118,12 @@ function Install-WT {
     #     Get-Item -Path "$WTData\settings.json" | Move-Item -Destination settings.json.bak
     # }
 
-    Invoke-RestMethod https://raw.githubusercontent.com/thebananathief/shell-setup/stable/WindowsTerminal/settings.json?token=GHSAT0AAAAAAB7NOO2NATXAWRXYTEG3P4F4ZAID33A -o "$WTData\settings.json"
-    Write-Host "WindowsTerminal installed, config at $WTData"
+    # Invoke-RestMethod https://raw.githubusercontent.com/thebananathief/shell-setup/stable/WindowsTerminal/settings.json?token=GHSAT0AAAAAAB7NOO2NATXAWRXYTEG3P4F4ZAID33A -o "$WTData\settings.json"
+    
+    $Cmd = "New-Item -ItemType SymbolicLink -Force -Path `"$WTData\settings.json`" -Value `"$GITPATH\WindowsTerminal\settings.json`""
+    Start-Process -FilePath "pwsh.exe" -Wait -Verb RunAs -ArgumentList "-NoProfile -Command `"$Cmd`""
+    
+    Write-Host "WindowsTerminal installed`n$WTData\settings.json -> $GITPATH\WindowsTerminal/settings.json"
 }
 
 ### Prompts ###
@@ -140,9 +150,9 @@ function Install-Prmpt {
 # if (([bool](([System.Security.Principal.WindowsIdentity]::GetCurrent()).groups -match "S-1-5-32-544"))) {
     Install-PkgMngrs
     Write-Host
-    Install-Pwsh
-    Write-Host
     Install-Prmpt
+    Write-Host
+    Install-Pwsh
     Write-Host
     Install-WT
     Write-Host
