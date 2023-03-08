@@ -59,7 +59,7 @@ function Install-Starship {
     #     Get-Item -Path "$Config\starship.toml" | Move-Item -Destination starship.toml.bak
     # }
 
-    Invoke-RestMethod https://raw.githubusercontent.com/thebananathief/shell-setup/stable/starship.toml?token=GHSAT0AAAAAAB7NOO2NATXAWRXYTEG3P4F4ZAID33A -o "$Config\starship.toml"
+    # Invoke-RestMethod https://raw.githubusercontent.com/thebananathief/shell-setup/stable/starship.toml?token=GHSAT0AAAAAAB7NOO2NATXAWRXYTEG3P4F4ZAID33A -o "$Config\starship.toml"
     Write-Host "Starship installed, config at $env:USERPROFILE\.config"
 }
 
@@ -97,10 +97,6 @@ function Install-Pwsh {
     # }
 
     # Invoke-RestMethod https://raw.githubusercontent.com/thebananathief/shell-setup/stable/Microsoft.PowerShell_profile.ps1?token=GHSAT0AAAAAAB7NOO2NATXAWRXYTEG3P4F4ZAID33A -o $PROFILE
-    
-    $Cmd = "New-Item -ItemType SymbolicLink -Force -Path `"$PROFILE`" -Value `"$GITPATH\Microsoft.PowerShell_profile.ps1`""
-    Start-Process -FilePath "pwsh.exe" -Wait -Verb RunAs -ArgumentList "-NoProfile -Command `"$Cmd`""
-    
     Write-Host "PowerShell Core installed`n$PROFILE -> $GITPATH\Microsoft.PowerShell_profile.ps1"
 }
 
@@ -120,10 +116,6 @@ function Install-WT {
     # }
 
     # Invoke-RestMethod https://raw.githubusercontent.com/thebananathief/shell-setup/stable/WindowsTerminal/settings.json?token=GHSAT0AAAAAAB7NOO2NATXAWRXYTEG3P4F4ZAID33A -o "$WTData\settings.json"
-    
-    $Cmd = "New-Item -ItemType SymbolicLink -Force -Path `"$WTData\settings.json`" -Value `"$GITPATH\WindowsTerminal\settings.json`""
-    Start-Process -FilePath "pwsh.exe" -Wait -Verb RunAs -ArgumentList "-NoProfile -Command `"$Cmd`""
-    
     Write-Host "WindowsTerminal installed`n$WTData\settings.json -> $GITPATH\WindowsTerminal/settings.json"
 }
 
@@ -157,6 +149,14 @@ function Install-Prmpt {
     Write-Host
     Install-WT
     Write-Host
+    
+    # $Cmd = "New-Item -ItemType SymbolicLink -Force -Path `"$PROFILE`" -Value `"$GITPATH\Microsoft.PowerShell_profile.ps1`""
+    $Cmd =  @"
+New-Item -ItemType SymbolicLink -Force -Path `"$env:USERPROFILE\.config\starship.toml`" -Value `"$GITPATH\starship.toml`";
+New-Item -ItemType SymbolicLink -Force -Path `"$PROFILE`" -Value `"$GITPATH\Microsoft.PowerShell_profile.ps1`";
+New-Item -ItemType SymbolicLink -Force -Path `"$WTData\settings.json`" -Value `"$GITPATH\WindowsTerminal\settings.json`"
+"@
+    Start-Process -FilePath "pwsh.exe" -Wait -Verb RunAs -ArgumentList "-NoProfile -Command `"$Cmd`""
 
     # Re-initialize the powershell profile
     & $profile

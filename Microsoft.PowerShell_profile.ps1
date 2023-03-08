@@ -144,7 +144,7 @@ function lazyg {
 Set-Alias -Name gr -Value lazyg
 
 function Get-PubIP {
-    (Invoke-WebRequest http://ifconfig.me/ip ).Content
+    Write-Host "External IP: " + (Invoke-WebRequest http://ifconfig.me/ip).Content
 }
 Set-Alias -Name getip -Value Get-PubIP
 function uptime {

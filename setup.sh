@@ -141,7 +141,7 @@ install_bashrc_support(){
 		sudo zypper install tree
 		sudo zypper install joe
 	elif [ $dtype == "debian" ]; then
-		sudo apt-get install multitail tree neovim trash-cli
+		sudo apt-get install multitail tree neovim trash-cli tldr neofetch htop smartmontools ethtool
 	elif [ $dtype == "gentoo" ]; then
 		sudo emerge multitail
 		sudo emerge tree
@@ -168,7 +168,7 @@ linkConfig() {
         fi
     fi
 
-    echo -e "${YELLOW}Linking new bash config file...${RC}"
+    echo -e "${YELLOW}Linking new config files...${RC}"
     ## Make symbolic link.
     ln -svf ${GITPATH}/.bashrc ${HOME}/.bashrc
     ln -svf ${GITPATH}/starship.toml ${HOME}/.config/starship.toml
