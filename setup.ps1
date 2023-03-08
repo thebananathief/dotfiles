@@ -14,7 +14,9 @@ function Install-Scoop {
 
     # & runas /trustlevel:0x20000 "pwsh -NoExit -NoProfile -NonInteractive -Command $ScriptBlock"
 
-    Invoke-WebRequest -useb get.scoop.sh | Invoke-Expression
+    # Need to start another instance because this script uses exits
+    &powershell -Command {Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh'))}
+    
     scoop bucket add nerd-fonts
     scoop install neofetch neovim
 
@@ -50,7 +52,7 @@ function Install-Starship {
     # }
 
     Invoke-RestMethod https://raw.githubusercontent.com/thebananathief/shell-setup/main/starship.toml -o "$Config\starship.toml"
-    Write-Host "Starship installed, config at $env:USERPROFILE\.config`n"
+    Write-Host "Starship installed, config at $env:USERPROFILE\.config"
 }
 
 ### PowerShell ###
@@ -87,7 +89,7 @@ function Install-Pwsh {
     # }
 
     Invoke-RestMethod https://raw.githubusercontent.com/thebananathief/shell-setup/main/Microsoft.PowerShell_profile.ps1 -o $PROFILE
-    Write-Host "PowerShell Core installed, this terminal's profile is at $PROFILE`n"
+    Write-Host "PowerShell Core installed, this terminal's profile is at $PROFILE"
 }
 
 ### WindowsTerminal ###
@@ -106,7 +108,7 @@ function Install-WT {
     # }
 
     Invoke-RestMethod https://raw.githubusercontent.com/thebananathief/shell-setup/main/WindowsTerminal/settings.json -o "$WTData\settings.json"
-    Write-Host "WindowsTerminal installed, config at $WTData`n"
+    Write-Host "WindowsTerminal installed, config at $WTData"
 }
 
 ### Prompts ###
@@ -119,7 +121,6 @@ function Install-Prmpt {
         $Key = [System.Console]::ReadKey()
     } while ($Key.Key -notmatch "^P|^S|^N")
 
-    Write-Host
     Switch ($Key.Key) {
         p {
             Install-Posh
@@ -131,41 +132,20 @@ function Install-Prmpt {
     }
 }
 
-### Cove NerdFont ###
-function Install-CoveNF {
-    Write-Host "----- NERDFONT -----"
-
-    $Key = $null
-    do {
-        Write-Host "Download Cascaydia Cove NerdFont? (Y | N)"
-        $Key = [System.Console]::ReadKey()
-    } while ($Key.Key -notmatch "^Y|^N")
-    
-    if ($Key.Key -like 'y') {
-        # You will have to extract and Install this font manually, alternatively use the oh my posh font installer (Must be run as admin)
-        # You will also need to set your Nerd Font of choice in your window defaults or in the Windows Terminal Settings.
-        $Downloads = (New-Object -ComObject Shell.Application).NameSpace('shell:Downloads').Self.Path
-        Invoke-RestMethod https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/CascadiaCode.zip?WT.mc_id=-blog-scottha -o "$Downloads\cove.zip"
-        Expand-Archive -LiteralPath "$Downloads\cove.zip" -DestinationPath "$Downloads\CoveNF"
-        Remove-Item -Path "$Downloads\cove.zip"
-        
-        Invoke-Item $Downloads
-        Write-Host "Cove NerdFont downloaded to $Downloads`n"
-    }
-}
-
 # if (([bool](([System.Security.Principal.WindowsIdentity]::GetCurrent()).groups -match "S-1-5-32-544"))) {
     Install-Scoop
+    Write-Host
     Install-Pwsh
+    Write-Host
     Install-Prmpt
-    # Install-CoveNF
+    Write-Host
     Install-WT
+    Write-Host
 
     # Re-initialize the powershell profile
     & $profile
     
-    Write-Host "`nFinished! -- Enjoy your pretty terminal!"
-    Write-Host "If you're missing icons, make sure you download the Cove NerdFont"
+    Write-Host "Finished!"
 # } else {
 #     Write-Host "You should run this script in an admin terminal!"
     # throw "Script needs to be ran as admin"
