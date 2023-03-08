@@ -1,11 +1,8 @@
 # Winget info: https://learn.microsoft.com/en-us/windows/package-manager/winget/
 # Stolen from: https://github.com/ChrisTitusTech/powershell-profile
 
-### Chocolatey ###
-# Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-
-### Scoop ###
-function Install-Scoop {
+### Package Managers ###
+function Install-PkgMngrs {
     Write-Host "----- SCOOP -----"
 
     # $ScriptBlock = {Invoke-WebRequest -useb get.scoop.sh | Invoke-Expression; `
@@ -15,15 +12,21 @@ function Install-Scoop {
     # & runas /trustlevel:0x20000 "pwsh -NoExit -NoProfile -NonInteractive -Command $ScriptBlock"
 
     # Need to start another instance because this script uses exits
-    &powershell -Command {Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh'))}
-    
+    powershell -Command {Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh'))}
     scoop bucket add nerd-fonts
-    scoop install neofetch neovim
 
-    # main/ vagrant
+    # NOTICE: Try not to overload this script, its only supposed to be for initial terminal setup, not my desired programs
+
+    # main/ vagrant neofetch neovim
     # nerdfonts/ JetBrainsMono-NF, DroidSansMono, Cascadia Code, MesloLG
     # sysinternals/ autoruns
     # extras/ autohotkey, advanced ip scanner, everything, firefox
+
+    Write-Host
+    Write-Host "----- CHOCOLATEY -----"
+    Set-ExecutionPolicy Bypass -Scope Process -Force
+    [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
+    Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 }
 
 function Install-Posh {
@@ -133,7 +136,7 @@ function Install-Prmpt {
 }
 
 # if (([bool](([System.Security.Principal.WindowsIdentity]::GetCurrent()).groups -match "S-1-5-32-544"))) {
-    Install-Scoop
+    Install-PkgMngrs
     Write-Host
     Install-Pwsh
     Write-Host
