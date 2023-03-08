@@ -15,8 +15,9 @@ irm https://raw.githubusercontent.com/thebananathief/shell-setup/main/setup.ps1 
 
 ## Linux
 ```
-git clone https://github.com/thebananathief/shell-setup
-cd shell-setup
+git clone https://github.com/thebananathief/shell-setup &&\
+cd shell-setup &&\
+chmod +x ./setup.sh &&\
 ./setup.sh
 ```
 - Clone this repo to current working directory

@@ -452,7 +452,7 @@ install_bashrc_support ()
 		sudo zypper install tree
 		sudo zypper install joe
 	elif [ $dtype == "debian" ]; then
-		sudo apt-get install multitail tree joe
+		sudo apt-get install multitail tree joe neovim trash-cli
 	elif [ $dtype == "gentoo" ]; then
 		sudo emerge multitail
 		sudo emerge tree
@@ -604,7 +604,7 @@ export PATH=$PATH:"$HOME/.local/bin:$HOME/.cargo/bin"
 
 eval "$(starship init bash)"
 
-#Autojump
+# Autojump
 
 if [ -f "/usr/share/autojump/autojump.sh" ]; then
 	. /usr/share/autojump/autojump.sh
