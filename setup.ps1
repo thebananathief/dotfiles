@@ -14,10 +14,11 @@ function Install-PkgMngrs {
     # Need to start another instance because this script uses exits
     powershell -Command {Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh'))}
     scoop bucket add nerd-fonts
+    scoop install neofetch neovim
 
     # NOTICE: Try not to overload this script, its only supposed to be for initial terminal setup, not my desired programs
 
-    # main/ vagrant neofetch neovim
+    # main/ vagrant
     # nerdfonts/ JetBrainsMono-NF, DroidSansMono, Cascadia Code, MesloLG
     # sysinternals/ autoruns
     # extras/ autohotkey, advanced ip scanner, everything, firefox
