@@ -1,5 +1,6 @@
 # Winget info: https://learn.microsoft.com/en-us/windows/package-manager/winget/
 # Stolen from: https://github.com/ChrisTitusTech/powershell-profile
+# TODO: Better way to grab files is to do the same as setup.sh, clone the repo, link/copy files and keep/delete the repo
 
 ### Package Managers ###
 function Install-PkgMngrs {
@@ -55,7 +56,7 @@ function Install-Starship {
     #     Get-Item -Path "$Config\starship.toml" | Move-Item -Destination starship.toml.bak
     # }
 
-    Invoke-RestMethod https://raw.githubusercontent.com/thebananathief/shell-setup/main/starship.toml -o "$Config\starship.toml"
+    Invoke-RestMethod https://raw.githubusercontent.com/thebananathief/shell-setup/stable/starship.toml?token=GHSAT0AAAAAAB7NOO2NATXAWRXYTEG3P4F4ZAID33A -o "$Config\starship.toml"
     Write-Host "Starship installed, config at $env:USERPROFILE\.config"
 }
 
@@ -92,7 +93,7 @@ function Install-Pwsh {
     #     Get-Item -Path $PROFILE | Move-Item -Destination Microsoft.PowerShell_profile.ps1.bak
     # }
 
-    Invoke-RestMethod https://raw.githubusercontent.com/thebananathief/shell-setup/main/Microsoft.PowerShell_profile.ps1 -o $PROFILE
+    Invoke-RestMethod https://raw.githubusercontent.com/thebananathief/shell-setup/stable/Microsoft.PowerShell_profile.ps1?token=GHSAT0AAAAAAB7NOO2NATXAWRXYTEG3P4F4ZAID33A -o $PROFILE
     Write-Host "PowerShell Core installed, this terminal's profile is at $PROFILE"
 }
 
@@ -111,7 +112,7 @@ function Install-WT {
     #     Get-Item -Path "$WTData\settings.json" | Move-Item -Destination settings.json.bak
     # }
 
-    Invoke-RestMethod https://raw.githubusercontent.com/thebananathief/shell-setup/main/WindowsTerminal/settings.json -o "$WTData\settings.json"
+    Invoke-RestMethod https://raw.githubusercontent.com/thebananathief/shell-setup/stable/WindowsTerminal/settings.json?token=GHSAT0AAAAAAB7NOO2NATXAWRXYTEG3P4F4ZAID33A -o "$WTData\settings.json"
     Write-Host "WindowsTerminal installed, config at $WTData"
 }
 
