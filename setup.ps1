@@ -1,6 +1,9 @@
 # Winget info: https://learn.microsoft.com/en-us/windows/package-manager/winget/
 # Stolen from: https://github.com/ChrisTitusTech/powershell-profile
 
+git clone https://github.com/thebananathief/shell-setup.git
+Set-Location shell-setup
+
 $GITPATH = $PWD.Path
 Write-Host '$GITPATH = ' + $GITPATH
 
