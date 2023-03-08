@@ -29,7 +29,8 @@ Set-Alias -Name ... -Value cd...
 function cd.... { Set-Location ..\..\.. }
 Set-Alias -Name .... -Value cd....
 
-function g { Set-Location $HOME\Documents\Github }
+function g { Set-Location -Path "$HOME\github" }
+function infra {Set-Location -Path "$HOME\github\media-server\infra"}
 
 # Compute file hashes - useful for checking successful downloads 
 function md5 { Get-FileHash -Algorithm MD5 $args }
@@ -97,7 +98,7 @@ function Edit-Profile {
     if ($host.Name -match "ise") {
         $psISE.CurrentPowerShellTab.Files.Add($profile)
     } else {
-        edit $profile
+        code $profile
     }
 }
 
@@ -114,45 +115,33 @@ Function Test-CommandExists {
     Catch { Write-Host "$command does not exist"; RETURN $false }
     Finally { $ErrorActionPreference = $oldPreference }
 } 
-#
-# Aliases
-#
+
 # If your favorite editor is not here, add an elseif and ensure that the directory it is installed in exists in your $env:Path
-#
-if (Test-CommandExists nvim) {
-    $EDITOR='nvim'
-} elseif (Test-CommandExists pvim) {
-    $EDITOR='pvim'
-} elseif (Test-CommandExists vim) {
-    $EDITOR='vim'
-} elseif (Test-CommandExists vi) {
-    $EDITOR='vi'
-} elseif (Test-CommandExists code) {
-    $EDITOR='code'
-} elseif (Test-CommandExists notepad) {
-    $EDITOR='notepad'
-} elseif (Test-CommandExists notepad++) {
-    $EDITOR='notepad++'
-} elseif (Test-CommandExists sublime_text) {
-    $EDITOR='sublime_text'
-}
+if (Test-CommandExists nvim) { $EDITOR='nvim' }
+elseif (Test-CommandExists pvim) { $EDITOR='pvim' }
+elseif (Test-CommandExists vim) { $EDITOR='vim' }
+elseif (Test-CommandExists vi) { $EDITOR='vi' }
+elseif (Test-CommandExists code) { $EDITOR='code' }
+elseif (Test-CommandExists sublime_text) { $EDITOR='sublime_text' }
+elseif (Test-CommandExists notepad++) { $EDITOR='notepad++' }
+elseif (Test-CommandExists notepad) { $EDITOR='notepad' }
+
 Set-Alias -Name vim -Value $EDITOR
 Set-Alias -Name edit -Value $EDITOR
 Set-Alias -Name e -Value $EDITOR
-
-# function ll { Get-ChildItem -Path $pwd -File }
 
 # Git helpers
 function gcom {
     git add .
     git commit -m "$args"
 }
+Set-Alias -Name gc -Value gcom
 function lazyg {
     git add .
     git commit -m "$args"
     git push
 }
-Set-Alias -Name qg -Value lazyg
+Set-Alias -Name gr -Value lazyg
 
 function Get-PubIP {
     (Invoke-WebRequest http://ifconfig.me/ip ).Content
@@ -180,9 +169,6 @@ function uptime {
     #Works for Both (Just outputs the DateTime instead of that and the machine name)
     # net statistics workstation | Select-String "since" | foreach-object {$_.ToString().Replace('Statistics since ', '')}
 }
-function srcPrf {
-    & $profile
-}
 function find-file($name) {
     Get-ChildItem -recurse -filter "*${name}*" -ErrorAction SilentlyContinue | ForEach-Object {
         $place_path = $_.directory
@@ -201,30 +187,13 @@ function grep($regex, $dir) {
     }
     $input | select-string $regex
 }
-function touch($file) {
-    "" | Out-File $file -Encoding ASCII
-}
-function df {
-    get-volume
-}
-function sed($file, $find, $replace) {
-    (Get-Content $file).replace("$find", $replace) | Set-Content $file
-}
-function which($name) {
-    Get-Command $name | Select-Object -ExpandProperty Definition
-}
-function export($name, $value) {
-    set-item -force -path "env:$name" -value $value;
-}
-function pkill($name) {
-    Get-Process $name -ErrorAction SilentlyContinue | Stop-Process
-}
-function pgrep($name) {
-    Get-Process $name
-}
-function tdev {
-  Set-Location -Path "C:\MegaSync\Media Server\talos.dev"
-}
+function touch($file) {"" | Out-File $file -Encoding ASCII}
+function df {get-volume}
+function sed($file, $find, $replace) {(Get-Content $file).replace("$find", $replace) | Set-Content $file}
+function which($name) {Get-Command $name | Select-Object -ExpandProperty Definition}
+function export($name, $value) {Set-Item -Force -Path "env:$name" -Value $value;}
+function pkill($name) {Get-Process $name -ErrorAction SilentlyContinue | Stop-Process}
+function pgrep($name) {Get-Process $name}
 
 # Set prompt for prettiness
 Invoke-Expression (&starship init powershell)
