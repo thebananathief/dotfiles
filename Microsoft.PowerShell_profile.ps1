@@ -80,11 +80,15 @@ function dirs {
 # a single command is started with admin rights; if not then a new admin instance
 # of PowerShell is started.
 function admin {
+    $shell = "powershell.exe"
+    if (Test-CommandExists wt) { $shell = "wt.exe" }
+    elseif (Test-CommandExists pwsh) { $shell = "pwsh.exe" }
+
     if ($args.Count -gt 0) {   
         $argList = "& '" + $args + "'"
-        Start-Process "$psHome\powershell.exe" -Verb runAs -ArgumentList $argList
+        Start-Process "$shell" -Verb runAs -ArgumentList $argList
     } else {
-        Start-Process "$psHome\powershell.exe" -Verb runAs
+        Start-Process "$shell" -Verb runAs
     }
 }
 

@@ -1,6 +1,7 @@
 format = """
 [](#3B4252)\
 $username\
+$hostname\
 [](bg:#434C5E fg:#3B4252)\
 $directory\
 [](fg:#434C5E bg:#4C566A)\
@@ -28,9 +29,16 @@ command_timeout = 5000
 # You can also replace your username with a neat symbol like  to save some space
 [username]
 show_always = true
-style_user = "bg:#3B4252"
-style_root = "bg:#3B4252"
-format = '[$user ]($style)'
+style_user = "bg:#3B4252 fg:bold yellow"
+style_root = "bg:#3B4252 fg:bold cyan"
+format = '[$user]($style)'
+
+[hostname]
+disabled = false
+ssh_only = false
+# trim_at = '.companyname.com'
+style = "bg:#3B4252 fg:bold green"
+format = '[@$hostname$ssh_symbol ]($style)'
 
 [directory]
 style = "bg:#434C5E"
@@ -115,9 +123,3 @@ format = '[ $symbol ($version) ]($style)'
 symbol = ""
 style = "bg:#86BBD8"
 format = '[ $symbol ($version) ]($style)'
-
-[time]
-disabled = false
-time_format = "%R" # Hour:Minute Format
-style = "bg:#33658A"
-format = '[ $time ]($style)'
