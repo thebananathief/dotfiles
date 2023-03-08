@@ -225,7 +225,7 @@ function tdev {
 }
 
 # Set prompt for prettiness
-Invoke-Expression (& 'C:\Program Files\starship\bin\starship.exe' init powershell)
+Invoke-Expression (&starship init powershell)
 # oh-my-posh init pwsh --config "~\AppData\Local\Programs\oh-my-posh\themes\talos.omp.json" | Invoke-Expression
 
 # Import the Chocolatey Profile that contains the necessary code to enable

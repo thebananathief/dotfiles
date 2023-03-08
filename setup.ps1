@@ -16,23 +16,25 @@ function Install-Scoop {
 
     Invoke-WebRequest -useb get.scoop.sh | Invoke-Expression
     scoop bucket add nerd-fonts
-    scoop install neofetch neovim JetBrainsMono-NF
+    scoop install neofetch neovim
 
-    # main/ vagrant starship
+    # main/ vagrant
     # nerdfonts/ JetBrainsMono-NF, DroidSansMono, Cascadia Code, MesloLG
     # sysinternals/ autoruns
     # extras/ autohotkey, advanced ip scanner, everything, firefox
 }
 
 function Install-Posh {
-    winget install -e --accept-source-agreements --accept-package-agreements --id JanDeDobbeleer.OhMyPosh
+    # winget install -e --accept-source-agreements --accept-package-agreements --id JanDeDobbeleer.OhMyPosh
+    scoop install oh-my-posh JetBrainsMono-NF
 
     # TODO: Install posh config
     Write-Host "oh-my-posh was installed"
 }
 
 function Install-Starship {
-    winget install -e --accept-source-agreements --accept-package-agreements --id Starship.Starship
+    # winget install -e --accept-source-agreements --accept-package-agreements --id Starship.Starship
+    scoop install starship JetBrainsMono-NF
 
     $Config = "$env:USERPROFILE\.config"
 
@@ -59,8 +61,8 @@ function Install-Pwsh {
     Install-Module -Name Terminal-Icons -Repository PSGallery
 
     # Powershell Windows Update
-    Install-Module -Name PSWindowsUpdate
-    Add-WUServiceManager -MicrosoftUpdate
+    # Install-Module -Name PSWindowsUpdate
+    # Add-WUServiceManager -MicrosoftUpdate
 
     winget install -e --accept-source-agreements --accept-package-agreements --id Microsoft.PowerShell
 
@@ -156,7 +158,7 @@ function Install-CoveNF {
     Install-Scoop
     Install-Pwsh
     Install-Prmpt
-    Install-CoveNF
+    # Install-CoveNF
     Install-WT
 
     # Re-initialize the powershell profile
