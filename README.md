@@ -4,7 +4,9 @@ Setup scripts for Linux bash or Windows PowerShell
 ## Windows
 WindowsTerminal may give an error mid-way through. User input required for prompt choice and you need to approve Admin privs for making symbolic links.
 ```
-irm https://raw.githubusercontent.com/thebananathief/shell-setup/stable/setup.ps1?token=GHSAT0AAAAAAB7NOO2NRABMDMKG7BQEQ6SGZAIJHHQ | iex
+git clone https://github.com/thebananathief/shell-setup.git;
+Set-Location shell-setup;
+./setup.sh;
 ```
 - Install [`scoop`](https://github.com/ScoopInstaller/Scoop)
     - Installs `neovim`, `neofetch`, `JetBrainsMono-NF` via scoop
@@ -15,7 +17,7 @@ irm https://raw.githubusercontent.com/thebananathief/shell-setup/stable/setup.ps
 
 ## Linux
 ```
-git clone https://github.com/thebananathief/shell-setup &&\
+git clone https://github.com/thebananathief/shell-setup.git &&\
 cd shell-setup &&\
 chmod +x ./setup.sh &&\
 ./setup.sh

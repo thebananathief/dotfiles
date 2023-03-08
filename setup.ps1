@@ -1,5 +1,6 @@
 # Winget info: https://learn.microsoft.com/en-us/windows/package-manager/winget/
 # Stolen from: https://github.com/ChrisTitusTech/powershell-profile
+# irm https://raw.githubusercontent.com/thebananathief/shell-setup/stable/setup.ps1?token=GHSAT0AAAAAAB7NOO2NRABMDMKG7BQEQ6SGZAIJHHQ | iex
 
 git clone https://github.com/thebananathief/shell-setup.git
 Set-Location shell-setup
