@@ -3,12 +3,13 @@
 # irm https://raw.githubusercontent.com/thebananathief/shell-setup/stable/setup.ps1?token=GHSAT0AAAAAAB7NOO2NRABMDMKG7BQEQ6SGZAIJHHQ | iex
 
 $GITPATH = $PWD.Path
-Write-Host '$GITPATH = ' + $GITPATH
+Write-Host "GITPATH = $GITPATH"
 
 ### Package Managers ###
 function Install-PkgMngrs {
     Write-Host "----- SCOOP -----"
 
+    # This is what I used for "descending" a prompt
     # $ScriptBlock = {Invoke-WebRequest -useb get.scoop.sh | Invoke-Expression; `
     #     scoop bucket add nerd-fonts; `
     #     scoop install neofetch neovim JetBrainsMono-NF}
@@ -60,7 +61,7 @@ function Install-Starship {
     # }
 
     # Invoke-RestMethod https://raw.githubusercontent.com/thebananathief/shell-setup/stable/starship.toml?token=GHSAT0AAAAAAB7NOO2NATXAWRXYTEG3P4F4ZAID33A -o "$Config\starship.toml"
-    Write-Host "Starship installed, config at $env:USERPROFILE\.config"
+    Write-Host "Starship installed"
 }
 
 ### PowerShell ###
@@ -97,7 +98,7 @@ function Install-Pwsh {
     # }
 
     # Invoke-RestMethod https://raw.githubusercontent.com/thebananathief/shell-setup/stable/Microsoft.PowerShell_profile.ps1?token=GHSAT0AAAAAAB7NOO2NATXAWRXYTEG3P4F4ZAID33A -o $PROFILE
-    Write-Host "PowerShell Core installed`n$PROFILE -> $GITPATH\Microsoft.PowerShell_profile.ps1"
+    Write-Host "PowerShell Core installed"
 }
 
 ### WindowsTerminal ###
@@ -106,9 +107,6 @@ function Install-WT {
 
     winget install -e --accept-source-agreements --accept-package-agreements --id Microsoft.WindowsTerminal
 
-    $WTFamilyName = $(Get-AppxPackage | Where-Object Name -eq Microsoft.WindowsTerminal).PackageFamilyName
-    $WTData = "$env:LOCALAPPDATA\Packages\$WTFamilyName\LocalState"
-
     # Keep old config
     # if (Test-Path -Path "$WTData\settings.json" -PathType Leaf) {
     #     Write-Host "Found an existing WindowsTerminal config, renaming..."
@@ -116,7 +114,7 @@ function Install-WT {
     # }
 
     # Invoke-RestMethod https://raw.githubusercontent.com/thebananathief/shell-setup/stable/WindowsTerminal/settings.json?token=GHSAT0AAAAAAB7NOO2NATXAWRXYTEG3P4F4ZAID33A -o "$WTData\settings.json"
-    Write-Host "WindowsTerminal installed`n$WTData\settings.json -> $GITPATH\WindowsTerminal/settings.json"
+    Write-Host "WindowsTerminal installed"
 }
 
 ### Prompts ###
@@ -150,17 +148,20 @@ function Install-Prmpt {
     Install-WT
     Write-Host
     
-    # $Cmd = "New-Item -ItemType SymbolicLink -Force -Path `"$PROFILE`" -Value `"$GITPATH\Microsoft.PowerShell_profile.ps1`""
+    Write-Host "Creating/updating symbolic links..."
+    $WTFamilyName = $(Get-AppxPackage | Where-Object Name -eq Microsoft.WindowsTerminal).PackageFamilyName
     $Cmd =  @"
 New-Item -ItemType SymbolicLink -Force -Path `"$env:USERPROFILE\.config\starship.toml`" -Value `"$GITPATH\starship.toml`";
 New-Item -ItemType SymbolicLink -Force -Path `"$PROFILE`" -Value `"$GITPATH\Microsoft.PowerShell_profile.ps1`";
-New-Item -ItemType SymbolicLink -Force -Path `"$WTData\settings.json`" -Value `"$GITPATH\WindowsTerminal\settings.json`"
+New-Item -ItemType SymbolicLink -Force -Path `"$env:LOCALAPPDATA\Packages\$WTFamilyName\LocalState\settings.json`" -Value `"$GITPATH\WindowsTerminal\settings.json`"
 "@
     Start-Process -FilePath "pwsh.exe" -Wait -Verb RunAs -ArgumentList "-NoProfile -Command `"$Cmd`""
+    Get-Item "$env:USERPROFILE\.config\starship.toml","$PROFILE","$env:LOCALAPPDATA\Packages\$WTFamilyName\LocalState\settings.json"
 
     # Re-initialize the powershell profile
     & $profile
     
+    Write-Host
     Write-Host "Finished! - May need to restart your shell"
 # } else {
 #     Write-Host "You should run this script in an admin terminal!"
