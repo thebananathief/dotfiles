@@ -135,16 +135,14 @@ function gcom {
     git add .
     git commit -m "$args"
 }
-Set-Alias -Name gc -Value gcom
-function lazyg {
+function gpush {
     git add .
     git commit -m "$args"
     git push
 }
-Set-Alias -Name gr -Value lazyg
 
 function Get-PubIP {
-    Write-Host "External IP: " + (Invoke-WebRequest http://ifconfig.me/ip).Content
+    Write-Host "External IP: "(Invoke-WebRequest http://ifconfig.me/ip).Content
 }
 Set-Alias -Name getip -Value Get-PubIP
 function uptime {
