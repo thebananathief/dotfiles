@@ -78,6 +78,7 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 
 # alias web='cd /var/www/html'
 alias tdev='cd "/mnt/c/Users/github/media-server/infra/provision"'
+alias appdata='cd "/opt/appdata"'
 
 alias home='cd ~'
 alias cd..='cd ..'
