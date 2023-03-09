@@ -97,15 +97,6 @@ function admin {
 Set-Alias -Name su -Value admin
 Set-Alias -Name sudo -Value admin
 
-# Make it easy to edit this profile once it's installed
-function Edit-Profile {
-    if ($host.Name -match "ise") {
-        $psISE.CurrentPowerShellTab.Files.Add($profile)
-    } else {
-        code $profile
-    }
-}
-
 # We don't need these any more; they were just temporary variables to get to $isAdmin. 
 # Delete them to prevent cluttering up the user profile. 
 Remove-Variable identity
