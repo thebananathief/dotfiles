@@ -104,8 +104,14 @@ alias bd='cd "$OLDPWD"'
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
-# Edit this .bashrc file
+# Systemctl shortened commands
+alias ctlstat='sudo systemctl status'
+alias ctlrest='sudo systemctl restart'
+
+# Edit common files
 alias ebrc='edit ~/.bashrc'
+alias sebrc='sedit /etc/bash.bashrc'
+alias esmb='sedit /etc/samba/smb.conf'
 
 # alias to show the date
 alias da='date "+%Y-%m-%d %A %T %Z"'
