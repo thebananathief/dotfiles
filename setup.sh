@@ -1,6 +1,6 @@
 #!/bin/bash
 # Stolen from: https://github.com/christitustech/mybash
-# TODO: install trash-cli, neovim, tree, htop, neofetch, nala, tldr, smartmontools
+# TODO: install nala
 
 RC='\e[0m'
 RED='\e[31m'

@@ -127,5 +127,6 @@ style = "bg:#5e81ac"
 format = '[ $symbol $context ]($style) $path'
 
 [cmd_duration]
+show_notifications = true
 style = "fg:bold yellow bg:#3a7f92"
 format = '[$duration]($style)'
