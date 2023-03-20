@@ -188,7 +188,7 @@ function pkill($name) {Get-Process $name -ErrorAction SilentlyContinue | Stop-Pr
 function pgrep($name) {Get-Process $name}
 
 # Quick access to infra vagrant/ansible development
-function tdev {code ~/github/media-server/infra}
+function tdev {code "$HOME/github/media-server/infra/"}
 
 # Set prompt for prettiness
 Invoke-Expression (&starship init powershell)
