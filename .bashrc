@@ -77,8 +77,8 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 # alias SERVERNAME='ssh YOURWEBSITE.com -l USERNAME -p PORTNUMBERHERE'
 
 # alias web='cd /var/www/html'
-alias tdev='cd "/mnt/c/Users/github/media-server/infra/provision"'
-alias appdata='cd "/opt/appdata"'
+# alias tdev='cd "/mnt/c/Users/github/media-server/infra/provision"'
+# alias appdata='cd "/opt/appdata"'
 
 alias home='cd ~'
 alias cd..='cd ..'
@@ -129,6 +129,9 @@ alias cls='clear'
 alias apt-get='sudo apt-get'
 alias multitail='multitail --no-repeat -c'
 alias freshclam='sudo freshclam'
+
+# Allows aliases to be used after sudo
+alias sudo='sudo '
 
 # Remove a directory and all files
 alias rmd='/bin/rm  --recursive --force --verbose '
@@ -209,15 +212,9 @@ alias kssh="kitty +kitten ssh"
 export EDITOR=nvim
 export VISUAL=nvim
 
-alias pico='edit'
-alias spico='sedit'
 alias nano='edit'
 alias snano='sedit'
-alias vim='edit'
-alias vi='nvim'
-alias svi='sudo vi'
 alias vis='nvim "+set si"'
-
 alias e='edit'
 alias se='sedit'
 
