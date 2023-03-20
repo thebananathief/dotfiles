@@ -187,6 +187,9 @@ function export($name, $value) {Set-Item -Force -Path "env:$name" -Value $value;
 function pkill($name) {Get-Process $name -ErrorAction SilentlyContinue | Stop-Process}
 function pgrep($name) {Get-Process $name}
 
+# Quick access to infra vagrant/ansible development
+function tdev {code ~/github/media-server/infra}
+
 # Set prompt for prettiness
 Invoke-Expression (&starship init powershell)
 # oh-my-posh init pwsh --config "~\AppData\Local\Programs\oh-my-posh\themes\talos.omp.json" | Invoke-Expression
