@@ -18,14 +18,6 @@
             "keys": "ctrl+shift+f"
         },
         {
-            "command": "unbound",
-            "keys": "ctrl+c"
-        },
-        {
-            "command": "unbound",
-            "keys": "ctrl+v"
-        },
-        {
             "command": 
             {
                 "action": "splitPane",
@@ -33,6 +25,14 @@
                 "splitMode": "duplicate"
             },
             "keys": "alt+shift+d"
+        },
+        {
+            "command": "unbound",
+            "keys": "ctrl+c"
+        },
+        {
+            "command": "unbound",
+            "keys": "ctrl+v"
         }
     ],
     "copyFormatting": "none",
@@ -66,6 +66,18 @@
                 "source": "Windows.Terminal.PowershellCore"
             },
             {
+                "guid": "{2c4de342-38b7-51cf-b940-2309a097f518}",
+                "hidden": false,
+                "name": "Ubuntu",
+                "source": "Windows.Terminal.Wsl"
+            },
+            // {
+            //     "guid": "{51855cb2-8cce-5362-8f54-464b92b32386}",
+            //     "hidden": false,
+            //     "name": "Ubuntu",
+            //     "source": "CanonicalGroupLimited.Ubuntu_79rhkp1fndgsc"
+            // },
+            {
                 "commandline": "ssh talos",
                 "guid": "{0d26c58c-7b13-531e-a08a-28207c8244dc}",
                 "hidden": false,
@@ -85,16 +97,22 @@
                 "name": "Command Prompt"
             },
             {
-                "guid": "{b453ae62-4e3d-5e58-b989-0a998ec441b8}",
-                "hidden": true,
-                "name": "Azure Cloud Shell",
-                "source": "Windows.Terminal.Azure"
-            },
-            {
                 "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
                 "hidden": false,
                 "name": "Windows PowerShell"
-            }
+            },
+            // {
+            //     "guid": "{b453ae62-4e3d-5e58-b989-0a998ec441b8}",
+            //     "hidden": true,
+            //     "name": "Azure Cloud Shell",
+            //     "source": "Windows.Terminal.Azure"
+            // },
+            // {
+            //     "guid": "{6856f273-0f05-54d3-9d23-ba28c843acab}",
+            //     "hidden": true,
+            //     "name": "Developer PowerShell for VS 2022",
+            //     "source": "Windows.Terminal.VisualStudio"
+            // },
         ]
     },
     "schemes": 
@@ -282,6 +300,29 @@
             "selectionBackground": "#FFFFFF",
             "white": "#D3D7CF",
             "yellow": "#C4A000"
+        },
+        {
+            "background": "#300A24",
+            "black": "#171421",
+            "blue": "#0037DA",
+            "brightBlack": "#767676",
+            "brightBlue": "#08458F",
+            "brightCyan": "#2C9FB3",
+            "brightGreen": "#26A269",
+            "brightPurple": "#A347BA",
+            "brightRed": "#C01C28",
+            "brightWhite": "#F2F2F2",
+            "brightYellow": "#A2734C",
+            "cursorColor": "#FFFFFF",
+            "cyan": "#3A96DD",
+            "foreground": "#FFFFFF",
+            "green": "#26A269",
+            "name": "Ubuntu-ColorScheme",
+            "purple": "#881798",
+            "red": "#C21A23",
+            "selectionBackground": "#FFFFFF",
+            "white": "#CCCCCC",
+            "yellow": "#A2734C"
         },
         {
             "background": "#000000",
