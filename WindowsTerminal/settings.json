@@ -53,17 +53,11 @@
         "list": 
         [
             {
+                "commandline": "pwsh.exe -NoLogo -NoExit",
                 "guid": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
                 "hidden": false,
                 "name": "PowerShell",
-                "commandline": "pwsh.exe -NoLogo -NoExit"
-                // "source": "Windows.Terminal.PowershellCore"
-            },
-            {
-                "guid": "{2c4de342-38b7-51cf-b940-2309a097f518}",
-                "hidden": false,
-                "name": "Ubuntu",
-                "source": "Windows.Terminal.Wsl"
+                "source": "Windows.Terminal.PowershellCore"
             },
             {
                 "commandline": "ssh talos",
@@ -91,22 +85,9 @@
                 "source": "Windows.Terminal.Azure"
             },
             {
-                "guid": "{09a05b81-91b0-508d-8597-fdfb96347b79}",
-                "hidden": true,
-                "name": "Developer Command Prompt for VS 2022",
-                "source": "Windows.Terminal.VisualStudio"
-            },
-            {
-                "guid": "{6856f273-0f05-54d3-9d23-ba28c843acab}",
-                "hidden": true,
-                "name": "Developer PowerShell for VS 2022",
-                "source": "Windows.Terminal.VisualStudio"
-            },
-            {
-                "guid": "{16208362-94fc-5b1f-a491-5b2624d5ab56}",
-                "hidden": true,
-                "name": "Visual Studio Debug Console",
-                "source": "VSDebugConsole"
+                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+                "hidden": false,
+                "name": "Windows PowerShell"
             }
         ]
     },
