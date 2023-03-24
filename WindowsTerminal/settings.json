@@ -8,16 +8,22 @@
             {
                 "action": "copy",
                 "singleLine": false
-            },
-            "keys": "ctrl+c"
+            }
         },
         {
-            "command": "paste",
-            "keys": "ctrl+v"
+            "command": "paste"
         },
         {
             "command": "find",
             "keys": "ctrl+shift+f"
+        },
+        {
+            "command": "unbound",
+            "keys": "ctrl+c"
+        },
+        {
+            "command": "unbound",
+            "keys": "ctrl+v"
         },
         {
             "command": 
@@ -45,7 +51,7 @@
             "font": 
             {
                 "face": "JetBrainsMono NF",
-                "size": 12
+                "size": 12.0
             },
             "opacity": 80,
             "useAcrylic": false
@@ -301,5 +307,6 @@
             "yellow": "#808000"
         }
     ],
-    "tabWidthMode": "equal"
+    "tabWidthMode": "equal",
+    "themes": []
 }
