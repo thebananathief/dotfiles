@@ -1,6 +1,6 @@
 #!/bin/bash
 # Stolen from: https://github.com/christitustech/mybash
-# TODO: install nala
+# TODO: I want this to be executed directly through a 1-liner, need to make repo public
 
 RC='\e[0m'
 RED='\e[31m'
