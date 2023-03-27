@@ -77,12 +77,11 @@ installDepend() {
 }
 
 installStarship(){
+    mkdir ~/.config
     if command_exists starship; then
         echo "Starship already installed"
         return
     fi
-
-    mkdir ~/.config
 
     if ! curl -sS https://starship.rs/install.sh|sh;then
         echo -e "${RED}Something went wrong during starship install!${RC}"
