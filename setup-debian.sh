@@ -82,8 +82,6 @@ installStarship(){
         return
     fi
 
-    mkdir ~/.config
-
     if ! curl -sS https://starship.rs/install.sh|sh;then
         echo -e "${RED}Something went wrong during starship install!${RC}"
         exit 1
@@ -133,30 +131,7 @@ distribution ()
 
 # Automatically install the needed support files for this .bashrc file
 install_bashrc_support(){
-	local dtype
-	dtype=$(distribution)
-
-	if [ $dtype == "redhat" ]; then
-		sudo yum install multitail tree joe
-	elif [ $dtype == "suse" ]; then
-		sudo zypper install multitail
-		sudo zypper install tree
-		sudo zypper install joe
-	elif [ $dtype == "debian" ]; then
-		sudo apt-get install multitail tree neovim tldr neofetch htop smartmontools ethtool
-	elif [ $dtype == "gentoo" ]; then
-		sudo emerge multitail
-		sudo emerge tree
-		sudo emerge joe
-	elif [ $dtype == "mandriva" ]; then
-		sudo urpmi multitail
-		sudo urpmi tree
-		sudo urpmi joe
-	elif [ $dtype == "slackware" ]; then
-		echo "No install support for Slackware"
-	else
-		echo "Unknown distribution"
-	fi
+    sudo apt-get install multitail tree neovim tldr neofetch htop smartmontools ethtool
 }
 
 linkConfig() {
