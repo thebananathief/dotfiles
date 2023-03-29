@@ -6,12 +6,12 @@ WindowsTerminal may give an error mid-way through. User input required for promp
 ```
 git clone https://github.com/thebananathief/shell-setup.git; Set-Location shell-setup; ./setup.ps1
 ```
-- Install [`scoop`](https://github.com/ScoopInstaller/Scoop)
-    - Installs `neovim`, `neofetch`, `JetBrainsMono-NF` via scoop
+- Installs [`scoop`](https://github.com/ScoopInstaller/Scoop)
+    - Installs `neovim`, `neofetch`, `JetBrainsMono-NF`, `starship` via scoop
 - Terminal-Icons module
-- Installs oh-my-posh or Starship prompt (via scoop), or none
-- Install PowerShell Core and configure profile
-- Install WindowsTerminal and configure settings
+- Installs PowerShell Core and configure profile
+- Installs WindowsTerminal and configure settings
+- Links system's PS profile, WT settings
 
 ## Linux
 ```
