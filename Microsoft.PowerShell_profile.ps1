@@ -21,6 +21,26 @@ $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
 $principal = New-Object Security.Principal.WindowsPrincipal $identity
 $isAdmin = $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 
+# Github repo shortcuts
+function g($repo)
+{
+    Set-Location "$HOME/github"
+
+    switch ($repo)
+    {
+        "t" {
+            Set-Location "media-server/infra"
+            code .
+            break
+        }
+        "s" {
+            Set-Location "shell-setup"
+            code .
+            break
+        }
+    }
+}
+
 # Useful shortcuts for traversing directories
 function cd.. { Set-Location .. }
 Set-Alias -Name .. -Value cd..
@@ -29,8 +49,6 @@ Set-Alias -Name ... -Value cd...
 function cd.... { Set-Location ..\..\.. }
 Set-Alias -Name .... -Value cd....
 
-function g { Set-Location -Path "$HOME\github" }
-function infra {Set-Location -Path "$HOME\github\media-server\infra"}
 
 # Compute file hashes - useful for checking successful downloads 
 function md5 { Get-FileHash -Algorithm MD5 $args }
@@ -114,7 +132,7 @@ Function Test-CommandExists {
 
 # If your favorite editor is not here, add an elseif and ensure that the directory it is installed in exists in your $env:Path
 if (Test-CommandExists code) { $EDITOR='code' }
-elseif (Test-CommandExists nvim) { $EDITOR='codium' }
+elseif (Test-CommandExists codium) { $EDITOR='codium' }
 elseif (Test-CommandExists nvim) { $EDITOR='nvim' }
 elseif (Test-CommandExists pvim) { $EDITOR='pvim' }
 elseif (Test-CommandExists vim) { $EDITOR='vim' }
@@ -125,7 +143,7 @@ elseif (Test-CommandExists notepad) { $EDITOR='notepad' }
 
 Set-Alias -Name edit -Value $EDITOR
 Set-Alias -Name e -Value $EDITOR
-Set-Alias -Name code -Value $EDITOR
+# Set-Alias -Name code -Value $EDITOR
 
 # Git helpers
 function gcom {
@@ -189,12 +207,6 @@ function which($name) {Get-Command $name | Select-Object -ExpandProperty Definit
 function export($name, $value) {Set-Item -Force -Path "env:$name" -Value $value;}
 function pkill($name) {Get-Process $name -ErrorAction SilentlyContinue | Stop-Process}
 function pgrep($name) {Get-Process $name}
-
-# Quick access to infra vagrant/ansible development
-function tdev {
-    Set-Location "$HOME/github/media-server/infra/"
-    code .
-}
 
 # Set prompt for prettiness
 Invoke-Expression (&starship init powershell)
