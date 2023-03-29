@@ -80,7 +80,6 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 # alias tdev='cd "/mnt/c/Users/github/media-server/infra/provision"'
 # alias appdata='cd "/opt/appdata"'
 
-alias home='cd ~'
 alias cd..='cd ..'
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -88,7 +87,7 @@ alias ....='cd ../../..'
 alias .....='cd ../../../..'
 
 # cd into the old directory
-alias bd='cd "$OLDPWD"'
+alias bd='cd -'
 
 # Alias's to mount ISO files
 # mount -o loop /home/NAMEOFISO.iso /home/ISOMOUNTDIR/
@@ -106,8 +105,10 @@ alias bd='cd "$OLDPWD"'
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 # Systemctl shortened commands
-alias ctlstat='sudo systemctl status'
-alias ctlrest='sudo systemctl restart'
+alias ctlu='sudo systemctl start'
+alias ctls='sudo systemctl status'
+alias ctlr='sudo systemctl restart'
+alias ctl='sudo systemctl'
 
 # Edit common files
 alias ebrc='edit ~/.bashrc'
@@ -360,14 +361,14 @@ up ()
 }
 
 #Automatically do an ls after each cd
-# cd ()
-# {
-# 	if [ -n "$1" ]; then
-# 		builtin cd "$@" && ls
-# 	else
-# 		builtin cd ~ && ls
-# 	fi
-# }
+cd ()
+{
+	if [ -n "$1" ]; then
+		builtin cd "$@" && ls
+	else
+		builtin cd ~ && ls
+	fi
+}
 
 # Returns the last 2 fields of the working directory
 pwdtail ()
@@ -539,15 +540,6 @@ mysqlconfig ()
 	fi
 }
 
-# For some reason, rot13 pops up everywhere
-rot13 () {
-	if [ $# -eq 0 ]; then
-		tr '[a-m][n-z][A-M][N-Z]' '[n-z][a-m][N-Z][A-M]'
-	else
-		echo $* | tr '[a-m][n-z][A-M][N-Z]' '[n-z][a-m][N-Z][A-M]'
-	fi
-}
-
 # Trim leading and trailing spaces (for scripts)
 trim()
 {
@@ -556,33 +548,21 @@ trim()
 	var="${var%"${var##*[![:space:]]}"}"  # remove trailing whitespace characters
 	echo -n "$var"
 }
-# GitHub Titus Additions
 
 gcom() {
 	git add .
 	git commit -m "$1"
 	}
-lazyg() {
+gpush() {
 	git add .
 	git commit -m "$1"
 	git push
 }
 
-alias lookingglass="~/looking-glass-B5.0.1/client/build/looking-glass-client -F"
-#######################################################
-# Set the ultimate amazing command prompt
-#######################################################
-
-alias hug="hugo server -F --bind=10.0.0.210 --baseURL=http://10.0.0.210"
-
-export PATH=$PATH:"$HOME/.local/bin:$HOME/.cargo/bin"
-
 # Install Starship - curl -sS https://starship.rs/install.sh | sh
-
 eval "$(starship init bash)"
 
 # Autojump
-
 if [ -f "/usr/share/autojump/autojump.sh" ]; then
 	. /usr/share/autojump/autojump.sh
 elif [ -f "/usr/share/autojump/autojump.bash" ]; then
@@ -591,3 +571,17 @@ else
 	echo "can't find the autojump script"
 fi
 
+
+# ARCHIVE
+
+# For some reason, rot13 pops up everywhere
+# rot13 () {
+# 	if [ $# -eq 0 ]; then
+# 		tr '[a-m][n-z][A-M][N-Z]' '[n-z][a-m][N-Z][A-M]'
+# 	else
+# 		echo $* | tr '[a-m][n-z][A-M][N-Z]' '[n-z][a-m][N-Z][A-M]'
+# 	fi
+# }
+# alias lookingglass="~/looking-glass-B5.0.1/client/build/looking-glass-client -F"
+# alias hug="hugo server -F --bind=10.0.0.210 --baseURL=http://10.0.0.210"
+# export PATH=$PATH:"$HOME/.local/bin:$HOME/.cargo/bin"
