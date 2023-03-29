@@ -22,22 +22,18 @@ $principal = New-Object Security.Principal.WindowsPrincipal $identity
 $isAdmin = $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 
 # Github repo shortcuts
-function g($repo)
-{
+function g($repo) {
     Set-Location "$HOME/github"
 
-    switch ($repo)
-    {
+    switch ($repo) {
         "t" {
             Set-Location "media-server/infra"
             code .
-            break
-        }
+            break}
         "s" {
             Set-Location "shell-setup"
             code .
-            break
-        }
+            break}
     }
 }
 
