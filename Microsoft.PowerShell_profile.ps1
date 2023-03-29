@@ -28,11 +28,11 @@ function g($repo) {
     switch ($repo) {
         "t" {
             Set-Location "media-server/infra"
-            code .
+            edit .
             break}
         "s" {
             Set-Location "shell-setup"
-            code .
+            edit .
             break}
     }
 }
