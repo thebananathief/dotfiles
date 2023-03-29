@@ -35,15 +35,8 @@ function Install-PkgMngrs {
     Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 }
 
-function Install-Posh {
-    # winget install -e --accept-source-agreements --accept-package-agreements --id JanDeDobbeleer.OhMyPosh
-    scoop install oh-my-posh JetBrainsMono-NF
-
-    # TODO: Install posh config
-    Write-Host "oh-my-posh was installed"
-}
-
 function Install-Starship {
+    Write-Host "----- STARSHIP -----"
     # winget install -e --accept-source-agreements --accept-package-agreements --id Starship.Starship
     scoop install starship JetBrainsMono-NF
 
@@ -117,31 +110,10 @@ function Install-WT {
     Write-Host "WindowsTerminal installed"
 }
 
-### Prompts ###
-function Install-Prmpt {
-    Write-Host "----- PROMPT -----"
-
-    $Key = $null
-    do {
-        Write-Host "P = Install oh-my-posh`nS = Install Starship prompt`nN = Skip prompt setup"
-        $Key = [System.Console]::ReadKey()
-    } while ($Key.Key -notmatch "^P|^S|^N")
-
-    Switch ($Key.Key) {
-        p {
-            Install-Posh
-        }
-        s {
-            Install-Starship
-        }
-        n {}
-    }
-}
-
 # if (([bool](([System.Security.Principal.WindowsIdentity]::GetCurrent()).groups -match "S-1-5-32-544"))) {
     Install-PkgMngrs
     Write-Host
-    Install-Prmpt
+    Install-Starship
     Write-Host
     Install-Pwsh
     Write-Host

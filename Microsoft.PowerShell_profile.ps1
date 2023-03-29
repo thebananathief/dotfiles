@@ -95,7 +95,8 @@ function admin {
 # Set UNIX-like aliases for the admin command, so sudo <command> will run the command
 # with elevated rights. 
 Set-Alias -Name su -Value admin
-Set-Alias -Name sudo -Value admin
+# Use scoop's sudo package
+# Set-Alias -Name sudo -Value admin
 
 # We don't need these any more; they were just temporary variables to get to $isAdmin. 
 # Delete them to prevent cluttering up the user profile. 
@@ -113,6 +114,7 @@ Function Test-CommandExists {
 
 # If your favorite editor is not here, add an elseif and ensure that the directory it is installed in exists in your $env:Path
 if (Test-CommandExists code) { $EDITOR='code' }
+elseif (Test-CommandExists nvim) { $EDITOR='codium' }
 elseif (Test-CommandExists nvim) { $EDITOR='nvim' }
 elseif (Test-CommandExists pvim) { $EDITOR='pvim' }
 elseif (Test-CommandExists vim) { $EDITOR='vim' }
@@ -123,6 +125,7 @@ elseif (Test-CommandExists notepad) { $EDITOR='notepad' }
 
 Set-Alias -Name edit -Value $EDITOR
 Set-Alias -Name e -Value $EDITOR
+Set-Alias -Name code -Value $EDITOR
 
 # Git helpers
 function gcom {

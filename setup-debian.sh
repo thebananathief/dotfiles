@@ -1,6 +1,6 @@
 #!/bin/bash
 # Stolen from: https://github.com/christitustech/mybash
-# TODO: install nala
+# TODO: I want this to be executed directly through a 1-liner, need to make repo public
 
 RC='\e[0m'
 RED='\e[31m'
@@ -77,7 +77,6 @@ installDepend() {
 }
 
 installStarship(){
-    mkdir ~/.config
     if command_exists starship; then
         echo "Starship already installed"
         return
@@ -132,30 +131,7 @@ distribution ()
 
 # Automatically install the needed support files for this .bashrc file
 install_bashrc_support(){
-	local dtype
-	dtype=$(distribution)
-
-	if [ $dtype == "redhat" ]; then
-		sudo yum install multitail tree joe
-	elif [ $dtype == "suse" ]; then
-		sudo zypper install multitail
-		sudo zypper install tree
-		sudo zypper install joe
-	elif [ $dtype == "debian" ]; then
-		sudo apt-get install multitail tree neovim tldr neofetch htop smartmontools ethtool
-	elif [ $dtype == "gentoo" ]; then
-		sudo emerge multitail
-		sudo emerge tree
-		sudo emerge joe
-	elif [ $dtype == "mandriva" ]; then
-		sudo urpmi multitail
-		sudo urpmi tree
-		sudo urpmi joe
-	elif [ $dtype == "slackware" ]; then
-		echo "No install support for Slackware"
-	else
-		echo "Unknown distribution"
-	fi
+    sudo apt-get install multitail tree neovim tldr neofetch htop smartmontools ethtool
 }
 
 linkConfig() {
