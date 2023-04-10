@@ -20,7 +20,7 @@ function Install-PkgMngrs {
 
     # Need to start another instance because this script uses exits
     powershell -Command {Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh'))}
-    $env:PATH += ";$HOMEPATH/scoop/shims"
+    $env:PATH += ";$HOMEPATH\scoop\shims"
     scoop bucket add nerd-fonts
     scoop install neofetch neovim
 
