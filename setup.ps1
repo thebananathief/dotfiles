@@ -16,8 +16,11 @@ function Install-PkgMngrs {
 
     # & runas /trustlevel:0x20000 "pwsh -NoExit -NoProfile -NonInteractive -Command $ScriptBlock"
 
+    Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+
     # Need to start another instance because this script uses exits
     powershell -Command {Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh'))}
+    $env:PATH += ";$HOMEPATH/scoop/shims"
     scoop bucket add nerd-fonts
     scoop install neofetch neovim
 
