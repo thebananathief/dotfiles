@@ -1,0 +1,82 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "version": 2,
+  "final_space": true,
+  "blocks": [
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "segments": [
+        {
+          "type": "os",
+          "style": "powerline",
+          "foreground": "#00e695",
+          "background": "#003543",
+          "powerline_symbol": "\ue0b8",
+          "template": " {{ .Icon }} {{ .UserName }}@{{ .HostName }} "
+        },
+        {
+          "type": "node",
+          "style": "powerline",
+          "powerline_symbol": "\ue0b8",
+          "foreground": "#ffffff",
+          "background": "#76b367",
+          "template": " \ue718 {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }} "
+        },
+        {
+          "type": "path",
+          "template": " {{ .Path }} ",
+          "style": "powerline",
+          "powerline_symbol": "\ue0b8",
+          "foreground": "#e6f4ff",
+          "background": "#004a83",
+          "properties": {
+            "style": "full"
+          }
+        },
+        {
+          "type": "git",
+          "style": "powerline",
+          "powerline_symbol": "\ue0b8",
+          "foreground": "#fdebe7",
+          "background": "#a6260c",
+          "template": " {{ .UpstreamIcon }}{{ .HEAD }}{{ if gt .StashCount 0 }} \u25B6 {{ .StashCount }}{{ end }} ", 
+          "properties": {
+            "branch_icon": "\ue0a0 ",
+            "fetch_stash_count": true,
+            "fetch_status": false,
+            "fetch_upstream_icon": true
+          }
+        },
+        {
+          "type": "executiontime",
+          "style": "powerline",
+          "powerline_symbol": "\ue0b8",
+          "foreground": "#EFDCF9",
+          "background": "#4c1f5e",
+          "template": " {{ .FormattedMs }} ",
+          "properties": {
+            "style": "round",
+            "threshold": 1000
+          }
+        }
+      ]
+    },
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "segments": [
+        {
+          "type": "text",
+          "style": "plain",
+          "foreground": "lightGreen",
+          "foreground_templates": [
+            "{{ if gt .Code 0 }}red{{ end }}"
+          ],
+          "template": "❯"
+        }
+      ],
+      "newline": true
+    }
+  ]
+}
