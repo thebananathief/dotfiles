@@ -113,32 +113,60 @@ function Install-WT {
     Write-Host "WindowsTerminal installed"
 }
 
-# if (([bool](([System.Security.Principal.WindowsIdentity]::GetCurrent()).groups -match "S-1-5-32-544"))) {
-    Install-PkgMngrs
-    Write-Host
-    Install-Starship
-    Write-Host
-    Install-Pwsh
-    Write-Host
-    Install-WT
-    Write-Host
-    
-    Write-Host "Creating/updating symbolic links..."
-    $WTFamilyName = $(Get-AppxPackage | Where-Object Name -eq Microsoft.WindowsTerminal).PackageFamilyName
-    $Cmd =  @"
+function Install-Extras {
+    if (Read-Host -Prompt "Do you want to install extra programs? (y)" -ne "y") {
+        return
+    }
+
+    @(
+        "valinet.ExplorerPatcher",
+        "Nilesoft.Shell",
+        "Mozilla.Firefox",
+        "Discord.Discord",
+        "Spotify.Spotify",
+        "Valve.Steam",
+        "Mega.MEGASync",
+        "Obsidian.Obsidian",
+        "M2Team.NanaZip",
+        "VSCodium.VSCodium",
+        "NordSecurity.NordVPN",
+        "Parsec.Parsec",
+        "Famatech.AdvancedIPScanner",
+        "VMware.WorkstationPlayer",
+        "VideoLAN.VLC",
+        "Audacity.Audacity",
+        "WinDirStat.WinDirStat"
+    ) | ForEach-Object {
+        winget install -e --accept-source-agreements --accept-package-agreements --id $_
+    }
+}
+
+# Install everything
+Install-PkgMngrs
+Write-Host
+Install-Starship
+Write-Host
+Install-Pwsh
+Write-Host
+Install-WT
+Write-Host
+Install-Extras
+Write-Host
+
+Write-Host "Creating/updating symbolic links..."
+$WTFamilyName = $(Get-AppxPackage | Where-Object Name -eq Microsoft.WindowsTerminal).PackageFamilyName
+$Cmd =  @"
 New-Item -ItemType SymbolicLink -Force -Path `"$env:USERPROFILE\.config\starship.toml`" -Value `"$GITPATH\starship.toml`";
 New-Item -ItemType SymbolicLink -Force -Path `"$PROFILE`" -Value `"$GITPATH\Microsoft.PowerShell_profile.ps1`";
 New-Item -ItemType SymbolicLink -Force -Path `"$env:LOCALAPPDATA\Packages\$WTFamilyName\LocalState\settings.json`" -Value `"$GITPATH\WindowsTerminal\settings.json`"
 "@
-    Start-Process -FilePath "pwsh.exe" -Wait -Verb RunAs -ArgumentList "-NoProfile -Command `"$Cmd`""
-    Get-Item "$env:USERPROFILE\.config\starship.toml","$PROFILE","$env:LOCALAPPDATA\Packages\$WTFamilyName\LocalState\settings.json"
+# Create the symlinks with admin privs
+Start-Process -FilePath "pwsh.exe" -Wait -Verb RunAs -ArgumentList "-NoProfile -Command `"$Cmd`""
+# Print the newly created links to our original terminal
+Get-Item "$env:USERPROFILE\.config\starship.toml","$PROFILE","$env:LOCALAPPDATA\Packages\$WTFamilyName\LocalState\settings.json"
 
-    # Re-initialize the powershell profile
-    & $profile
-    
-    Write-Host
-    Write-Host "Finished! - May need to restart your shell"
-# } else {
-#     Write-Host "You should run this script in an admin terminal!"
-    # throw "Script needs to be ran as admin"
-# }
+# Re-initialize the powershell profile
+& $profile
+
+Write-Host
+Write-Host "Finished! - restart your terminal"

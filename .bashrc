@@ -86,8 +86,6 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
-
-# cd into the old directory
 alias bd='cd -'
 
 # Alias's to mount ISO files
@@ -106,9 +104,10 @@ alias bd='cd -'
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 # Systemctl shortened commands
-alias ctlu='sudo systemctl start'
-alias ctls='sudo systemctl status'
-alias ctlr='sudo systemctl restart'
+alias ctlup='sudo systemctl start'
+alias ctldown='sudo systemctl stop'
+alias ctlstat='sudo systemctl status'
+alias ctlrest='sudo systemctl restart'
 alias ctl='sudo systemctl'
 
 # Edit common files
@@ -558,6 +557,7 @@ gpush() {
 	git commit -m "$1"
 	git push
 }
+alias gpull='git pull'
 
 # Install Starship - curl -sS https://starship.rs/install.sh | sh
 eval "$(starship init bash)"

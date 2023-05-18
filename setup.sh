@@ -130,27 +130,23 @@ distribution ()
 	echo $dtype
 }
 
-# Automatically install the needed support files for this .bashrc file
-install_bashrc_support(){
+install_extras(){
 	local dtype
 	dtype=$(distribution)
 
-	if [ $dtype == "redhat" ]; then
-		sudo yum install multitail tree joe
+	if [ $dtype == "debian" ]; then
+		sudo apt install multitail tree neovim tldr neofetch htop smartmontools ethtool autojump
+	elif [ $dtype == "redhat" ]; then
+		sudo yum install multitail tree
 	elif [ $dtype == "suse" ]; then
 		sudo zypper install multitail
 		sudo zypper install tree
-		sudo zypper install joe
-	elif [ $dtype == "debian" ]; then
-		sudo apt-get install multitail tree neovim tldr neofetch htop smartmontools ethtool
 	elif [ $dtype == "gentoo" ]; then
 		sudo emerge multitail
 		sudo emerge tree
-		sudo emerge joe
 	elif [ $dtype == "mandriva" ]; then
 		sudo urpmi multitail
 		sudo urpmi tree
-		sudo urpmi joe
 	elif [ $dtype == "slackware" ]; then
 		echo "No install support for Slackware"
 	else
@@ -178,7 +174,8 @@ linkConfig() {
 checkEnv
 installDepend
 installStarship
-install_bashrc_support
+install_extras
+
 if linkConfig; then
     echo -e "${GREEN}Done!\nrestart your shell to see the changes.${RC}"
 else

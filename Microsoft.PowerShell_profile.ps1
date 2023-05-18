@@ -167,6 +167,9 @@ function gpush {
     git commit -m "$args"
     git push
 }
+function gpull {
+    git pull
+}
 
 function Get-PubIP {
     Write-Host "External IP: "(Invoke-WebRequest http://ifconfig.me/ip).Content
