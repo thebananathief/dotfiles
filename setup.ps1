@@ -124,7 +124,6 @@ function Install-Extras {
         "Mozilla.Firefox",
         "Discord.Discord",
         "Spotify.Spotify",
-        "Valve.Steam",
         "Mega.MEGASync",
         "Obsidian.Obsidian",
         "M2Team.NanaZip",
@@ -136,6 +135,16 @@ function Install-Extras {
         "VideoLAN.VLC",
         "Audacity.Audacity",
         "WinDirStat.WinDirStat"
+    ) | ForEach-Object {
+        winget install -e --accept-source-agreements --accept-package-agreements --id $_
+    }
+
+    if (Read-Host -Prompt "Do you want to install Steam and Playnite? (y)" -ne "y") {
+        return
+    }
+    @(
+        "Valve.Steam",
+        "Playnite.Playnite"
     ) | ForEach-Object {
         winget install -e --accept-source-agreements --accept-package-agreements --id $_
     }
