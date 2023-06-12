@@ -118,8 +118,7 @@ function Install-Extras {
         return
     }
 
-    @(
-        "valinet.ExplorerPatcher",
+    @(  "valinet.ExplorerPatcher",
         "Nilesoft.Shell",
         "Mozilla.Firefox",
         "Discord.Discord",
@@ -142,8 +141,7 @@ function Install-Extras {
     if (Read-Host -Prompt "Do you want to install Steam and Playnite? (y)" -ne "y") {
         return
     }
-    @(
-        "Valve.Steam",
+    @(  "Valve.Steam",
         "Playnite.Playnite"
     ) | ForEach-Object {
         winget install -e --accept-source-agreements --accept-package-agreements --id $_
