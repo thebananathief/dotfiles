@@ -143,9 +143,9 @@ Function Test-CommandExists {
 } 
 
 # If your favorite editor is not here, add an elseif and ensure that the directory it is installed in exists in your $env:Path
-if (Test-CommandExists code) { $EDITOR='code' }
+if (Test-CommandExists nvim) { $EDITOR='nvim' }
+elseif (Test-CommandExists code) { $EDITOR='code' }
 elseif (Test-CommandExists codium) { $EDITOR='codium' }
-elseif (Test-CommandExists nvim) { $EDITOR='nvim' }
 elseif (Test-CommandExists pvim) { $EDITOR='pvim' }
 elseif (Test-CommandExists vim) { $EDITOR='vim' }
 elseif (Test-CommandExists vi) { $EDITOR='vi' }
