@@ -30,6 +30,9 @@ map('n', '<C-j>', '<C-W>j', {})
 map('n', '<C-l>', '<C-W>l', {})
 map('n', '<C-h>', '<C-W>h', {})
 
+map('n', '<S-h>', 'gT', {})
+map('n', '<S-l>', 'gt', {})
+
 -- remap yank and paste to system clipboard
 map('v', '<C-c>', '"*y', {})
 
