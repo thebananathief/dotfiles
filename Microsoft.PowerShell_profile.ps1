@@ -29,7 +29,7 @@ function g($repo) {
         "t" {
             Set-Location "media-server/infra"
             break}
-        "s" {
+        "d" {
             Set-Location "dotfiles"
             break}
     }
