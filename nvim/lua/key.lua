@@ -25,10 +25,6 @@ map('v', '<right>', '', {})
 map('v', '<left>', '', {})
 
 -- change splits using Ctrl+nav
---nmap <silent> <c-k> :wincmd k<CR>
---nmap <silent> <c-j> :wincmd j<CR>
---nmap <silent> <c-h> :wincmd h<CR>
---nmap <silent> <c-l> :wincmd l<CR>
 map('n', '<C-k>', '<C-W>k', {})
 map('n', '<C-j>', '<C-W>j', {})
 map('n', '<C-l>', '<C-W>l', {})

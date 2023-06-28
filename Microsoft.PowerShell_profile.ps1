@@ -28,11 +28,9 @@ function g($repo) {
     switch ($repo) {
         "t" {
             Set-Location "media-server/infra"
-            edit .
             break}
         "s" {
             Set-Location "shell-setup"
-            edit .
             break}
     }
 }
@@ -61,6 +59,21 @@ Set-Alias -Name ... -Value cd...
 function cd.... { Set-Location ..\..\.. }
 Set-Alias -Name .... -Value cd....
 
+# Rebind cd
+function Set-LocationWithGCI{
+    param(
+            $path
+         )
+    if(Test-Path $path){
+        $path = Resolve-Path $path
+        Set-Location $path
+        Get-ChildItem $path
+    }else{
+        "Could not find path $path"
+    }
+}
+Remove-Item alias:\cd
+Set-Alias -Name cd -Value Set-LocationWithGCI
 
 # Compute file hashes - useful for checking successful downloads 
 function md5 { Get-FileHash -Algorithm MD5 $args }
