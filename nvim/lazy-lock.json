@@ -1,3 +1,0 @@
-{
-  "aura-theme": { "branch": "feat/neovim-port", "commit": "7ea467f5c5b554275b0a6983631bc22b0d860e1e" },
-  "coc.nvim": { "branch": "master", "commit": "2280f9a8b62d1adb32a973dd7c5676acea07614d" },
