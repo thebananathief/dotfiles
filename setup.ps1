@@ -114,7 +114,7 @@ function Install-WT {
 }
 
 function Install-Extras {
-    if (Read-Host -Prompt "Do you want to install extra programs? (y)" -ne "y") {
+    if ((Read-Host -Prompt "Install bootstrap programs? (y)") -ne "y") {
         return
     }
 
@@ -139,7 +139,7 @@ function Install-Extras {
         winget install -e --accept-source-agreements --accept-package-agreements --id $_
     }
 
-    if (Read-Host -Prompt "Do you want to install Steam and Playnite? (y)" -ne "y") {
+    if ((Read-Host -Prompt "Install Steam and Playnite? (y)") -ne "y") {
         return
     }
     @(  "Valve.Steam",
@@ -166,7 +166,8 @@ $WTFamilyName = $(Get-AppxPackage | Where-Object Name -eq Microsoft.WindowsTermi
 $Cmd =  @"
 New-Item -ItemType SymbolicLink -Force -Path `"$env:USERPROFILE\.config\starship.toml`" -Value `"$GITPATH\starship.toml`";
 New-Item -ItemType SymbolicLink -Force -Path `"$PROFILE`" -Value `"$GITPATH\Microsoft.PowerShell_profile.ps1`";
-New-Item -ItemType SymbolicLink -Force -Path `"$env:LOCALAPPDATA\Packages\$WTFamilyName\LocalState\settings.json`" -Value `"$GITPATH\WindowsTerminal\settings.json`"
+New-Item -ItemType SymbolicLink -Force -Path `"$env:LOCALAPPDATA\Packages\$WTFamilyName\LocalState\settings.json`" -Value `"$GITPATH\WindowsTerminal\settings.json`";
+New-Item -ItemType SymbolicLink -Force -Path '"$env:LOCALAPPDATA\nvim'" -Value '"$GITPATH\nvim'"
 "@
 # Create the symlinks with admin privs
 Start-Process -FilePath "pwsh.exe" -Wait -Verb RunAs -ArgumentList "-NoProfile -Command `"$Cmd`""
