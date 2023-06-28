@@ -1,4 +1,4 @@
-# shell-setup
+# dotfiles
 Setup scripts for Linux and Windows (and an option to install extra programs)
 
 ## Windows
