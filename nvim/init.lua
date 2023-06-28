@@ -1,16 +1,33 @@
---[[ init.lua ]]
+---- GLOBALS ----
 
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
+local g = vim.g
 
--- LEADER
--- These keybindings need to be defined before the first /
--- is called; otherwise, it will default to "\"
-vim.g.mapleader = " "
-vim.g.localleader = "\\"
+g.loaded_netrw = 1
+g.loaded_netrwPlugin = 1
 
--- IMPORTS
-require('opts')      -- Options
-require('keys')      -- Keymaps
-require('plug')      -- Plugins
+g.mapleader = " "
+g.localleader = "\\"
 
+g.t_co = 256
+g.background = "dark"
+g.paste = true
+g.autoindent = "smartindent"
+
+--g.clipboard = "unnamed"
+g.clipboard = {
+  name = "clip.exe (Copy Only)",
+  copy = {
+    ["+"] = "win32yank.exe -i",
+    ["*"] = "win32yank.exe -i"
+  },
+  paste = {
+    ["+"] = "win32yank.exe -o",
+    ["*"] = "win32yank.exe -o"
+  },
+  cache_enabled = true
+}
+
+---- IMPORTS ----
+require('opt')
+require('key')
+require('plug')

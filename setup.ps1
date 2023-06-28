@@ -22,7 +22,7 @@ function Install-PkgMngrs {
     powershell -Command {Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh'))}
     $env:PATH += ";$HOMEPATH\scoop\shims"
     scoop bucket add nerd-fonts
-    scoop install neofetch neovim
+    scoop install neofetch lazygit
 
     # NOTICE: Try not to overload this script, its only supposed to be for initial terminal setup, not my desired programs
 
@@ -133,7 +133,8 @@ function Install-Extras {
         "VMware.WorkstationPlayer",
         "VideoLAN.VLC",
         "Audacity.Audacity",
-        "WinDirStat.WinDirStat"
+        "WinDirStat.WinDirStat",
+        "Neovim.Neovim"
     ) | ForEach-Object {
         winget install -e --accept-source-agreements --accept-package-agreements --id $_
     }

@@ -34,6 +34,10 @@
         {
             "command": "unbound",
             "keys": "ctrl+v"
+        },
+        {
+            "command": "unbound",
+            "keys": "ctrl+shift+t"
         }
     ],
     "copyFormatting": "none",

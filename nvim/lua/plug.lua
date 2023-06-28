@@ -1,3 +1,5 @@
+---- PLUGINS ----
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -16,6 +18,13 @@ require("lazy").setup({
   -- { "folke/neoconf.nvim", cmd = "Neoconf" },
   -- "folke/neodev.nvim",
   -- "neoclide/coc.nvim",
+  {'akinsho/toggleterm.nvim', version = "*",
+    config = function()
+      require("toggleterm").setup{
+        hidden = true
+      }
+    end},
+  {"preservim/nerdcommenter"},
   {"nvim-tree/nvim-tree.lua", version = "*", 
     dependencies = {
       "nvim-tree/nvim-web-devicons",
@@ -39,3 +48,12 @@ require("lazy").setup({
     vim.cmd([[colorscheme aura-dark]])
   end}
 })
+
+local Terminal  = require('toggleterm.terminal').Terminal
+local lazygit = Terminal:new({ cmd = "lazygit", hidden = true })
+
+function _lazygit_toggle()
+  lazygit:toggle()
+end
+
+vim.api.nvim_set_keymap("n", "<leader>g", "<cmd>lua _lazygit_toggle()<CR>", {noremap = true, silent = true})
