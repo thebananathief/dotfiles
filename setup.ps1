@@ -22,9 +22,8 @@ function Install-PkgMngrs {
     powershell -Command {Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh'))}
     $env:PATH += ";$HOMEPATH\scoop\shims"
     scoop bucket add nerd-fonts
-    scoop install neofetch lazygit
-
-    # NOTICE: Try not to overload this script, its only supposed to be for initial terminal setup, not my desired programs
+    scoop bucket add extras
+    scoop install neofetch lazygit nodejs zig
 
     # main/ vagrant
     # nerdfonts/ JetBrainsMono-NF, DroidSansMono, Cascadia Code, MesloLG

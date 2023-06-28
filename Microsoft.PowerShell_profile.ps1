@@ -60,7 +60,7 @@ function cd.... { Set-Location ..\..\.. }
 Set-Alias -Name .... -Value cd....
 
 # Rebind cd
-function Set-LocationWithGCI{
+function c {
     param(
             $path
          )
@@ -72,8 +72,8 @@ function Set-LocationWithGCI{
         "Could not find path $path"
     }
 }
-Remove-Item alias:\cd
-Set-Alias -Name cd -Value Set-LocationWithGCI
+
+function reload { & $PROFILE }
 
 # Compute file hashes - useful for checking successful downloads 
 function md5 { Get-FileHash -Algorithm MD5 $args }
