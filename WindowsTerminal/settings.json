@@ -19,15 +19,6 @@
             "keys": "ctrl+shift+f"
         },
         {
-            "command": 
-            {
-                "action": "splitPane",
-                "split": "auto",
-                "splitMode": "duplicate"
-            },
-            "keys": "alt+shift+d"
-        },
-        {
             "command": "unbound",
             "keys": "ctrl+c"
         },
@@ -38,6 +29,15 @@
         {
             "command": "unbound",
             "keys": "ctrl+shift+t"
+        },
+        {
+            "command": 
+            {
+                "action": "splitPane",
+                "split": "auto",
+                "splitMode": "duplicate"
+            },
+            "keys": "alt+shift+d"
         }
     ],
     "copyFormatting": "none",
@@ -56,8 +56,9 @@
     {
         "defaults": 
         {
-            "colorScheme": "Tango Dark",
-            "cursorShape": "filledBox",
+            "adjustIndistinguishableColors": "never",
+            "colorScheme": "Campbell",
+            "cursorShape": "emptyBox",
             "experimental.retroTerminalEffect": false,
             "font": 
             {
@@ -107,22 +108,16 @@
                 "name": "Windows PowerShell"
             },
             {
-                "guid": "{b5efd6bf-4636-5f12-9e57-243ae9d54944}",
+                "guid": "{4bb5694a-b5bb-5eff-8f50-30a36beaa87f}",
                 "hidden": false,
                 "name": "Developer Command Prompt for VS 2022",
                 "source": "Windows.Terminal.VisualStudio"
             },
             {
-                "guid": "{417ec16a-511d-5a6c-842d-409c70084364}",
+                "guid": "{94a15e39-60f6-5380-ab3d-835aee8fa61e}",
                 "hidden": false,
                 "name": "Developer PowerShell for VS 2022",
                 "source": "Windows.Terminal.VisualStudio"
-            },
-            {
-                "guid": "{16208362-94fc-5b1f-a491-5b2624d5ab56}",
-                "hidden": true,
-                "name": "Visual Studio Debug Console",
-                "source": "VSDebugConsole"
             }
         ]
     },
@@ -140,7 +135,7 @@
             "brightRed": "#E74856",
             "brightWhite": "#F2F2F2",
             "brightYellow": "#F9F1A5",
-            "cursorColor": "#FFFFFF",
+            "cursorColor": "#32FF32",
             "cyan": "#3A96DD",
             "foreground": "#CCCCCC",
             "green": "#13A10E",

@@ -39,18 +39,6 @@ function ebrc {
     edit $PROFILE
 }
 
-function dcp {
-    # Update infra repo
-    Set-Location -Path "C:\Users\cameron\github\media-server\infra\provision"
-    git pull
-
-    # Use WSL to run ansible
-    wsl --cd "/mnt/c/users/cameron/github/media-server/infra/provision" /home/cameron/.local/bin/ansible-playbook --vault-pass-file "/home/cameron/vault-pass" -i "hosts.yml" "run.yml" -t compose
-
-    # Connect to talos and run dcp up -d
-    ssh talos "docker compose -f 'docker-compose.yml' up -d"
-}
-
 # Useful shortcuts for traversing directories
 function cd.. { Set-Location .. }
 Set-Alias -Name .. -Value cd..
