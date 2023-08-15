@@ -31,3 +31,5 @@ g.clipboard = {
 require('opt')
 require('key')
 require('plug')
+
+g.tagbar_ctags_bin = "C:\\Program Files\\universal-ctags\\ctags.exe"

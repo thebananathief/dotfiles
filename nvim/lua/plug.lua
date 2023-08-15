@@ -2,6 +2,7 @@
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
+  print('Installing lazy.nvim...')
   vim.fn.system({
     "git",
     "clone",
@@ -10,6 +11,7 @@ if not vim.loop.fs_stat(lazypath) then
     "--branch=stable", -- latest stable release
     lazypath,
   })
+  print('Done.')
 end
 vim.opt.rtp:prepend(lazypath)
 
@@ -17,22 +19,45 @@ require("lazy").setup({
   -- "folke/which-key.nvim",
   -- { "folke/neoconf.nvim", cmd = "Neoconf" },
   -- "folke/neodev.nvim",
-  "neoclide/coc.nvim",
-  {'akinsho/toggleterm.nvim', version = "*",
+  -- "neoclide/coc.nvim",
+  {
+    'VonHeikemen/lsp-zero.nvim',
+    branch = 'v2.x',
+    dependencies = {
+      -- LSP Support
+      {'neovim/nvim-lspconfig'},
+      {'williamboman/mason.nvim'},
+      {'williamboman/mason-lspconfig.nvim'},
+
+      -- Autocompletion
+      {'hrsh7th/nvim-cmp'},
+      {'hrsh7th/cmp-nvim-lsp'},
+      {'L3MON4D3/LuaSnip'},
+    }
+  },
+  {
+    'akinsho/toggleterm.nvim',
+    version = "*",
     config = function()
       require("toggleterm").setup{
         size = function(term)
           if term.direction == "horizontal" then
             return 15
           elseif term.direction == "vertical" then
-            return vim.o.columns * 0.4
+            return vim.o.columns * 0.3
           end
         end,
-        hidden = true
+        hidden = true,
+        direction = "vertical"
       }
-    end},
-  {"preservim/nerdcommenter"},
-  {"nvim-tree/nvim-tree.lua", version = "*", 
+    end
+  },
+  {
+    "preservim/nerdcommenter"
+  },
+  {
+    "nvim-tree/nvim-tree.lua",
+    version = "*",
     dependencies = {
       "nvim-tree/nvim-web-devicons",
     },
@@ -48,19 +73,40 @@ require("lazy").setup({
         filters = {
             dotfiles = true,
         }
-  }end},
-  {"nvim-treesitter/nvim-treesitter", build = ":TSUpdate"},
-  {"baliestri/aura-theme", lazy = false, priority = 1000, config = function(plugin)
-    vim.opt.rtp:append(plugin.dir .. "/packages/neovim")
-    vim.cmd([[colorscheme aura-dark]])
-  end}
+      }
+    end
+  },
+  {
+    "nvim-treesitter/nvim-treesitter",
+    build = ":TSUpdate"
+  },
+  { "majutsushi/tagbar" },
+  --{
+    --"baliestri/aura-theme",
+    --lazy = false,
+    --priority = 1000,
+    --config = function(plugin)
+      --vim.opt.rtp:append(plugin.dir .. "/packages/neovim")
+      --vim.cmd([[colorscheme aura-dark]])
+    --end
+  --}
+  { "catppuccin/nvim", name = "catppuccin", priority = 1000 }
 })
 
+vim.cmd.colorscheme "catppuccin"
+
 local Terminal  = require('toggleterm.terminal').Terminal
-local lazygit = Terminal:new({ cmd = "lazygit", hidden = true, direction = "horizontal", size = 20 })
 
-function _lazygit_toggle()
-  lazygit:toggle()
-end
+local lsp = require('lsp-zero').preset({})
 
-vim.api.nvim_set_keymap("n", "<leader>g", "<cmd>lua _lazygit_toggle()<CR>", {noremap = true, silent = true})
+lsp.on_attach(function(client, bufnr)
+  lsp.default_keymaps({buffer = bufnr})
+end)
+
+lsp.ensure_installed({
+  'rust_analyzer',
+  'gopls'
+})
+
+lsp.setup()
+
