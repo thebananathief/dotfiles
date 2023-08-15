@@ -76,6 +76,20 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 # Alias's for SSH
 # alias SERVERNAME='ssh YOURWEBSITE.com -l USERNAME -p PORTNUMBERHERE'
 
+# Git helpers
+gcom() {
+	git add .
+	git commit -m "$1"
+	}
+gpush() {
+	git add .
+	git commit -m "$1"
+	git push
+}
+alias gpull='git pull'
+alias glog='git log --graph -5'
+alias gstat='git status'
+
 # alias web='cd /var/www/html'
 # alias tdev='cd "/mnt/c/Users/github/media-server/infra/provision"'
 # alias stor='cd "/mnt/storage"'
@@ -85,7 +99,6 @@ alias cd..='cd ..'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
-alias .....='cd ../../../..'
 alias bd='cd -'
 
 # Alias's to mount ISO files
@@ -547,17 +560,6 @@ trim()
 	var="${var%"${var##*[![:space:]]}"}"  # remove trailing whitespace characters
 	echo -n "$var"
 }
-
-gcom() {
-	git add .
-	git commit -m "$1"
-	}
-gpush() {
-	git add .
-	git commit -m "$1"
-	git push
-}
-alias gpull='git pull'
 
 # Install Starship - curl -sS https://starship.rs/install.sh | sh
 eval "$(starship init bash)"

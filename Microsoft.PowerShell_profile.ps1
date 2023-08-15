@@ -23,7 +23,7 @@ $isAdmin = $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administ
 
 # Github repo shortcuts
 function g($repo) {
-    Set-Location "$HOME/github"
+    Set-Location "$env:USERPROFILE/github"
 
     switch ($repo) {
         "t" {
@@ -35,28 +35,41 @@ function g($repo) {
     }
 }
 
-function ebrc {
-    edit $PROFILE
+# Git helpers
+function gcom {
+    git add .
+    git commit -m "$args"
 }
+function gpush {
+    git add .
+    git commit -m "$args"
+    git push
+}
+function gpull { git pull }
+function glog { git log --graph -5 }
+function gstat { git status }
+
+function ebrc { edit $PROFILE }
 
 # Useful shortcuts for traversing directories
+function bd { Set-Location - }
 function cd.. { Set-Location .. }
-Set-Alias -Name .. -Value cd..
 function cd... { Set-Location ..\.. }
-Set-Alias -Name ... -Value cd...
 function cd.... { Set-Location ..\..\.. }
+Set-Alias -Name .. -Value cd..
+Set-Alias -Name ... -Value cd...
 Set-Alias -Name .... -Value cd....
 
 # Rebind cd
 function c {
     param(
-            $path
-         )
-    if(Test-Path $path){
+        $path
+    )
+    if (Test-Path $path) {
         $path = Resolve-Path $path
         Set-Location $path
         Get-ChildItem $path
-    }else{
+    } else {
         "Could not find path $path"
     }
 }
@@ -154,23 +167,14 @@ elseif (Test-CommandExists sublime_text) { $EDITOR='sublime_text' }
 elseif (Test-CommandExists notepad++) { $EDITOR='notepad++' }
 elseif (Test-CommandExists notepad) { $EDITOR='notepad' }
 
+if (Test-CommandExists code) { $VISUAL='code' }
+elseif (Test-Commandexists codium) { $VISUAL='codium' }
+
 Set-Alias -Name edit -Value $EDITOR
 Set-Alias -Name e -Value $EDITOR
-# Set-Alias -Name code -Value $EDITOR
-
-# Git helpers
-function gcom {
-    git add .
-    git commit -m "$args"
-}
-function gpush {
-    git add .
-    git commit -m "$args"
-    git push
-}
-function gpull {
-    git pull
-}
+Set-Alias -Name vedit -Value $VISUAL
+Set-Alias -Name ve -Value $VISUAL
+Set-Alias -Name code -Value $VISUAL
 
 function Get-PubIP {
     Write-Host "External IP: "(Invoke-WebRequest http://ifconfig.me/ip).Content
