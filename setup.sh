@@ -135,7 +135,7 @@ install_extras(){
 	dtype=$(distribution)
 
 	if [ $dtype == "debian" ]; then
-		sudo apt install multitail tree neovim tldr neofetch htop smartmontools ethtool autojump
+		sudo apt install multitail tree neovim tldr neofetch htop smartmontools ethtool autojump just
 	elif [ $dtype == "redhat" ]; then
 		sudo yum install multitail tree
 	elif [ $dtype == "suse" ]; then
