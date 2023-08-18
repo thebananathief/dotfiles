@@ -133,7 +133,7 @@ distribution ()
 install_extras(){
 	local dtype
 	dtype=$(distribution)
-
+    # TODO: add just's repo
 	if [ $dtype == "debian" ]; then
 		sudo apt install multitail tree neovim tldr neofetch htop smartmontools ethtool autojump just
 	elif [ $dtype == "redhat" ]; then

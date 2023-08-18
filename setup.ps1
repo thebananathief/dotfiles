@@ -119,6 +119,7 @@ function Install-Extras {
 
     @(  "valinet.ExplorerPatcher",
         "Nilesoft.Shell",
+        "Bitwarden.CLI",
         "Mozilla.Firefox",
         "Discord.Discord",
         "Spotify.Spotify",
