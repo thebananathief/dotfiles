@@ -27,7 +27,7 @@ function g($repo) {
 
     switch ($repo) {
         "t" {
-            Set-Location "media-server/infra"
+            Set-Location "infra"
             break}
         "d" {
             Set-Location "dotfiles"
@@ -46,6 +46,7 @@ function gpush {
     git push
 }
 function gpull { git pull }
+function gdiff { git diff }
 function glog { git log --graph -5 }
 function gstat { git status }
 
