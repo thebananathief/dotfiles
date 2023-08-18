@@ -23,7 +23,7 @@ function Install-PkgMngrs {
     $env:PATH += ";$HOMEPATH\scoop\shims"
     scoop bucket add nerd-fonts
     scoop bucket add extras
-    scoop install neofetch lazygit nodejs zig python just
+    scoop install neofetch lazygit nodejs zig python just win32yank
 
     # main/ vagrant
     # nerdfonts/ JetBrainsMono-NF, DroidSansMono, Cascadia Code, MesloLG
