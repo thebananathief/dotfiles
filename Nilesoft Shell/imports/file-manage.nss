@@ -1,4 +1,4 @@
-﻿menu(where=sel.count>0 type='file|dir|drive|namespace|back' mode="multiple" title='File Manage' image=\uE253)
+menu(where=sel.count>0 type='file|dir|drive|namespace|back' mode="multiple" title='File Manage' image=\uE253)
 {
 	menu(separator="after" title=title.copy_path image=icon.copy_path)
 	{

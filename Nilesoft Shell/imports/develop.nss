@@ -1,4 +1,4 @@
-﻿menu(mode="multiple" title='&Develop' sep=sep.bottom image=\uE26E)
+menu(mode="multiple" title='&Develop' sep=sep.bottom image=\uE26E)
 {
 	item(title='Visual Studio Code' image=[\uE272, #22A7F2] cmd='codium' args='"@sel.path"')
 	// menu(mode="single" title='editors' image=\uE17A)
