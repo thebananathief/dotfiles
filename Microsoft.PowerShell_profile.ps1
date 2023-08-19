@@ -36,19 +36,19 @@ function g($repo) {
 }
 
 # Git helpers
-function gcom {
+function gg {
     git add .
     git commit -m "$args"
 }
-function gpush {
+function gt {
     git add .
     git commit -m "$args"
     git push
 }
-function gpull { git pull }
-function gdiff { git diff }
-function glog { git log --graph -5 }
-function gstat { git status }
+function gb { git pull }
+function gd { git diff }
+function gh { git log --graph -5 }
+function gf { git status }
 
 function ebrc { edit $PROFILE }
 

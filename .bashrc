@@ -77,18 +77,19 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 # alias SERVERNAME='ssh YOURWEBSITE.com -l USERNAME -p PORTNUMBERHERE'
 
 # Git helpers
-gcom() {
+gg() {
 	git add .
 	git commit -m "$1"
 	}
-gpush() {
+gt() {
 	git add .
 	git commit -m "$1"
 	git push
 }
-alias gpull='git pull'
-alias glog='git log --graph -5'
-alias gstat='git status'
+alias gb='git pull'
+alias gd='git diff'
+alias gh='git log --graph -5'
+alias gf='git status'
 
 # alias web='cd /var/www/html'
 # alias tdev='cd "/mnt/c/Users/github/media-server/infra/provision"'
