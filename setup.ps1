@@ -135,8 +135,9 @@ function Install-Extras {
         "Audacity.Audacity",
         "WinDirStat.WinDirStat",
         "Neovim.Neovim"
+        "tailscale.tailscale"
     ) | ForEach-Object {
-        winget install -e --accept-source-agreements --accept-package-agreements --id $_
+        winget install -e --exact --accept-source-agreements --accept-package-agreements --id $_
     }
 
     if ((Read-Host -Prompt "Install Steam and Playnite? (y)") -ne "y") {

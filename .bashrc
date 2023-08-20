@@ -78,18 +78,23 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 
 # Git helpers
 gg() {
-	git add .
+	git add -all
 	git commit -m "$1"
 	}
 gt() {
-	git add .
+	git add -all
 	git commit -m "$1"
 	git push
 }
+alias ga='git add --all'
 alias gb='git pull'
 alias gd='git diff'
 alias gh='git log --graph -5'
 alias gf='git status'
+
+alias agi='sudo apt install $c'
+alias agr='sudo apt remove $c'
+alias agu='sudo apt update && sudo apt upgrade'
 
 # alias web='cd /var/www/html'
 # alias tdev='cd "/mnt/c/Users/github/media-server/infra/provision"'
@@ -118,11 +123,11 @@ alias bd='cd -'
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 # Systemctl shortened commands
-alias ctlup='sudo systemctl start'
-alias ctldown='sudo systemctl stop'
-alias ctlstat='sudo systemctl status'
-alias ctlrest='sudo systemctl restart'
-alias ctl='sudo systemctl'
+alias scup='sudo systemctl start $c'
+alias scdown='sudo systemctl stop $c'
+alias scstat='sudo systemctl status $c'
+alias screst='sudo systemctl restart $c'
+alias sc='sudo systemctl $c'
 
 # Edit common files
 alias ebrc='edit ~/.bashrc'
