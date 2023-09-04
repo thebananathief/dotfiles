@@ -78,15 +78,15 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 
 # Git helpers
 gg() {
-	git add -all
+	git add --all
 	git commit -m "$1"
 	}
 gt() {
-	git add -all
+	git add --all
 	git commit -m "$1"
 	git push
 }
-alias ga='git add --all'
+alias ga='git add ---all'
 alias gb='git pull'
 alias gd='git diff'
 alias gh='git log --graph -5'
@@ -571,13 +571,13 @@ trim()
 eval "$(starship init bash)"
 
 # Autojump
-if [ -f "/usr/share/autojump/autojump.sh" ]; then
-	. /usr/share/autojump/autojump.sh
-elif [ -f "/usr/share/autojump/autojump.bash" ]; then
-	. /usr/share/autojump/autojump.bash
-else
-	echo "can't find the autojump script"
-fi
+# if [ -f "/usr/share/autojump/autojump.sh" ]; then
+# 	. /usr/share/autojump/autojump.sh
+# elif [ -f "/usr/share/autojump/autojump.bash" ]; then
+# 	. /usr/share/autojump/autojump.bash
+# else
+# 	echo "can't find the autojump script"
+# fi
 
 
 # ARCHIVE

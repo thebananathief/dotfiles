@@ -13,25 +13,25 @@ command_exists () {
 
 checkEnv() {
     ## Check for requirements.
-    REQUIREMENTS='curl groups sudo'
-    if ! command_exists ${REQUIREMENTS}; then
-        echo -e "${RED}To run me, you need: ${REQUIREMENTS}${RC}"
-        exit 1
-    fi
+    # REQUIREMENTS='curl groups sudo'
+    # if ! command_exists ${REQUIREMENTS}; then
+    #     echo -e "${RED}To run me, you need: ${REQUIREMENTS}${RC}"
+    #     exit 1
+    # fi
 
     ## Check Package manager
-    PACKAGEMANAGER='apt dnf pacman'
-    for pgm in ${PACKAGEMANAGER}; do
-        if command_exists ${pgm}; then
-            PACKAGER=${pgm}
-            echo -e "Using ${pgm}"
-        fi
-    done
+    # PACKAGEMANAGER='apt dnf pacman'
+    # for pgm in ${PACKAGEMANAGER}; do
+    #     if command_exists ${pgm}; then
+    #         PACKAGER=${pgm}
+    #         echo -e "Using ${pgm}"
+    #     fi
+    # done
 
-    if [ -z "${PACKAGER}" ]; then
-        echo -e "${RED}Can't find a supported package manager"
-        exit 1
-    fi
+    # if [ -z "${PACKAGER}" ]; then
+    #     echo -e "${RED}Can't find a supported package manager"
+    #     exit 1
+    # fi
 
 
     ## Check if the current directory is writable.
@@ -59,33 +59,47 @@ checkEnv() {
 }
 
 installDepend() {
-    ## Check for dependencies.
-    DEPENDENCIES='autojump bash bash-completion tar neovim'
-    echo -e "${YELLOW}Installing dependencies...${RC}"
-    if [[ $PACKAGER == "pacman" ]]; then
-        if ! command_exists yay; then
-            echo "Installing yay..."
-            sudo ${PACKAGER} --noconfirm -S base-devel
-            $(cd /opt && sudo git clone https://aur.archlinux.org/yay-git.git && sudo chown -R ${USER}:${USER} ./yay-git && cd yay-git && makepkg --noconfirm -si)
-        else
-            echo "Command yay already installed"
+	local dtype
+	dtype=$(distribution)
+
+	if [ $dtype != "nixos" ]; then
+		echo "No dependencies!"
+	else
+        ## Check for dependencies.
+        DEPENDENCIES='autojump bash bash-completion tar neovim'
+        echo -e "${YELLOW}Installing dependencies...${RC}"
+        if [[ $PACKAGER == "pacman" ]]; then
+            if ! command_exists yay; then
+                echo "Installing yay..."
+                sudo ${PACKAGER} --noconfirm -S base-devel
+                $(cd /opt && sudo git clone https://aur.archlinux.org/yay-git.git && sudo chown -R ${USER}:${USER} ./yay-git && cd yay-git && makepkg --noconfirm -si)
+            else
+                echo "Command yay already installed"
+            fi
+            yay --noconfirm -S ${DEPENDENCIES}
+        else 
+            sudo ${PACKAGER} install -yq ${DEPENDENCIES}
         fi
-    	yay --noconfirm -S ${DEPENDENCIES}
-    else 
-    	sudo ${PACKAGER} install -yq ${DEPENDENCIES}
     fi
 }
 
 installStarship(){
-    mkdir ~/.config
-    if command_exists starship; then
-        echo "Starship already installed"
-        return
-    fi
+	local dtype
+	dtype=$(distribution)
 
-    if ! curl -sS https://starship.rs/install.sh|sh;then
-        echo -e "${RED}Something went wrong during starship install!${RC}"
-        exit 1
+    mkdir ~/.config
+	if [ $dtype == "nixos" ]; then
+		echo ""
+	else
+        if command_exists starship; then
+            echo "Starship already installed"
+            return
+        fi
+
+        if ! curl -sS https://starship.rs/install.sh|sh;then
+            echo -e "${RED}Something went wrong during starship install!${RC}"
+            exit 1
+        fi
     fi
 }
 
@@ -126,6 +140,10 @@ distribution ()
 	elif [ -s /etc/slackware-version ]; then
 		dtype="slackware"
 
+	# For NixOS test if /etc/NIXOS exists
+	elif [ -s /etc/NIXOS ]; then
+		dtype="nixos"
+
 	fi
 	echo $dtype
 }
@@ -149,6 +167,8 @@ install_extras(){
 		sudo urpmi tree
 	elif [ $dtype == "slackware" ]; then
 		echo "No install support for Slackware"
+	elif [ $dtype == "nixos" ]; then
+		echo ""
 	else
 		echo "Unknown distribution"
 	fi
