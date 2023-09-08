@@ -104,8 +104,7 @@ lsp.on_attach(function(client, bufnr)
 end)
 
 lsp.ensure_installed({
-  'rust_analyzer',
-  'gopls'
+  'rust_analyzer'
 })
 
 lsp.setup()
