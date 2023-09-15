@@ -22,7 +22,7 @@ $rust\
 $docker_context\
 [](fg:#5e81ac bg:#3a7f92)\
 $cmd_duration\
-[ ](fg:#3a7f92)\
+[ ](fg:#3a7f92)
 """
 command_timeout = 5000
 # Disable the blank line at the start of the prompt

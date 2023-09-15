@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/run/current-system/sw/bin/bash
 # Stolen from: https://github.com/christitustech/mybash
 # TODO: install nala
 
@@ -90,8 +90,7 @@ installStarship(){
     mkdir ~/.config
 	if [ $dtype == "nixos" ]; then
 		echo ""
-	else
-        if command_exists starship; then
+	elif command_exists starship; then
             echo "Starship already installed"
             return
         fi
@@ -189,6 +188,7 @@ linkConfig() {
     ## Make symbolic link.
     ln -svf ${GITPATH}/.bashrc ${HOME}/.bashrc
     ln -svf ${GITPATH}/starship.toml ${HOME}/.config/starship.toml
+    ln -svf ${GITPATH}/nvim ${HOME}/.config/nvim
 }
 
 checkEnv
