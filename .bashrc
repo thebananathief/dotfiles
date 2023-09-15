@@ -80,13 +80,13 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 gg() {
 	git add --all
 	git commit -m "$1"
-	}
+}
 gt() {
 	git add --all
 	git commit -m "$1"
 	git push
 }
-alias ga='git add ---all'
+alias ga='git add --all'
 alias gb='git pull'
 alias gd='git diff'
 alias gh='git log --graph -5'
@@ -105,14 +105,25 @@ alias hyc='edit ~/github/dotfiles/hyprland.conf'
 # alias stor='cd "/mnt/storage"'
 # alias appd='cd "/opt/appdata"'
 
+alias bd='cd -'
 alias cd..='cd ..'
+alias cd...='cd ../..'
+alias cd....='cd ../../..'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
-alias bd='cd -'
 
 function g() {
-  cd "$HOME/github/dotfiles"
+  cd "$HOME/github"
+
+  case $@ in
+    "d")
+      cd "dotfiles"
+    ;;
+    "t")
+      cd "infra"
+    ;;
+  esac
 }
 
 # Alias's to mount ISO files
