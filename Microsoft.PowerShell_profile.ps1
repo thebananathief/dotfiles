@@ -37,7 +37,7 @@ function g($repo) {
 
 # Git helpers
 function gg {
-    git add .
+    git add --all
     git commit -m "$args"
 }
 function gt {
@@ -45,6 +45,7 @@ function gt {
     git commit -m "$args"
     git push
 }
+function ga { git add --all }
 function gb { git pull }
 function gd { git diff }
 function gh { git log --graph -5 }

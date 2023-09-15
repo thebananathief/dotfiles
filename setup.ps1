@@ -117,25 +117,32 @@ function Install-Extras {
         return
     }
 
-    @(  "valinet.ExplorerPatcher",
-        "Nilesoft.Shell",
-        "Bitwarden.CLI",
-        "Mozilla.Firefox",
-        "Discord.Discord",
-        "Spotify.Spotify",
-        "Mega.MEGASync",
-        "Obsidian.Obsidian",
-        "M2Team.NanaZip",
-        "VSCodium.VSCodium",
-        "NordSecurity.NordVPN",
-        "Parsec.Parsec",
-        "Famatech.AdvancedIPScanner",
-        "VMware.WorkstationPlayer",
-        "VideoLAN.VLC",
-        "Audacity.Audacity",
-        "WinDirStat.WinDirStat",
-        "Neovim.Neovim"
-        "tailscale.tailscale"
+    @(  
+      # system / desktop tweaks
+      # "valinet.ExplorerPatcher",
+      "Nilesoft.Shell",
+      # CLI
+      "Bitwarden.CLI",
+      "Neovim.Neovim",
+      "wandersick.ChMac",
+      # Multi-media
+      "IrfanSkiljan.IrfanView",
+      "VideoLAN.VLC",
+      "Spotify.Spotify",
+      "Audacity.Audacity",
+      # General
+      "Mozilla.Firefox",
+      "Discord.Discord",
+      "Mega.MEGASync",
+      "Obsidian.Obsidian",
+      "M2Team.NanaZip",
+      "VSCodium.VSCodium",
+      "NordSecurity.NordVPN",
+      "Parsec.Parsec",
+      "Famatech.AdvancedIPScanner",
+      "VMware.WorkstationPlayer",
+      "WinDirStat.WinDirStat",
+      "tailscale.tailscale"
     ) | ForEach-Object {
         winget install -e --exact --accept-source-agreements --accept-package-agreements --id $_
     }

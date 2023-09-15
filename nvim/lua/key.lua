@@ -32,7 +32,8 @@ map('n', '<S-h>', 'gT', {})
 map('n', '<S-l>', 'gt', {})
 
 -- remap yank and paste to system clipboard
-map('v', '<C-c>', '"*y', {})
+map('v', '<leader>c>', '"*y', {})
+map('n', '<leader>p', '"*p', {})
 
 -- plugin maps
 map('n', '<leader>t', '<cmd>ToggleTerm<cr>', {})
