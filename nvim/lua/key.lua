@@ -41,8 +41,13 @@ map('n', '+', '<cmd>horizontal resize +2<cr>', {})
 map('n', '_', '<cmd>horizontal resize -2<cr>', {})
 --
 -- remap yank and paste to system clipboard
+<<<<<<< HEAD
 map('v', '<leader>y', '"+y', {})
 map('n', '<leader>p', '"+p', {})
+=======
+map('v', '<leader>c>', '"*y', {})
+map('n', '<leader>p', '"*p', {})
+>>>>>>> 45f81ffcf0096f635aaa70862622f2f57e7e2c72
 
 -- plugin maps
 map('n', '<leader>t', '<cmd>ToggleTerm<cr>', {})
