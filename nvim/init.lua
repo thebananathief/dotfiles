@@ -10,19 +10,22 @@ g.localleader = "\\"
 
 g.t_co = 256
 g.background = "dark"
-g.paste = true
 g.autoindent = "smartindent"
 
+---- CLIPBOARD ----
+--g.paste = true
 --g.clipboard = "unnamed"
 --g.clipboard = {
-  --name = "clip.exe (Copy Only)",
+  --name = "myClipboard",
   --copy = {
-    --["+"] = "win32yank.exe -i",
-    --["*"] = "win32yank.exe -i"
+    --["+"] = "wl-copy -n",
+    --["*"] = "wl-copy -np",
+    --["0"] = "wl-copy -np"
   --},
   --paste = {
-    --["+"] = "win32yank.exe -o",
-    --["*"] = "win32yank.exe -o"
+    --["+"] = "wl-paste -n",
+    --["*"] = "wl-paste -np",
+    --["0"] = "wl-paste -np"
   --},
   --cache_enabled = true
 --}

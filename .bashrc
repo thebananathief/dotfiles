@@ -167,6 +167,7 @@ alias less='less -R'
 alias cls='clear'
 alias multitail='multitail --no-repeat -c'
 alias freshclam='sudo freshclam'
+alias dup='alacritty --working-directory "$(pwd)" &'
 
 # Allows aliases to be used after sudo
 alias sudo='sudo '
@@ -569,13 +570,15 @@ export STARSHIP_CONFIG=~/.config/starship.toml
 eval "$(starship init bash)"
 
 # Autojump
-# if [ -f "/usr/share/autojump/autojump.sh" ]; then
-# 	. /usr/share/autojump/autojump.sh
-# elif [ -f "/usr/share/autojump/autojump.bash" ]; then
-# 	. /usr/share/autojump/autojump.bash
-# else
-# 	echo "can't find the autojump script"
-# fi
+if [ -f "/usr/share/autojump/autojump.sh" ]; then
+ . /usr/share/autojump/autojump.sh
+elif [ -f "/usr/share/autojump/autojump.bash" ]; then
+ . /usr/share/autojump/autojump.bash
+elif [ -f "/nix/store/b35fagp4lpbmmpqrxsrznkw9mfsk4qzv-autojump-22.5.3/etc/profile.d/autojump.sh" ]; then
+  . /nix/store/b35fagp4lpbmmpqrxsrznkw9mfsk4qzv-autojump-22.5.3/etc/profile.d/autojump.sh
+else
+ echo "can't find the autojump script"
+fi
 
 
 # ARCHIVE
