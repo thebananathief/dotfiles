@@ -163,9 +163,6 @@ Function Test-CommandExists {
 if (Test-CommandExists nvim) { $EDITOR='nvim' }
 elseif (Test-CommandExists code) { $EDITOR='code' }
 elseif (Test-CommandExists codium) { $EDITOR='codium' }
-elseif (Test-CommandExists pvim) { $EDITOR='pvim' }
-elseif (Test-CommandExists vim) { $EDITOR='vim' }
-elseif (Test-CommandExists vi) { $EDITOR='vi' }
 elseif (Test-CommandExists sublime_text) { $EDITOR='sublime_text' }
 elseif (Test-CommandExists notepad++) { $EDITOR='notepad++' }
 elseif (Test-CommandExists notepad) { $EDITOR='notepad' }
@@ -175,8 +172,6 @@ elseif (Test-Commandexists codium) { $VISUAL='codium' }
 
 Set-Alias -Name edit -Value $EDITOR
 Set-Alias -Name e -Value $EDITOR
-Set-Alias -Name vedit -Value $VISUAL
-Set-Alias -Name ve -Value $VISUAL
 Set-Alias -Name code -Value $VISUAL
 
 function Get-PubIP {
