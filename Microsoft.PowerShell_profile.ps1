@@ -76,6 +76,7 @@ function c {
 }
 
 function reload { & $PROFILE }
+function tail($file) { Get-Content -Tail 50 -Wait -Path $file }
 
 # Compute file hashes - useful for checking successful downloads 
 function md5 { Get-FileHash -Algorithm MD5 $args }
