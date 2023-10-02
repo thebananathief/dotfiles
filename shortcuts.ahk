@@ -1,7 +1,7 @@
 #MaxThreadsPerHotkey 2
 
 ; Cerl+Shift+Z -> Terminal
-+^z::Run("wt.exe")
++^q::Run("wt.exe")
 
 ; Ctrl+Shift+X -> Paperwork folder for this month
 dateString := FormatTime(, "yyyy") . " Paperwork\" . FormatTime(, "MM MMM")

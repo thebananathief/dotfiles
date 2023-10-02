@@ -57,7 +57,7 @@ export HISTCONTROL=erasedups:ignoredups:ignorespace
 export CLICOLOR=1
 export LS_COLORS='no=00:fi=00:di=00;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.gz=01;31:*.bz2=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.avi=01;35:*.fli=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.ogg=01;35:*.mp3=01;35:*.wav=01;35:*.xml=00;31:'
 #export GREP_OPTIONS='--color=auto' #deprecated
-alias grep="/usr/bin/grep $GREP_OPTIONS"
+#alias grep="/usr/bin/grep $GREP_OPTIONS"
 unset GREP_OPTIONS
 
 # Color for manpages in less makes manpages a little easier to read
@@ -80,13 +80,13 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 gg() {
 	git add --all
 	git commit -m "$1"
-	}
+}
 gt() {
 	git add --all
 	git commit -m "$1"
 	git push
 }
-alias ga='git add ---all'
+alias ga='git add --all'
 alias gb='git pull'
 alias gd='git diff'
 alias gh='git log --graph -5'
@@ -96,16 +96,35 @@ alias agi='sudo apt install $c'
 alias agr='sudo apt remove $c'
 alias agu='sudo apt update && sudo apt upgrade'
 
+alias nic='sudoedit /etc/nixos/configuration.nix'
+alias nis='sudo nixos-rebuild switch'
+alias hyc='edit ~/github/dotfiles/hyprland.conf'
+
 # alias web='cd /var/www/html'
 # alias tdev='cd "/mnt/c/Users/github/media-server/infra/provision"'
 # alias stor='cd "/mnt/storage"'
 # alias appd='cd "/opt/appdata"'
 
+alias bd='cd -'
 alias cd..='cd ..'
+alias cd...='cd ../..'
+alias cd....='cd ../../..'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
-alias bd='cd -'
+
+function g() {
+  cd "$HOME/github"
+
+  case $@ in
+    "d")
+      cd "dotfiles"
+    ;;
+    "t")
+      cd "infra"
+    ;;
+  esac
+}
 
 # Alias's to mount ISO files
 # mount -o loop /home/NAMEOFISO.iso /home/ISOMOUNTDIR/
@@ -131,8 +150,8 @@ alias sc='sudo systemctl $c'
 
 # Edit common files
 alias ebrc='edit ~/.bashrc'
-alias sebrc='sedit /etc/bash.bashrc'
-alias esmb='sedit /etc/samba/smb.conf'
+alias sebrc='sudoedit /etc/bash.bashrc'
+alias esmb='sudoedit /etc/samba/smb.conf'
 
 # alias to show the date
 alias da='date "+%Y-%m-%d %A %T %Z"'
@@ -148,6 +167,7 @@ alias less='less -R'
 alias cls='clear'
 alias multitail='multitail --no-repeat -c'
 alias freshclam='sudo freshclam'
+alias dup='alacritty --working-directory "$(pwd)" &'
 
 # Allows aliases to be used after sudo
 alias sudo='sudo '
@@ -231,19 +251,15 @@ alias kssh="kitty +kitten ssh"
 export EDITOR=nvim
 export VISUAL=nvim
 
-alias nano='edit'
-alias snano='sedit'
-alias vis='nvim "+set si"'
 alias e='edit'
-alias se='sedit'
+alias se='sudoedit'
 
 #######################################################
 # SPECIAL FUNCTIONS
 #######################################################
 
 # Universal text editor functions
-edit ()
-{
+edit () {
 	if [ "$(type -t nvim)" = "file" ]; then
 		nvim "$@"
 	elif [ "$(type -t vim)" = "file" ]; then
@@ -259,8 +275,7 @@ edit ()
 		pico "$@"
 	fi
 }
-sedit ()
-{
+sedit () {
 	if [ "$(type -t nvim)" = "file" ]; then
 		sudo nvim "$@"
 	elif [ "$(type -t vim)" = "file" ]; then
@@ -302,8 +317,7 @@ extract () {
 }
 
 # Searches for text in all files in the current folder
-ftext ()
-{
+ftext () {
 	# -i case-insensitive
 	# -I ignore binary files
 	# -H causes filename to be printed
@@ -315,8 +329,7 @@ ftext ()
 }
 
 # Copy file with a progress bar
-cpp()
-{
+cpp() {
 	set -e
 	strace -q -ewrite cp -- "${1}" "${2}" 2>&1 \
 	| awk '{
@@ -336,8 +349,7 @@ cpp()
 }
 
 # Copy and go to the directory
-cpg ()
-{
+cpg () {
 	if [ -d "$2" ];then
 		cp "$1" "$2" && cd "$2"
 	else
@@ -346,8 +358,7 @@ cpg ()
 }
 
 # Move and go to the directory
-mvg ()
-{
+mvg () {
 	if [ -d "$2" ];then
 		mv "$1" "$2" && cd "$2"
 	else
@@ -356,15 +367,13 @@ mvg ()
 }
 
 # Create and go to the directory
-mkdirg ()
-{
+mkdirg () {
 	mkdir -p "$1"
 	cd "$1"
 }
 
 # Goes up a specified number of directories  (i.e. up 4)
-up ()
-{
+up () {
 	local d=""
 	limit=$1
 	for ((i=1 ; i <= limit ; i++))
@@ -379,8 +388,7 @@ up ()
 }
 
 #Automatically do an ls after each cd
-cd ()
-{
+cd () {
 	if [ -n "$1" ]; then
 		builtin cd "$@" && ls
 	else
@@ -389,14 +397,12 @@ cd ()
 }
 
 # Returns the last 2 fields of the working directory
-pwdtail ()
-{
+pwdtail () {
 	pwd|awk -F/ '{nlast = NF -1;print $nlast"/"$NF}'
 }
 
 # Show the current distribution
-distribution ()
-{
+distribution () {
 	local dtype
 	# Assume unknown
 	dtype="unknown"
@@ -436,8 +442,7 @@ distribution ()
 }
 
 # Show the current version of the operating system
-ver ()
-{
+ver () {
 	local dtype
 	dtype=$(distribution)
 
@@ -469,8 +474,7 @@ ver ()
 }
 
 # Show current network information
-netinfo ()
-{
+netinfo () {
 	echo "--------------- Network Information ---------------"
 	ip a show wifi2 | grep "inet" | awk -F' ' '{print $2}'
 	ip a show wifi2 | grep "inet" | awk -F' ' '{print $4}'
@@ -479,8 +483,7 @@ netinfo ()
 }
 
 # IP address lookup
-function whatsmyip ()
-{
+function whatsmyip () {
 	# Dumps a list of all IP addresses for every device
 	# /sbin/ifconfig |grep -B1 "inet addr" |awk '{ if ( $1 == "inet" ) { print $2 } else if ( $2 == "Link" ) { printf "%s:" ,$1 } }' |awk -F: '{ print $1 ": " $3 }';
 
@@ -493,8 +496,7 @@ function whatsmyip ()
 alias getip="whatsmyip"
 
 # View Apache logs
-apachelog ()
-{
+apachelog () {
 	if [ -f /etc/httpd/conf/httpd.conf ]; then
 		cd /var/log/httpd && ls -xAh && multitail --no-repeat -c -s 2 /var/log/httpd/*_log
 	else
@@ -503,8 +505,7 @@ apachelog ()
 }
 
 # Edit the Apache configuration
-apacheconfig ()
-{
+apacheconfig () {
 	if [ -f /etc/httpd/conf/httpd.conf ]; then
 		sedit /etc/httpd/conf/httpd.conf
 	elif [ -f /etc/apache2/apache2.conf ]; then
@@ -517,8 +518,7 @@ apacheconfig ()
 }
 
 # Edit the PHP configuration file
-phpconfig ()
-{
+phpconfig () {
 	if [ -f /etc/php.ini ]; then
 		sedit /etc/php.ini
 	elif [ -f /etc/php/php.ini ]; then
@@ -537,8 +537,7 @@ phpconfig ()
 }
 
 # Edit the MySQL configuration file
-mysqlconfig ()
-{
+mysqlconfig () {
 	if [ -f /etc/my.cnf ]; then
 		sedit /etc/my.cnf
 	elif [ -f /etc/mysql/my.cnf ]; then
@@ -559,8 +558,7 @@ mysqlconfig ()
 }
 
 # Trim leading and trailing spaces (for scripts)
-trim()
-{
+trim() {
 	local var=$*
 	var="${var#"${var%%[![:space:]]*}"}"  # remove leading whitespace characters
 	var="${var%"${var##*[![:space:]]}"}"  # remove trailing whitespace characters
@@ -568,16 +566,19 @@ trim()
 }
 
 # Install Starship - curl -sS https://starship.rs/install.sh | sh
+export STARSHIP_CONFIG=~/.config/starship.toml
 eval "$(starship init bash)"
 
 # Autojump
-# if [ -f "/usr/share/autojump/autojump.sh" ]; then
-# 	. /usr/share/autojump/autojump.sh
-# elif [ -f "/usr/share/autojump/autojump.bash" ]; then
-# 	. /usr/share/autojump/autojump.bash
-# else
-# 	echo "can't find the autojump script"
-# fi
+if [ -f "/usr/share/autojump/autojump.sh" ]; then
+ . /usr/share/autojump/autojump.sh
+elif [ -f "/usr/share/autojump/autojump.bash" ]; then
+ . /usr/share/autojump/autojump.bash
+elif [ -f "/nix/store/b35fagp4lpbmmpqrxsrznkw9mfsk4qzv-autojump-22.5.3/etc/profile.d/autojump.sh" ]; then
+  . /nix/store/b35fagp4lpbmmpqrxsrznkw9mfsk4qzv-autojump-22.5.3/etc/profile.d/autojump.sh
+else
+ echo "can't find the autojump script"
+fi
 
 
 # ARCHIVE

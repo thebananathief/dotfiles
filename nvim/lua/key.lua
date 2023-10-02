@@ -2,8 +2,11 @@
 
 local map = vim.api.nvim_set_keymap
 
--- remap the key used to leave insert mode
+-- escape insert mode
 map('i', 'jj', '<Esc>', {})
+
+-- escape terminal mode
+map('t', 'jj', '<C-\\><C-n>', {})
 
 -- disable arrow keys
 map('n', '<up>', '', {})
@@ -31,8 +34,15 @@ map('n', '<C-h>', '<C-W>h', {})
 map('n', '<S-h>', 'gT', {})
 map('n', '<S-l>', 'gt', {})
 
+-- resize splits with - _ = +
+map('n', '=', '<cmd>vertical resize +2<cr>', {})
+map('n', '-', '<cmd>vertical resize -2<cr>', {})
+map('n', '+', '<cmd>horizontal resize +2<cr>', {})
+map('n', '_', '<cmd>horizontal resize -2<cr>', {})
+--
 -- remap yank and paste to system clipboard
-map('v', '<C-c>', '"*y', {})
+map('v', '<leader>y', '"+y', {})
+map('n', '<leader>p', '"+p', {})
 
 -- plugin maps
 map('n', '<leader>t', '<cmd>ToggleTerm<cr>', {})

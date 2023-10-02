@@ -71,7 +71,8 @@ require("lazy").setup({
             group_empty = true,
         },
         filters = {
-            dotfiles = true,
+            dotfiles = false,
+            git_ignored = false,
         }
       }
     end
@@ -90,10 +91,22 @@ require("lazy").setup({
       --vim.cmd([[colorscheme aura-dark]])
     --end
   --}
-  { "catppuccin/nvim", name = "catppuccin", priority = 1000 }
+  { "catppuccin/nvim", name = "catppuccin", priority = 1000,
+    config = function()
+      require("catppuccin").setup {
+        transparent_background = true,
+        integrations = {
+          treesitter = true,
+          --telescope = true,
+          --nvimtree = true,
+        }
+      }
+    end
+  }
 })
 
 vim.cmd.colorscheme "catppuccin"
+vim.g.catppuccin_flavour = 'mocha'
 
 local Terminal  = require('toggleterm.terminal').Terminal
 
@@ -102,10 +115,6 @@ local lsp = require('lsp-zero').preset({})
 lsp.on_attach(function(client, bufnr)
   lsp.default_keymaps({buffer = bufnr})
 end)
-
-lsp.ensure_installed({
-  'rust_analyzer'
-})
 
 lsp.setup()
 
