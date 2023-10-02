@@ -13,6 +13,8 @@
 ### This is the default policy on Windows Server 2012 R2 and above for server Windows. For 
 ### more information about execution policies, run Get-Help about_Execution_Policies.
 
+$ErrorActionPreference = "Stop"
+
 # Import Terminal Icons
 Import-Module -Name Terminal-Icons
 
@@ -78,6 +80,12 @@ function c {
 
 function reload { & $PROFILE }
 function tail($file) { Get-Content -Tail 50 -Wait -Path $file }
+function lu($content) {
+  try {
+    Get-ChildItem -recurse | Select-String -pattern $content | group path | select name
+  } catch {
+  }
+}
 
 # Compute file hashes - useful for checking successful downloads 
 function md5 { Get-FileHash -Algorithm MD5 $args }
