@@ -43,7 +43,7 @@ function gg {
     git commit -m "$args"
 }
 function gt {
-    git add .
+    git add --all
     git commit -m "$args"
     git push
 }
@@ -53,7 +53,7 @@ function gd { git diff }
 function gh { git log --graph -5 }
 function gf { git status }
 
-function ebrc { edit $PROFILE }
+function prc { edit $PROFILE }
 
 # Useful shortcuts for traversing directories
 function bd { Set-Location - }
