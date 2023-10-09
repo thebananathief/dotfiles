@@ -9,6 +9,9 @@ opt.relativenumber = true
 opt.scrolloff = 4                -- int:  Min num lines of context
 opt.signcolumn = "yes"           -- str:  Show the sign column
 
+-- [[ Folds ]]
+--opt.foldmethod = "syntax"
+
 -- [[ Filetypes ]]
 opt.encoding = 'utf8'            -- str:  String encoding to use
 opt.fileencoding = 'utf8'        -- str:  File encoding to use

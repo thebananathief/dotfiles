@@ -33,6 +33,7 @@ require("lazy").setup({
       {'hrsh7th/nvim-cmp'},
       {'hrsh7th/cmp-nvim-lsp'},
       {'L3MON4D3/LuaSnip'},
+      {'onsails/lspkind.nvim'},
     }
   },
   {
@@ -72,7 +73,7 @@ require("lazy").setup({
         },
         filters = {
             dotfiles = false,
-            git_ignored = false,
+            git_ignored = true,
         }
       }
     end
@@ -82,15 +83,10 @@ require("lazy").setup({
     build = ":TSUpdate"
   },
   { "majutsushi/tagbar" },
-  --{
-    --"baliestri/aura-theme",
-    --lazy = false,
-    --priority = 1000,
-    --config = function(plugin)
-      --vim.opt.rtp:append(plugin.dir .. "/packages/neovim")
-      --vim.cmd([[colorscheme aura-dark]])
-    --end
-  --}
+  {
+    'feline-nvim/feline.nvim',
+    config = function() require('feline').setup() end
+  },
   { "catppuccin/nvim", name = "catppuccin", priority = 1000,
     config = function()
       require("catppuccin").setup {
@@ -98,7 +94,7 @@ require("lazy").setup({
         integrations = {
           treesitter = true,
           --telescope = true,
-          --nvimtree = true,
+          nvimtree = true,
         }
       }
     end
@@ -109,12 +105,4 @@ vim.cmd.colorscheme "catppuccin"
 vim.g.catppuccin_flavour = 'mocha'
 
 local Terminal  = require('toggleterm.terminal').Terminal
-
-local lsp = require('lsp-zero').preset({})
-
-lsp.on_attach(function(client, bufnr)
-  lsp.default_keymaps({buffer = bufnr})
-end)
-
-lsp.setup()
 
