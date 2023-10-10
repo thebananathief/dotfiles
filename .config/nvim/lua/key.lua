@@ -6,7 +6,8 @@ local map = vim.api.nvim_set_keymap
 map('i', 'jj', '<Esc>', {})
 
 -- escape terminal mode
-map('t', 'jj', '<C-\\><C-n>', {})
+--map('t', 'jj', '<C-\\><C-n>', {})
+map('t', '<leader>j', '<C-\\><C-n>', {})
 
 -- disable arrow keys
 map('n', '<up>', '', {})

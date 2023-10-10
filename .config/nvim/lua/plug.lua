@@ -20,8 +20,7 @@ require("lazy").setup({
   -- { "folke/neoconf.nvim", cmd = "Neoconf" },
   -- "folke/neodev.nvim",
   -- "neoclide/coc.nvim",
-  {
-    'VonHeikemen/lsp-zero.nvim',
+  { 'VonHeikemen/lsp-zero.nvim',
     branch = 'v2.x',
     dependencies = {
       -- LSP Support
@@ -36,8 +35,7 @@ require("lazy").setup({
       {'onsails/lspkind.nvim'},
     }
   },
-  {
-    'akinsho/toggleterm.nvim',
+  { 'akinsho/toggleterm.nvim',
     version = "*",
     config = function()
       require("toggleterm").setup{
@@ -53,11 +51,26 @@ require("lazy").setup({
       }
     end
   },
-  {
-    "preservim/nerdcommenter"
+  --{ "preservim/nerdcommenter" },
+  { "numToStr/Comment.nvim",
+    opts = {
+      toggler = {
+        line = '<leader>cc',
+        block = '<leader>bc',
+      },
+      opleader = {
+        line = '<leader>cc',
+        block = '<leader>bc',
+      },
+      extra = {
+        above = '<leader>cO',
+        below = '<leader>co',
+        eol = '<leader>cA',
+      },
+    },
+    lazy = false,
   },
-  {
-    "nvim-tree/nvim-tree.lua",
+  { "nvim-tree/nvim-tree.lua",
     version = "*",
     dependencies = {
       "nvim-tree/nvim-web-devicons",
@@ -78,16 +91,16 @@ require("lazy").setup({
       }
     end
   },
-  {
-    "nvim-treesitter/nvim-treesitter",
+  { "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate"
   },
   { "majutsushi/tagbar" },
-  {
-    'feline-nvim/feline.nvim',
+  { 'feline-nvim/feline.nvim',
     config = function() require('feline').setup() end
   },
-  { "catppuccin/nvim", name = "catppuccin", priority = 1000,
+  { "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000,
     config = function()
       require("catppuccin").setup {
         transparent_background = true,
