@@ -34,6 +34,9 @@ function g($repo) {
         "d" {
             Set-Location "dotfiles"
             break}
+	"n" {
+	    Set-Location "nixdots"
+	    break}
     }
 }
 
@@ -54,6 +57,7 @@ function gh { git log --graph -5 }
 function gf { git status }
 
 function prc { edit $PROFILE }
+function nic { edit $PROFILE\github\nixdots }
 function vic { edit "$LOCALAPPDATA\nvim" }
 
 # Useful shortcuts for traversing directories
