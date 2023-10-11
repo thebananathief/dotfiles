@@ -154,16 +154,14 @@ alias logs="sudo find /var/log -type f -exec file {} \; | grep 'text' | cut -d' 
 # KITTY - alias to be able to use kitty features when connecting to remote servers(e.g use tmux on remote server)
 alias kssh="kitty +kitten ssh"
 
-alias e='edit'
-alias se='sudoedit'
 
 #######################################################
 # SPECIAL FUNCTIONS
 #######################################################
 
 # Universal text editor functions
-edit () {
-  $EDITOR $@
+# function edit () {
+#   $EDITOR $@
 	#if [ "$(type -t nvim)" = "file" ]; then
 		#nvim "$@"
 	#elif [ "$(type -t vim)" = "file" ]; then
@@ -178,23 +176,11 @@ edit () {
 	#else
 		#pico "$@"
 	#fi
-}
-sedit () {
-	if [ "$(type -t nvim)" = "file" ]; then
-		sudo nvim "$@"
-	elif [ "$(type -t vim)" = "file" ]; then
-		sudo vim -c "$@"
-	elif [ "$(type -t vi)" = "file" ]; then
-		sudo vi -c "$@"
-	elif [ "$(type -t nano)" = "file" ]; then
-		sudo nano -c "$@"
-	elif [ "$(type -t jpico)" = "file" ]; then
-		# Use JOE text editor http://joe-editor.sourceforge.net/
-		sudo jpico -nonotice -linums -nobackups "$@"
-	else
-		sudo pico "$@"
-	fi
-}
+# }
+alias edit='nvim'
+alias e='edit'
+alias se='sudoedit'
+alias sn='sudo nvim'
 
 # Extracts any archive(s) (if unp isn't installed)
 extract () {
