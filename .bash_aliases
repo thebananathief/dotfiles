@@ -49,6 +49,9 @@ function g() {
     "t")
       cd "infra"
     ;;
+    "n")
+      cd "nixdots"
+    ;;
   esac
 }
 
