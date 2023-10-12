@@ -25,19 +25,19 @@ $isAdmin = $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administ
 
 # Github repo shortcuts
 function g($repo) {
-    Set-Location "$env:USERPROFILE/github"
+  Set-Location "$env:USERPROFILE/github"
 
-    switch ($repo) {
-        "t" {
-            Set-Location "infra"
-            break}
-        "d" {
-            Set-Location "dotfiles"
-            break}
-	"n" {
-	    Set-Location "nixdots"
-	    break}
-    }
+  switch ($repo) {
+    "t" {
+      Set-Location "infra"
+      break}
+    "d" {
+      Set-Location "dotfiles"
+      break}
+    "n" {
+      Set-Location "nixdots"
+      break}
+  }
 }
 
 # Git helpers
@@ -57,8 +57,8 @@ function gh { git log --graph -5 }
 function gf { git status }
 
 function prc { edit $PROFILE }
-function nic { edit $PROFILE\github\nixdots }
-function vic { edit "$LOCALAPPDATA\nvim" }
+function nic { edit "$env:USERPROFILE\github\nixdots" }
+function vic { edit "$env:USERPROFILE\github\dotfiles\.config\nvim" }
 
 # Useful shortcuts for traversing directories
 function bd { Set-Location - }
