@@ -62,25 +62,21 @@ installDepend() {
 	local dtype
 	dtype=$(distribution)
 
-	if [ $dtype != "nixos" ]; then
-		echo "No dependencies!"
-	else
-        ## Check for dependencies.
-        DEPENDENCIES='autojump bash bash-completion tar neovim'
-        echo -e "${YELLOW}Installing dependencies...${RC}"
-        if [[ $PACKAGER == "pacman" ]]; then
-            if ! command_exists yay; then
-                echo "Installing yay..."
-                sudo ${PACKAGER} --noconfirm -S base-devel
-                $(cd /opt && sudo git clone https://aur.archlinux.org/yay-git.git && sudo chown -R ${USER}:${USER} ./yay-git && cd yay-git && makepkg --noconfirm -si)
-            else
-                echo "Command yay already installed"
-            fi
-            yay --noconfirm -S ${DEPENDENCIES}
-        else 
-            sudo ${PACKAGER} install -yq ${DEPENDENCIES}
-        fi
-    fi
+  ## Check for dependencies.
+  DEPENDENCIES='autojump bash bash-completion tar neovim'
+  echo -e "${YELLOW}Installing dependencies...${RC}"
+  if [[ $PACKAGER == "pacman" ]]; then
+      if ! command_exists yay; then
+          echo "Installing yay..."
+          sudo ${PACKAGER} --noconfirm -S base-devel
+          $(cd /opt && sudo git clone https://aur.archlinux.org/yay-git.git && sudo chown -R ${USER}:${USER} ./yay-git && cd yay-git && makepkg --noconfirm -si)
+      else
+          echo "Command yay already installed"
+      fi
+      yay --noconfirm -S ${DEPENDENCIES}
+  else 
+      sudo ${PACKAGER} install -yq ${DEPENDENCIES}
+  fi
 }
 
 installStarship(){
@@ -139,10 +135,6 @@ distribution ()
 	elif [ -s /etc/slackware-version ]; then
 		dtype="slackware"
 
-	# For NixOS test if /etc/NIXOS exists
-	elif [ -s /etc/NIXOS ]; then
-		dtype="nixos"
-
 	fi
 	echo $dtype
 }
@@ -166,8 +158,6 @@ install_extras(){
 		sudo urpmi tree
 	elif [ $dtype == "slackware" ]; then
 		echo "No install support for Slackware"
-	elif [ $dtype == "nixos" ]; then
-		echo ""
 	else
 		echo "Unknown distribution"
 	fi
