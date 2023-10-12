@@ -52,7 +52,8 @@ require('mason-lspconfig').setup({
 
 local cmp = require('cmp')
 local cmp_select = {behavior = cmp.SelectBehavior.Select}
---local cmp_format = require('lsp-zero').cmp_format()
+local cmp_format = lsp_zero.cmp_format()
+local cmp_action = lsp_zero.cmp_action()
 
 cmp.setup({
   sources = {
