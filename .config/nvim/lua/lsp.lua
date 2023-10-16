@@ -40,7 +40,7 @@ end)
 require('mason').setup({})
 require('mason-lspconfig').setup({
   -- Must be a name on here: https://github.com/williamboman/mason-lspconfig.nvim#available-lsp-servers
-  ensure_installed = {'lua_ls', 'rust_analyzer', 'omnisharp', 'rnix'},
+  ensure_installed = {'lua_ls', 'rust_analyzer', 'omnisharp'},
   handlers = {
     lsp_zero.default_setup,
     lua_ls = function()
@@ -52,8 +52,7 @@ require('mason-lspconfig').setup({
 
 local cmp = require('cmp')
 local cmp_select = {behavior = cmp.SelectBehavior.Select}
-local cmp_format = lsp_zero.cmp_format()
-local cmp_action = lsp_zero.cmp_action()
+local cmp_action = require('lsp-zero').cmp_action()
 
 cmp.setup({
   sources = {

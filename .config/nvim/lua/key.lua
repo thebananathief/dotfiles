@@ -9,22 +9,6 @@ map('i', 'jj', '<Esc>', {})
 --map('t', 'jj', '<C-\\><C-n>', {})
 map('t', '<leader>j', '<C-\\><C-n>', {})
 
--- disable arrow keys
-map('n', '<up>', '', {})
-map('n', '<down>', '', {})
-map('n', '<right>', '', {})
-map('n', '<left>', '', {})
-
-map('i', '<up>', '', {})
-map('i', '<down>', '', {})
-map('i', '<right>', '', {})
-map('i', '<left>', '', {})
-
-map('v', '<up>', '', {})
-map('v', '<down>', '', {})
-map('v', '<right>', '', {})
-map('v', '<left>', '', {})
-
 -- change splits using Ctrl+nav
 map('n', '<C-k>', '<C-W>k', {})
 map('n', '<C-j>', '<C-W>j', {})
