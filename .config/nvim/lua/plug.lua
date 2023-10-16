@@ -16,25 +16,8 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-  -- "folke/which-key.nvim",
-  -- { "folke/neoconf.nvim", cmd = "Neoconf" },
-  -- "folke/neodev.nvim",
-  -- "neoclide/coc.nvim",
-  { 'VonHeikemen/lsp-zero.nvim',
-    branch = 'v2.x',
-    dependencies = {
-      -- LSP Support
-      {'neovim/nvim-lspconfig'},
-      {'williamboman/mason.nvim'},
-      {'williamboman/mason-lspconfig.nvim'},
-
-      -- Autocompletion
-      {'hrsh7th/nvim-cmp'},
-      {'hrsh7th/cmp-nvim-lsp'},
-      {'L3MON4D3/LuaSnip'},
-      {'onsails/lspkind.nvim'},
-    }
-  },
+  { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
+  { "majutsushi/tagbar" },
   { 'akinsho/toggleterm.nvim',
     version = "*",
     config = function()
@@ -51,7 +34,21 @@ require("lazy").setup({
       }
     end
   },
-  --{ "preservim/nerdcommenter" },
+  { 'VonHeikemen/lsp-zero.nvim',
+    branch = 'v2.x',
+    dependencies = {
+      -- LSP Support
+      {'neovim/nvim-lspconfig'},
+      {'williamboman/mason.nvim'},
+      {'williamboman/mason-lspconfig.nvim'},
+
+      -- Autocompletion
+      {'hrsh7th/nvim-cmp'},
+      {'hrsh7th/cmp-nvim-lsp'},
+      {'L3MON4D3/LuaSnip'},
+      {'onsails/lspkind.nvim'},
+    }
+  },
   { "numToStr/Comment.nvim",
     opts = {
       toggler = {
@@ -72,9 +69,7 @@ require("lazy").setup({
   },
   { "nvim-tree/nvim-tree.lua",
     version = "*",
-    dependencies = {
-      "nvim-tree/nvim-web-devicons",
-    },
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
       require("nvim-tree").setup {
         sort_by = "case_sensitive",
@@ -91,10 +86,6 @@ require("lazy").setup({
       }
     end
   },
-  { "nvim-treesitter/nvim-treesitter",
-    build = ":TSUpdate"
-  },
-  { "majutsushi/tagbar" },
   { 'feline-nvim/feline.nvim',
     config = function() require('feline').setup() end
   },

@@ -21,9 +21,20 @@ alias nib='sudo nixos-rebuild boot'
 alias nip='nix-store --query --requisites /run/current-system | cut -d- -f2- | sort | uniq'
 alias np='tree -d -L 1 /nix/store | grep $1'
 
+# Copy commands (for nix pkgs and for a single path)
+cnp (){
+  file=$( eza -D /nix/store | fzf )
+  echo "/nix/store/$file"
+  echo "/nix/store/$file" | wl-copy
+}
+cpl (){
+  echo "$PWD/$1"
+  echo "$PWD/$1" | wl-copy
+}
+
 # Quick edit app configs
 alias hic='edit ~/.config/hypr'
-alias vic='edit ~/.config/nvim'
+alias vic='edit ~/github/dotfiles/.config/nvim'
 alias wic='edit ~/.config/waybar'
 #alias smb='sudoedit /etc/samba/smb.conf'
 
@@ -39,7 +50,7 @@ alias cd...='cd ...'
 alias cd....='cd ....'
 
 # Quick nav to github projects
-function g() {
+g() {
   cd "$HOME/github"
 
   case $@ in
@@ -58,11 +69,7 @@ function g() {
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 # Systemctl shortened commands
-alias scup='sudo systemctl start $c'
-alias scdown='sudo systemctl stop $c'
-alias scstat='sudo systemctl status $c'
-alias screst='sudo systemctl restart $c'
-alias sc='sudo systemctl $c'
+alias sc='sudo systemctl'
 
 # Alias to show the date
 alias da='date "+%Y-%m-%d %A %T %Z"'
@@ -86,20 +93,20 @@ alias sudo='sudo '
 alias adm='sudo -s'
 
 # Remove a directory and all files
-alias rmd='/bin/rm  --recursive --force --verbose '
+alias rmd='rm  --recursive --force --verbose '
 
 # Alias's for multiple directory listing commands
-alias ls='ls -AFh --color=always' # add colors and file type extensions
-alias lx='ls -lXBh' # sort by extension
-alias lk='ls -lSrh' # sort by size
-alias lc='ls -lcrh' # sort by change time
-alias lu='ls -lurh' # sort by access time
-alias lr='ls -lRh' # recursive ls
-alias lt='ls -ltrh' # sort by date
-alias lw='ls -xAh' # wide listing format
-alias ll='ls -Fls' # long listing format
-alias labc='ls -lAp' #alphabetical sort
-alias lf="ls -l | egrep -v '^d'" # files only
+alias ls="ls -AFh --color=always" # add colors and file type extensions
+alias lx="ls -lXBh" # sort by extension
+alias lk="ls -lSrh" # sort by size
+alias lc="ls -lcrh" # sort by change time
+alias lu="ls -lurh" # sort by access time
+alias lr="ls -lRh" # recursive ls
+alias lt="ls -ltrh" # sort by date
+alias lw="ls -xAh" # wide listing format
+alias ll="ls -Fls" # long listing format
+alias labc="ls -lAp" #alphabetical sort
+# alias lf="ls -l | egrep -v '^d'" # files only
 alias ldir="ls -l | egrep '^d'" # directories only
 
 # alias chmod commands
@@ -110,15 +117,16 @@ alias 666='chmod -R 666'
 alias 755='chmod -R 755'
 alias 777='chmod -R 777'
 
+# Search files in the current folder
+alias f="find"
+# Search file contents recursively for a word
+alias c="grep -Rnw '.' -e "
 # Search command line history
 alias h="history | grep "
-
 # Search running processes
 alias p="ps aux | grep "
-alias topcpu="/bin/ps -eo pcpu,pid,user,args | sort -k 1 -r | head -10"
 
-# Search files in the current folder
-alias f="find . | grep "
+alias topcpu="/bin/ps -eo pcpu,pid,user,args | sort -k 1 -r | head -10"
 
 # Count all files (recursively) in the current folder
 alias countfiles="for t in files links directories; do echo \`find . -type \${t:0:1} | wc -l\` \$t; done 2> /dev/null"
@@ -157,14 +165,16 @@ alias logs="sudo find /var/log -type f -exec file {} \; | grep 'text' | cut -d' 
 # KITTY - alias to be able to use kitty features when connecting to remote servers(e.g use tmux on remote server)
 alias kssh="kitty +kitten ssh"
 
+alias e='edit'
+alias se='sudoedit'
 
 #######################################################
 # SPECIAL FUNCTIONS
 #######################################################
 
 # Universal text editor functions
-# function edit () {
-#   $EDITOR $@
+edit () {
+  $EDITOR $@
 	#if [ "$(type -t nvim)" = "file" ]; then
 		#nvim "$@"
 	#elif [ "$(type -t vim)" = "file" ]; then
@@ -179,11 +189,23 @@ alias kssh="kitty +kitten ssh"
 	#else
 		#pico "$@"
 	#fi
-# }
-alias edit='nvim'
-alias e='edit'
-alias se='sudoedit'
-alias sn='sudo nvim'
+}
+sedit () {
+	if [ "$(type -t nvim)" = "file" ]; then
+		sudo nvim "$@"
+	elif [ "$(type -t vim)" = "file" ]; then
+		sudo vim -c "$@"
+	elif [ "$(type -t vi)" = "file" ]; then
+		sudo vi -c "$@"
+	elif [ "$(type -t nano)" = "file" ]; then
+		sudo nano -c "$@"
+	elif [ "$(type -t jpico)" = "file" ]; then
+		# Use JOE text editor http://joe-editor.sourceforge.net/
+		sudo jpico -nonotice -linums -nobackups "$@"
+	else
+		sudo pico "$@"
+	fi
+}
 
 # Extracts any archive(s) (if unp isn't installed)
 extract () {
@@ -330,10 +352,6 @@ distribution () {
 	elif [ -s /etc/slackware-version ]; then
 		dtype="slackware"
 
-	# For NixOS test if /etc/NIXOS exists
-	elif [ -s /etc/NIXOS ]; then
-		dtype="nixos"
-
 	fi
 	echo $dtype
 }
@@ -380,7 +398,7 @@ netinfo () {
 }
 
 # IP address lookup
-function whatsmyip () {
+whatsmyip () {
 	# Dumps a list of all IP addresses for every device
 	# /sbin/ifconfig |grep -B1 "inet addr" |awk '{ if ( $1 == "inet" ) { print $2 } else if ( $2 == "Link" ) { printf "%s:" ,$1 } }' |awk -F: '{ print $1 ": " $3 }';
 
