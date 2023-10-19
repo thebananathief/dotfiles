@@ -18,6 +18,19 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
   { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
   { "majutsushi/tagbar" },
+  { "windwp/nvim-autopairs",
+    event = "InsertEnter",
+    opts = {},
+  },
+  { 'DreamMaoMao/yazi.nvim',
+    dependencies = {
+      "nvim-telescope/telescope.nvim",
+      "nvim-lua/plenary.nvim",
+    },
+    keys = {
+      { "<leader>y", "<cmd>Yazi<CR>", desc = "Toggle Yazi" },
+    },
+  },
   { 'akinsho/toggleterm.nvim',
     version = "*",
     config = function()

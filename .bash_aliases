@@ -1,3 +1,10 @@
+# Use fzf, rg, yazi, find
+
+alias fp='fontpreview-ueberzug'
+
+# Always make ripgrep case-insensitive
+alias rg='rg -S'
+
 # Git helpers
 gg() {
 	git add --all
@@ -18,22 +25,27 @@ alias gf='git status'
 alias nic='sudo nvim ~/github/nixdots'
 alias nis='sudo nixos-rebuild switch'
 alias nib='sudo nixos-rebuild boot'
-alias nip='nix-store --query --requisites /run/current-system | cut -d- -f2- | sort | uniq'
-alias np='tree -d -L 1 /nix/store | grep $1'
-
-# Copy commands (for nix pkgs and for a single path)
-cnp (){
-  file=$( eza -D /nix/store | fzf )
+np (){
+  file=$( eza -D /nix/store | fzf -q $1)
   echo "/nix/store/$file"
   echo "/nix/store/$file" | wl-copy
 }
+
+# Copy path
 cpl (){
   echo "$PWD/$1"
   echo "$PWD/$1" | wl-copy
 }
 
+# Copy font
+fonts (){
+  font=$(fc-list : family | fzf --preview 'ueberzugpp {}')
+  echo $font
+  $font | wl-copy
+}
+
 # Quick edit app configs
-alias hic='edit ~/.config/hypr'
+alias hic='edit ~/github/dotfiles/.config/hypr'
 alias vic='edit ~/github/dotfiles/.config/nvim'
 alias wic='edit ~/.config/waybar'
 #alias smb='sudoedit /etc/samba/smb.conf'
@@ -106,8 +118,10 @@ alias lt="ls -ltrh" # sort by date
 alias lw="ls -xAh" # wide listing format
 alias ll="ls -Fls" # long listing format
 alias labc="ls -lAp" #alphabetical sort
-# alias lf="ls -l | egrep -v '^d'" # files only
 alias ldir="ls -l | egrep '^d'" # directories only
+# alias lf="ls -l | egrep -v '^d'" # files only
+# alias lf='nnn -H'
+alias lf="yazi"
 
 # alias chmod commands
 alias mx='chmod a+x'
@@ -116,15 +130,6 @@ alias 644='chmod -R 644'
 alias 666='chmod -R 666'
 alias 755='chmod -R 755'
 alias 777='chmod -R 777'
-
-# Search files in the current folder
-alias f="find"
-# Search file contents recursively for a word
-alias c="grep -Rnw '.' -e "
-# Search command line history
-alias h="history | grep "
-# Search running processes
-alias p="ps aux | grep "
 
 alias topcpu="/bin/ps -eo pcpu,pid,user,args | sort -k 1 -r | head -10"
 
@@ -161,6 +166,7 @@ alias ungz='tar -xvzf'
 
 # Show all logs in /var/log
 alias logs="sudo find /var/log -type f -exec file {} \; | grep 'text' | cut -d' ' -f1 | sed -e's/:$//g' | grep -v '[0-9]$' | xargs tail -f"
+alias tailf="tail -f -n 50"
 
 # KITTY - alias to be able to use kitty features when connecting to remote servers(e.g use tmux on remote server)
 alias kssh="kitty +kitten ssh"
@@ -303,13 +309,13 @@ up () {
 }
 
 #Automatically do an ls after each cd
-cd () {
-	if [ -n "$1" ]; then
-		builtin cd "$@" && ls
-	else
-		builtin cd ~ && ls
-	fi
-}
+# cd () {
+# 	if [ -n "$1" ]; then
+# 		builtin cd "$@" && ls
+# 	else
+# 		builtin cd ~ && ls
+# 	fi
+# }
 
 # Returns the last 2 fields of the working directory
 pwdtail () {

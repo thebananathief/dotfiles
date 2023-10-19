@@ -13,18 +13,18 @@ g.autoindent = "smartindent"
 
 ---- CLIPBOARD ----
 --g.paste = true
---g.clipboard = "unnamed"
+-- g.clipboard = "unnamed"
 g.clipboard = {
   name = "myClipboard",
   copy = {
     ["+"] = "wl-copy -n",
-    ["*"] = "wl-copy -np",
-    ["0"] = "wl-copy -np"
+    -- ["*"] = "wl-copy -np",
+    -- ["0"] = "wl-copy -np"
   },
   paste = {
     ["+"] = "wl-paste -n",
-    ["*"] = "wl-paste -np",
-    ["0"] = "wl-paste -np"
+    -- ["*"] = "wl-paste -np",
+    -- ["0"] = "wl-paste -np"
   },
   cache_enabled = true
 }

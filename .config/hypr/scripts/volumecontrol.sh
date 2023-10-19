@@ -10,6 +10,7 @@ cat << "EOF"
     ...valid device are...
         i -- [i]nput decive
         o -- [o]utput device
+        p -- [p]lay/pause autodetected player
     ...valid actions are...
         i -- <i>ncrease volume [+5]
         d -- <d>ecrease volume [-5]
@@ -37,6 +38,16 @@ function notify_mute
     fi
 }
 
+function notify_toggleplayback
+{
+  playerStatus=$(playerctl status)
+  playerName=$(playerctl -l | head -n 1 | sed 's/[.].*//')
+  if [ "$playerStatus" == "Playing" ]; then
+    dunstify $ncolor "volctl" -a "Started" "$playerName\n$nsink" -i ${icodir}/unmuted-${dvce}.svg -r 91190 -t 800
+  else
+    dunstify $ncolor "volctl" -a "Stopped" "$playerName\n$nsink" -i ${icodir}/unmuted-${dvce}.svg -r 91190 -t 800
+  fi
+}
 
 # set device source
 
@@ -72,11 +83,13 @@ fi
 
 case $1 in
     i) pamixer $srce -i ${step}
-        notify_vol ;;
+       notify_vol ;;
     d) pamixer $srce -d ${step}
-        notify_vol ;;
+       notify_vol ;;
     m) pamixer $srce -t
-        notify_mute ;;
+       notify_mute ;;
+    p) playerctl play-pause
+       notify_toggleplayback ;;
     *) print_error ;;
 esac
 

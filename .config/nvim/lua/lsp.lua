@@ -50,9 +50,28 @@ require('mason-lspconfig').setup({
   }
 })
 
+local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 local cmp = require('cmp')
 local cmp_select = {behavior = cmp.SelectBehavior.Select}
 local cmp_action = require('lsp-zero').cmp_action()
+local handlers = require('nvim-autopairs.completion.handlers')
+
+cmp.event:on(
+  'confirm_done',
+  cmp_autopairs.on_confirm_done({
+    filetypes = {
+      ["*"] = {
+        ["("] = {
+          kind = {
+            cmp.lsp.CompletionItemKind.Function,
+            cmp.lsp.CompletionItemKind.Method,
+          },
+          handler = handlers["*"]
+        }
+      },
+    }
+  })
+)
 
 cmp.setup({
   sources = {
