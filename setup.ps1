@@ -172,10 +172,10 @@ Write-Host
 Write-Host "Creating/updating symbolic links..."
 $WTFamilyName = $(Get-AppxPackage | Where-Object Name -eq Microsoft.WindowsTerminal).PackageFamilyName
 $Cmd =  @"
-New-Item -ItemType SymbolicLink -Force -Path `"$env:USERPROFILE\.config\starship.toml`" -Value `"$GITPATH\starship.toml`";
+New-Item -ItemType SymbolicLink -Force -Path `"$env:USERPROFILE\.config\starship.toml`" -Value `"$GITPATH\.config\starship.toml`";
 New-Item -ItemType SymbolicLink -Force -Path `"$PROFILE`" -Value `"$GITPATH\Microsoft.PowerShell_profile.ps1`";
 New-Item -ItemType SymbolicLink -Force -Path `"$env:LOCALAPPDATA\Packages\$WTFamilyName\LocalState\settings.json`" -Value `"$GITPATH\WindowsTerminal\settings.json`";
-New-Item -ItemType SymbolicLink -Force -Path `"$env:LOCALAPPDATA\nvim`" -Value `"$GITPATH\nvim`"
+New-Item -ItemType SymbolicLink -Force -Path `"$env:LOCALAPPDATA\nvim`" -Value `"$GITPATH\.config\nvim`"
 "@
 # Create the symlinks with admin privs
 Start-Process -FilePath "pwsh.exe" -Wait -Verb RunAs -ArgumentList "-NoProfile -Command `"$Cmd`""

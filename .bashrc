@@ -98,7 +98,9 @@ alias agu='sudo apt update && sudo apt upgrade'
 
 alias nic='sudoedit /etc/nixos/configuration.nix'
 alias nis='sudo nixos-rebuild switch'
-alias hyc='edit ~/github/dotfiles/hyprland.conf'
+alias nip='nix-store --query --requisites /run/current-system | cut -d- -f2- | sort | uniq'
+alias hyc='edit ~/.config/hypr'
+alias vic='edit ~/.config/nvim'
 
 # alias web='cd /var/www/html'
 # alias tdev='cd "/mnt/c/Users/github/media-server/infra/provision"'

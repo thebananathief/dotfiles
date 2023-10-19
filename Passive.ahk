@@ -1,9 +1,8 @@
 #MaxThreadsPerHotkey 2
 #SingleInstance force
 
-; Type :co* or c@ to autotype email
-:co*:c@::cameron.salomone@gmail.com
-
+LocalAppData := ""
+EnvGet, LocalAppData, LocalAppData
 ; Quick app binds
 ; Win + A - Terminal
 ;       D - Obsidian
@@ -11,8 +10,8 @@
 ;       S - DevToys
 ;       W - Close window
 #a::Run "wt.exe"
-#d::Run "C:\Users\cameron\AppData\Local\Obsidian\Obsidian.exe"
-#c::Run "C:\Users\cameron\AppData\Local\Programs\VSCodium\VSCodium.exe"
+#d::Run "%LocalAppData%\Obsidian\Obsidian.exe"
+#c::Run "%LocalAppData%\Programs\VSCodium\VSCodium.exe"
 #s::Run "shell:appsFolder\64360VelerSoftware.DevToys_j80j2txgjg9dj!App"
 #w::!F4
 

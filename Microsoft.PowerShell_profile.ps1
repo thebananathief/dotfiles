@@ -25,16 +25,19 @@ $isAdmin = $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administ
 
 # Github repo shortcuts
 function g($repo) {
-    Set-Location "$env:USERPROFILE/github"
+  Set-Location "$env:USERPROFILE/github"
 
-    switch ($repo) {
-        "t" {
-            Set-Location "infra"
-            break}
-        "d" {
-            Set-Location "dotfiles"
-            break}
-    }
+  switch ($repo) {
+    "t" {
+      Set-Location "infra"
+      break}
+    "d" {
+      Set-Location "dotfiles"
+      break}
+    "n" {
+      Set-Location "nixdots"
+      break}
+  }
 }
 
 # Git helpers
@@ -43,7 +46,7 @@ function gg {
     git commit -m "$args"
 }
 function gt {
-    git add .
+    git add --all
     git commit -m "$args"
     git push
 }
@@ -53,7 +56,9 @@ function gd { git diff }
 function gh { git log --graph -5 }
 function gf { git status }
 
-function ebrc { edit $PROFILE }
+function prc { edit $PROFILE }
+function nic { edit "$env:USERPROFILE\github\nixdots" }
+function vic { edit "$env:USERPROFILE\github\dotfiles\.config\nvim" }
 
 # Useful shortcuts for traversing directories
 function bd { Set-Location - }
@@ -164,15 +169,14 @@ Function Test-CommandExists {
 } 
 
 # If your favorite editor is not here, add an elseif and ensure that the directory it is installed in exists in your $env:Path
+$EDITOR = 'nvim'
+$VISUAL = 'codium'
 if (Test-CommandExists nvim) { $EDITOR='nvim' }
-elseif (Test-CommandExists code) { $EDITOR='code' }
-elseif (Test-CommandExists codium) { $EDITOR='codium' }
-elseif (Test-CommandExists sublime_text) { $EDITOR='sublime_text' }
-elseif (Test-CommandExists notepad++) { $EDITOR='notepad++' }
-elseif (Test-CommandExists notepad) { $EDITOR='notepad' }
-
-if (Test-CommandExists code) { $VISUAL='code' }
-elseif (Test-Commandexists codium) { $VISUAL='codium' }
+elseif (Test-CommandExists code) { $EDITOR='code' ; $VISUAL='code' }
+elseif (Test-CommandExists codium) { $EDITOR='codium' ; $VISUAL='codium' }
+elseif (Test-CommandExists sublime_text) { $EDITOR='sublime_text' ; $VISUAL='sublime_text' }
+elseif (Test-CommandExists notepad++) { $EDITOR='notepad++' ; $VISUAL='notepad++' }
+elseif (Test-CommandExists notepad) { $EDITOR='notepad' ; $VISUAL='notepad' }
 
 Set-Alias -Name edit -Value $EDITOR
 Set-Alias -Name e -Value $EDITOR
