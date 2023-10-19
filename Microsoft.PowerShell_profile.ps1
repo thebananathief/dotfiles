@@ -56,7 +56,7 @@ function gd { git diff }
 function gh { git log --graph -5 }
 function gf { git status }
 
-function prc { edit $PROFILE }
+function arc { edit $PROFILE }
 function nic { edit "$env:USERPROFILE\github\nixdots" }
 function vic { edit "$env:USERPROFILE\github\dotfiles\.config\nvim" }
 
