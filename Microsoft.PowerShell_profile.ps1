@@ -13,7 +13,7 @@
 ### This is the default policy on Windows Server 2012 R2 and above for server Windows. For 
 ### more information about execution policies, run Get-Help about_Execution_Policies.
 
-$ErrorActionPreference = "Stop"
+#$ErrorActionPreference = "Stop"
 
 # Import Terminal Icons
 Import-Module -Name Terminal-Icons
@@ -56,7 +56,7 @@ function gd { git diff }
 function gh { git log --graph -5 }
 function gf { git status }
 
-function prc { edit $PROFILE }
+function arc { edit $PROFILE }
 function nic { edit "$env:USERPROFILE\github\nixdots" }
 function vic { edit "$env:USERPROFILE\github\dotfiles\.config\nvim" }
 
@@ -85,12 +85,8 @@ function c {
 
 function reload { & $PROFILE }
 function tail($file) { Get-Content -Tail 50 -Wait -Path $file }
-function lu($content) {
-  try {
-    Get-ChildItem -recurse | Select-String -pattern $content | group path | select name
-  } catch {
-  }
-}
+function lun($title) { Get-ChildItem -Recurse -Filter "*$title*" -ErrorAction SilentlyContinue -Force }
+function lu($content) { Get-ChildItem -Recurse -ErrorAction SilentlyContinue -Force | Select-String -pattern $content -ErrorAction SilentlyContinue | group path | select name }
 
 # Compute file hashes - useful for checking successful downloads 
 function md5 { Get-FileHash -Algorithm MD5 $args }
