@@ -28,7 +28,7 @@ require("lazy").setup({
       "nvim-lua/plenary.nvim",
     },
     keys = {
-      { "<leader>y", "<cmd>Yazi<CR>", desc = "Toggle Yazi" },
+      { "<leader>u", "<cmd>Yazi<CR>", desc = "Toggle Yazi" },
     },
   },
   { 'akinsho/toggleterm.nvim',
