@@ -1,6 +1,7 @@
 ---- KEY MAPPINGS ----
 
-local map = vim.api.nvim_set_keymap
+-- local map = vim.api.nvim_set_keymap
+local map = vim.keymap.set
 
 -- escape insert mode
 map('i', 'jj', '<Esc>', {})
@@ -27,11 +28,10 @@ map('n', '_', '<cmd>horizontal resize -2<cr>', {})
 --
 -- remap yank and paste to system clipboard
 map('v', '<leader>y', '"+y', {})
-map('n', '<leader>p', '"+p', {})
+map({'n','v'}, '<leader>p', '"+p', {})
 
 -- plugin maps
 map('n', '<leader>t', '<cmd>ToggleTerm<cr>', {})
---map('n', '<leader>c', '<leader>c<leader>', {})
 
 -- toggle filetree
 map('n', '<leader>e', '<cmd>NvimTreeToggle<cr>', {})

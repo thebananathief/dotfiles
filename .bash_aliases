@@ -1,5 +1,6 @@
 # Use fzf, rg, yazi, find
 
+export PATH="/home/cameron/Downloads:$PATH"
 alias fp='fontpreview-ueberzug'
 
 # Always make ripgrep case-insensitive
@@ -22,9 +23,11 @@ alias gh='git log --graph -5'
 alias gf='git status'
 
 # Quick NIX actions
-alias nic='sudo nvim ~/github/nixdots'
+alias nic='sudo -E nvim ~/github/nixdots'
 alias nis='sudo nixos-rebuild switch'
 alias nib='sudo nixos-rebuild boot'
+
+# Find nix package location and copy
 np (){
   file=$( eza -D /nix/store | fzf -q $1)
   echo "/nix/store/$file"
@@ -45,9 +48,7 @@ fonts (){
 }
 
 # Quick edit app configs
-alias hic='edit ~/github/dotfiles/.config/hypr'
 alias vic='edit ~/github/dotfiles/.config/nvim'
-alias wic='edit ~/.config/waybar'
 #alias smb='sudoedit /etc/samba/smb.conf'
 
 # Quick edit shell configs
@@ -60,23 +61,6 @@ alias rbrc='sudoedit /etc/bash.bashrc'
 alias cd..='cd ..'
 alias cd...='cd ...'
 alias cd....='cd ....'
-
-# Quick nav to github projects
-g() {
-  cd "$HOME/github"
-
-  case $@ in
-    "d")
-      cd "dotfiles"
-    ;;
-    "t")
-      cd "infra"
-    ;;
-    "n")
-      cd "nixdots"
-    ;;
-  esac
-}
 
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
@@ -168,11 +152,15 @@ alias ungz='tar -xvzf'
 alias logs="sudo find /var/log -type f -exec file {} \; | grep 'text' | cut -d' ' -f1 | sed -e's/:$//g' | grep -v '[0-9]$' | xargs tail -f"
 alias tailf="tail -f -n 50"
 
-# KITTY - alias to be able to use kitty features when connecting to remote servers(e.g use tmux on remote server)
+# KITTY - alias to be able to use kitty features when
+# connecting to remote servers(e.g use tmux on remote server)
 alias kssh="kitty +kitten ssh"
 
 alias e='edit'
-alias se='sudoedit'
+alias sedit='sudo -E edit'
+alias se='sedit'
+# "sudoedit" is also a command provided by sudo to launch your
+# default editor and safely edit a read-only file
 
 #######################################################
 # SPECIAL FUNCTIONS
@@ -180,37 +168,7 @@ alias se='sudoedit'
 
 # Universal text editor functions
 edit () {
-  $EDITOR $@
-	#if [ "$(type -t nvim)" = "file" ]; then
-		#nvim "$@"
-	#elif [ "$(type -t vim)" = "file" ]; then
-		#vim -c "$@"
-	#elif [ "$(type -t vi)" = "file" ]; then
-		#vi -c "$@"
-	#elif [ "$(type -t nano)" = "file" ]; then
-		#nano -c "$@"
-	#elif [ "$(type -t jpico)" = "file" ]; then
-		## Use JOE text editor http://joe-editor.sourceforge.net/
-		#jpico -nonotice -linums -nobackups "$@"
-	#else
-		#pico "$@"
-	#fi
-}
-sedit () {
-	if [ "$(type -t nvim)" = "file" ]; then
-		sudo nvim "$@"
-	elif [ "$(type -t vim)" = "file" ]; then
-		sudo vim -c "$@"
-	elif [ "$(type -t vi)" = "file" ]; then
-		sudo vi -c "$@"
-	elif [ "$(type -t nano)" = "file" ]; then
-		sudo nano -c "$@"
-	elif [ "$(type -t jpico)" = "file" ]; then
-		# Use JOE text editor http://joe-editor.sourceforge.net/
-		sudo jpico -nonotice -linums -nobackups "$@"
-	else
-		sudo pico "$@"
-	fi
+  $EDITOR "$@"
 }
 
 # Extracts any archive(s) (if unp isn't installed)
