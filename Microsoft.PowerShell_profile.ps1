@@ -56,9 +56,10 @@ function gd { git diff }
 function gh { git log --graph -5 }
 function gf { git status }
 
-function prc { edit $PROFILE }
+function arc { edit $PROFILE }
 function nic { edit "$env:USERPROFILE\github\nixdots" }
-function vic { edit "$env:USERPROFILE\github\dotfiles\.config\nvim" }
+# function vic { edit "$env:USERPROFILE\github\dotfiles\.config\nvim" }
+function vic { edit "$env:USERPROFILE\appdata\local\nvim" }
 
 # Useful shortcuts for traversing directories
 function bd { Set-Location - }
@@ -84,7 +85,7 @@ function c {
 }
 
 function reload { & $PROFILE }
-function tail($file) { Get-Content -Tail 50 -Wait -Path $file }
+function tail($file) { tspin -ft $file }
 function lu($content) {
   try {
     Get-ChildItem -recurse | Select-String -pattern $content | group path | select name
@@ -237,6 +238,9 @@ function which($name) {Get-Command $name | Select-Object -ExpandProperty Definit
 function export($name, $value) {Set-Item -Force -Path "env:$name" -Value $value;}
 function pkill($name) {Get-Process $name -ErrorAction SilentlyContinue | Stop-Process}
 function pgrep($name) {Get-Process $name}
+
+# Zoxide
+Invoke-Expression (& { (zoxide init --hook pwd powershell | Out-String) })
 
 # Set prompt for prettiness
 Invoke-Expression (&starship init powershell)
