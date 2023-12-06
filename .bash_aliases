@@ -1,3 +1,11 @@
+# Use fzf, rg, yazi, find
+
+export PATH="/home/cameron/Downloads:$PATH"
+alias fp='fontpreview-ueberzug'
+
+# Always make ripgrep case-insensitive
+alias rg='rg -S'
+
 # Git helpers
 gg() {
 	git add --all
@@ -15,27 +23,32 @@ alias gh='git log --graph -5'
 alias gf='git status'
 
 # Quick NIX actions
-alias nic='sudo nvim ~/github/nixdots'
+alias nic='sudo -E nvim ~/github/nixdots'
 alias nis='sudo nixos-rebuild switch'
 alias nib='sudo nixos-rebuild boot'
-alias nip='nix-store --query --requisites /run/current-system | cut -d- -f2- | sort | uniq'
-alias np='tree -d -L 1 /nix/store | grep $1'
 
-# Copy commands (for nix pkgs and for a single path)
-cnp (){
-  file=$( eza -D /nix/store | fzf )
+# Find nix package location and copy
+np (){
+  file=$( eza -D /nix/store | fzf -q $1)
   echo "/nix/store/$file"
   echo "/nix/store/$file" | wl-copy
 }
+
+# Copy path
 cpl (){
   echo "$PWD/$1"
   echo "$PWD/$1" | wl-copy
 }
 
+# Copy font
+fonts (){
+  font=$(fc-list : family | fzf --preview 'ueberzugpp {}')
+  echo $font
+  $font | wl-copy
+}
+
 # Quick edit app configs
-alias hic='edit ~/.config/hypr'
 alias vic='edit ~/github/dotfiles/.config/nvim'
-alias wic='edit ~/.config/waybar'
 #alias smb='sudoedit /etc/samba/smb.conf'
 
 # Quick edit shell configs
@@ -48,23 +61,6 @@ alias rbrc='sudoedit /etc/bash.bashrc'
 alias cd..='cd ..'
 alias cd...='cd ...'
 alias cd....='cd ....'
-
-# Quick nav to github projects
-g() {
-  cd "$HOME/github"
-
-  case $@ in
-    "d")
-      cd "dotfiles"
-    ;;
-    "t")
-      cd "infra"
-    ;;
-    "n")
-      cd "nixdots"
-    ;;
-  esac
-}
 
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
@@ -106,8 +102,10 @@ alias lt="ls -ltrh" # sort by date
 alias lw="ls -xAh" # wide listing format
 alias ll="ls -Fls" # long listing format
 alias labc="ls -lAp" #alphabetical sort
-# alias lf="ls -l | egrep -v '^d'" # files only
 alias ldir="ls -l | egrep '^d'" # directories only
+# alias lf="ls -l | egrep -v '^d'" # files only
+# alias lf='nnn -H'
+alias lf="yazi"
 
 # alias chmod commands
 alias mx='chmod a+x'
@@ -116,15 +114,6 @@ alias 644='chmod -R 644'
 alias 666='chmod -R 666'
 alias 755='chmod -R 755'
 alias 777='chmod -R 777'
-
-# Search files in the current folder
-alias f="find"
-# Search file contents recursively for a word
-alias c="grep -Rnw '.' -e "
-# Search command line history
-alias h="history | grep "
-# Search running processes
-alias p="ps aux | grep "
 
 alias topcpu="/bin/ps -eo pcpu,pid,user,args | sort -k 1 -r | head -10"
 
@@ -161,12 +150,17 @@ alias ungz='tar -xvzf'
 
 # Show all logs in /var/log
 alias logs="sudo find /var/log -type f -exec file {} \; | grep 'text' | cut -d' ' -f1 | sed -e's/:$//g' | grep -v '[0-9]$' | xargs tail -f"
+alias tailf="tail -f -n 50"
 
-# KITTY - alias to be able to use kitty features when connecting to remote servers(e.g use tmux on remote server)
+# KITTY - alias to be able to use kitty features when
+# connecting to remote servers(e.g use tmux on remote server)
 alias kssh="kitty +kitten ssh"
 
 alias e='edit'
-alias se='sudoedit'
+alias sedit='sudo -E edit'
+alias se='sedit'
+# "sudoedit" is also a command provided by sudo to launch your
+# default editor and safely edit a read-only file
 
 #######################################################
 # SPECIAL FUNCTIONS
@@ -174,37 +168,7 @@ alias se='sudoedit'
 
 # Universal text editor functions
 edit () {
-  $EDITOR $@
-	#if [ "$(type -t nvim)" = "file" ]; then
-		#nvim "$@"
-	#elif [ "$(type -t vim)" = "file" ]; then
-		#vim -c "$@"
-	#elif [ "$(type -t vi)" = "file" ]; then
-		#vi -c "$@"
-	#elif [ "$(type -t nano)" = "file" ]; then
-		#nano -c "$@"
-	#elif [ "$(type -t jpico)" = "file" ]; then
-		## Use JOE text editor http://joe-editor.sourceforge.net/
-		#jpico -nonotice -linums -nobackups "$@"
-	#else
-		#pico "$@"
-	#fi
-}
-sedit () {
-	if [ "$(type -t nvim)" = "file" ]; then
-		sudo nvim "$@"
-	elif [ "$(type -t vim)" = "file" ]; then
-		sudo vim -c "$@"
-	elif [ "$(type -t vi)" = "file" ]; then
-		sudo vi -c "$@"
-	elif [ "$(type -t nano)" = "file" ]; then
-		sudo nano -c "$@"
-	elif [ "$(type -t jpico)" = "file" ]; then
-		# Use JOE text editor http://joe-editor.sourceforge.net/
-		sudo jpico -nonotice -linums -nobackups "$@"
-	else
-		sudo pico "$@"
-	fi
+  $EDITOR "$@"
 }
 
 # Extracts any archive(s) (if unp isn't installed)
@@ -303,13 +267,13 @@ up () {
 }
 
 #Automatically do an ls after each cd
-cd () {
-	if [ -n "$1" ]; then
-		builtin cd "$@" && ls
-	else
-		builtin cd ~ && ls
-	fi
-}
+# cd () {
+# 	if [ -n "$1" ]; then
+# 		builtin cd "$@" && ls
+# 	else
+# 		builtin cd ~ && ls
+# 	fi
+# }
 
 # Returns the last 2 fields of the working directory
 pwdtail () {

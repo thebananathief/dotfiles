@@ -13,7 +13,7 @@
 ### This is the default policy on Windows Server 2012 R2 and above for server Windows. For 
 ### more information about execution policies, run Get-Help about_Execution_Policies.
 
-$ErrorActionPreference = "Stop"
+#$ErrorActionPreference = "Stop"
 
 # Import Terminal Icons
 Import-Module -Name Terminal-Icons
@@ -56,6 +56,7 @@ function gd { git diff }
 function gh { git log --graph -5 }
 function gf { git status }
 
+function arc { edit $PROFILE }
 function arc { edit $PROFILE }
 function nic { edit "$env:USERPROFILE\github\nixdots" }
 # function vic { edit "$env:USERPROFILE\github\dotfiles\.config\nvim" }
