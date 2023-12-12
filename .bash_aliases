@@ -25,13 +25,20 @@ alias gf='git status'
 # Quick NIX actions
 alias nic='sudo -E nvim ~/github/nixdots'
 alias nis='sudo nixos-rebuild switch'
+alias gnis='cd ~/github/nixdots && gb && nis'
 alias nib='sudo nixos-rebuild boot'
+alias nip="nix-build '<nixpkgs>' --no-build-output -A"
 
 # Find nix package location and copy
 np (){
-  file=$( eza -D /nix/store | fzf -q $1)
+  file=$( eza --color=never -D /nix/store | fzf --preview='tree /nix/store/{}')
   echo "/nix/store/$file"
   echo "/nix/store/$file" | wl-copy
+}
+npy (){
+  file=$( eza --color=never -D /nix/store | fzf --preview='tree /nix/store/{}')
+  echo "/nix/store/$file" | wl-copy
+  yazi -c "/nix/store/$file"
 }
 
 # Copy path
@@ -41,14 +48,15 @@ cpl (){
 }
 
 # Copy font
-fonts (){
-  font=$(fc-list : family | fzf --preview 'ueberzugpp {}')
-  echo $font
-  $font | wl-copy
-}
+# fontc (){
+#   font=$(fc-list : file family style | fzf --preview 'ueberzugpp {1}')
+#   echo $font
+#   $font | wl-copy
+# }
+alias fonts='yad --font | wl-copy'
 
 # Quick edit app configs
-alias vic='edit ~/github/dotfiles/.config/nvim'
+alias vic='edit ~/.config/nvim'
 #alias smb='sudoedit /etc/samba/smb.conf'
 
 # Quick edit shell configs
@@ -61,11 +69,12 @@ alias rbrc='sudoedit /etc/bash.bashrc'
 alias cd..='cd ..'
 alias cd...='cd ...'
 alias cd....='cd ....'
+alias ii='thunar'
 
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 # Systemctl shortened commands
-alias sc='sudo systemctl'
+alias sc='systemctl'
 
 # Alias to show the date
 alias da='date "+%Y-%m-%d %A %T %Z"'
@@ -150,7 +159,8 @@ alias ungz='tar -xvzf'
 
 # Show all logs in /var/log
 alias logs="sudo find /var/log -type f -exec file {} \; | grep 'text' | cut -d' ' -f1 | sed -e's/:$//g' | grep -v '[0-9]$' | xargs tail -f"
-alias tailf="tail -f -n 50"
+alias tailf="spin -f"
+# alias spin="spin -f"
 
 # KITTY - alias to be able to use kitty features when
 # connecting to remote servers(e.g use tmux on remote server)

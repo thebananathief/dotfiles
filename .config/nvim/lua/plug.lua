@@ -80,6 +80,36 @@ require("lazy").setup({
     },
     lazy = false,
   },
+  { "ThePrimeagen/refactoring.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    config = function()
+      require("refactoring").setup({
+        prompt_func_return_type = {
+          go = true,
+          java = true,
+
+          cpp = true,
+          c = true,
+          h = true,
+          hpp = true,
+          cxx = true,
+        },
+        prompt_func_param_type = {
+          go = true,
+          java = true,
+
+          cpp = true,
+          c = true,
+          h = true,
+          hpp = true,
+          cxx = true,
+        },
+      })
+    end,
+  },
   { "nvim-tree/nvim-tree.lua",
     version = "*",
     dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -138,6 +168,8 @@ require("lazy").setup({
 
 vim.cmd.colorscheme "catppuccin"
 vim.g.catppuccin_flavour = 'mocha'
+
+vim.g.tagbar_ctags_bin = "/run/current-system/sw/bin/ctags"
 
 local Terminal  = require('toggleterm.terminal').Terminal
 
