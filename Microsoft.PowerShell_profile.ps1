@@ -57,8 +57,10 @@ function gh { git log --graph -5 }
 function gf { git status }
 
 function arc { edit $PROFILE }
+function arc { edit $PROFILE }
 function nic { edit "$env:USERPROFILE\github\nixdots" }
-function vic { edit "$env:USERPROFILE\github\dotfiles\.config\nvim" }
+# function vic { edit "$env:USERPROFILE\github\dotfiles\.config\nvim" }
+function vic { edit "$env:USERPROFILE\appdata\local\nvim" }
 
 # Useful shortcuts for traversing directories
 function bd { Set-Location - }
@@ -84,9 +86,13 @@ function c {
 }
 
 function reload { & $PROFILE }
-function tail($file) { Get-Content -Tail 50 -Wait -Path $file }
-function lun($title) { Get-ChildItem -Recurse -Filter "*$title*" -ErrorAction SilentlyContinue -Force }
-function lu($content) { Get-ChildItem -Recurse -ErrorAction SilentlyContinue -Force | Select-String -pattern $content -ErrorAction SilentlyContinue | group path | select name }
+function tail($file) { tspin -ft $file }
+function lu($content) {
+  try {
+    Get-ChildItem -recurse | Select-String -pattern $content | group path | select name
+  } catch {
+  }
+}
 
 # Compute file hashes - useful for checking successful downloads 
 function md5 { Get-FileHash -Algorithm MD5 $args }
@@ -233,6 +239,9 @@ function which($name) {Get-Command $name | Select-Object -ExpandProperty Definit
 function export($name, $value) {Set-Item -Force -Path "env:$name" -Value $value;}
 function pkill($name) {Get-Process $name -ErrorAction SilentlyContinue | Stop-Process}
 function pgrep($name) {Get-Process $name}
+
+# Zoxide
+Invoke-Expression (& { (zoxide init --hook pwd powershell | Out-String) })
 
 # Set prompt for prettiness
 Invoke-Expression (&starship init powershell)
