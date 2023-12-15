@@ -13,7 +13,13 @@ gg() {
 	}
 gt() {
 	git add --all
-	git commit -m "$1"
+	# Use argument for message or timestamp if none
+	if [ -z "$1" ]; then
+		timestamp=$(date '+%Y-%m-%d %H:%M:%S %Z')
+		git commit -m "$timestamp"
+	else
+		git commit -m "$1"
+	fi
 	git push
 }
 alias ga='git add ---all'
