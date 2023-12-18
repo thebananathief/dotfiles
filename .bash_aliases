@@ -53,6 +53,9 @@ cpl (){
   echo "$PWD/$1" | wl-copy
 }
 
+# Quick SSH
+alias talos='ssh talos'
+
 # Copy font
 # fontc (){
 #   font=$(fc-list : file family style | fzf --preview 'ueberzugpp {1}')
