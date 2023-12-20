@@ -65,7 +65,7 @@
             "experimental.retroTerminalEffect": false,
             "font": 
             {
-                "face": "FiraMono Nerd Font",
+                "face": "JetBrainsMono Nerd Font",
                 "size": 10.0
             },
             "opacity": 90,

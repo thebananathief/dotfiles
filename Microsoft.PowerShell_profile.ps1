@@ -23,31 +23,22 @@ $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
 $principal = New-Object Security.Principal.WindowsPrincipal $identity
 $isAdmin = $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 
-# Github repo shortcuts
-function g($repo) {
-  Set-Location "$env:USERPROFILE/github"
-
-  switch ($repo) {
-    "t" {
-      Set-Location "infra"
-      break}
-    "d" {
-      Set-Location "dotfiles"
-      break}
-    "n" {
-      Set-Location "nixdots"
-      break}
-  }
-}
-
 # Git helpers
 function gg {
     git add --all
-    git commit -m "$args"
+    if ($args.Count -eq 0) {
+        git commit -m "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') EST"
+    } else {
+        git commit -m "$args"
+    }
 }
 function gt {
     git add --all
-    git commit -m "$args"
+    if ($args.Count -eq 0) {
+        git commit -m "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') EST"
+    } else {
+        git commit -m "$args"
+    }
     git push
 }
 function ga { git add --all }
@@ -56,7 +47,6 @@ function gd { git diff }
 function gh { git log --graph -5 }
 function gf { git status }
 
-function arc { edit $PROFILE }
 function arc { edit $PROFILE }
 function nic { edit "$env:USERPROFILE\github\nixdots" }
 # function vic { edit "$env:USERPROFILE\github\dotfiles\.config\nvim" }
@@ -71,47 +61,18 @@ Set-Alias -Name .. -Value cd..
 Set-Alias -Name ... -Value cd...
 Set-Alias -Name .... -Value cd....
 
-# Rebind cd
-function c {
-    param(
-        $path
-    )
-    if (Test-Path $path) {
-        $path = Resolve-Path $path
-        Set-Location $path
-        Get-ChildItem $path
-    } else {
-        "Could not find path $path"
-    }
-}
-
 function reload { & $PROFILE }
 function tail($file) { tspin -ft $file }
-function lu($content) {
-  try {
-    Get-ChildItem -recurse | Select-String -pattern $content | group path | select name
-  } catch {
-  }
-}
 
 # Compute file hashes - useful for checking successful downloads 
 function md5 { Get-FileHash -Algorithm MD5 $args }
 function sha1 { Get-FileHash -Algorithm SHA1 $args }
 function sha256 { Get-FileHash -Algorithm SHA256 $args }
 
-# Quick shortcut to start notepad
-function n { notepad $args }
-
 # Drive shortcuts
 function HKLM: { Set-Location HKLM: }
 function HKCU: { Set-Location HKCU: }
 function Env: { Set-Location Env: }
-
-# Creates drive shortcut for Work Folders, if current user account is using it
-if (Test-Path "$env:USERPROFILE\Work Folders") {
-    New-PSDrive -Name Work -PSProvider FileSystem -Root "$env:USERPROFILE\Work Folders" -Description "Work Folders"
-    function Work: { Set-Location Work: }
-}
 
 # Set up command prompt and window title. Use UNIX-style convention for identifying 
 # whether user is elevated (root) or not. Window title shows current version of PowerShell
@@ -128,37 +89,6 @@ $Host.UI.RawUI.WindowTitle = "PowerShell {0}" -f $PSVersionTable.PSVersion.ToStr
 if ($isAdmin) {
     $Host.UI.RawUI.WindowTitle += " [ADMIN]"
 }
-
-# Does the the rough equivalent of dir /s /b. For example, dirs *.png is dir /s /b *.png
-function dirs {
-    if ($args.Count -gt 0) {
-        Get-ChildItem -Recurse -Include "$args" | Foreach-Object FullName
-    } else {
-        Get-ChildItem -Recurse | Foreach-Object FullName
-    }
-}
-
-# Simple function to start a new elevated process. If arguments are supplied then 
-# a single command is started with admin rights; if not then a new admin instance
-# of PowerShell is started.
-function admin {
-    $shell = "powershell.exe"
-    if (Test-CommandExists wt) { $shell = "wt.exe" }
-    elseif (Test-CommandExists pwsh) { $shell = "pwsh.exe" }
-
-    if ($args.Count -gt 0) {   
-        $argList = "& '" + $args + "'"
-        Start-Process "$shell" -Verb runAs -ArgumentList $argList
-    } else {
-        Start-Process "$shell" -Verb runAs
-    }
-}
-
-# Set UNIX-like aliases for the admin command, so sudo <command> will run the command
-# with elevated rights. 
-Set-Alias -Name su -Value admin
-# Use scoop's sudo package
-# Set-Alias -Name sudo -Value admin
 
 # We don't need these any more; they were just temporary variables to get to $isAdmin. 
 # Delete them to prevent cluttering up the user profile. 
@@ -192,6 +122,7 @@ function Get-PubIP {
     Write-Host "External IP: "(Invoke-WebRequest http://ifconfig.me/ip).Content
 }
 Set-Alias -Name getip -Value Get-PubIP
+
 function uptime {
     #Windows Powershell    
     # Get-WmiObject win32_operatingsystem | Select-Object csname, @{
@@ -214,26 +145,15 @@ function uptime {
     #Works for Both (Just outputs the DateTime instead of that and the machine name)
     # net statistics workstation | Select-String "since" | foreach-object {$_.ToString().Replace('Statistics since ', '')}
 }
-function find-file($name) {
-    Get-ChildItem -recurse -filter "*${name}*" -ErrorAction SilentlyContinue | ForEach-Object {
-        $place_path = $_.directory
-        Write-Output "${place_path}\${_}"
-    }
-}
+
 function unzip ($file) {
     Write-Output("Extracting", $file, "to", $pwd)
     $fullFile = Get-ChildItem -Path $pwd -Filter .\cove.zip | ForEach-Object { $_.FullName }
     Expand-Archive -Path $fullFile -DestinationPath $pwd
 }
-function grep($regex, $dir) {
-    if ( $dir ) {
-        Get-ChildItem $dir | select-string $regex
-        return
-    }
-    $input | select-string $regex
-}
+
 function touch($file) {"" | Out-File $file -Encoding ASCII}
-function df {get-volume}
+Set-Alias -Name df -Value Get-Volume
 function sed($file, $find, $replace) {(Get-Content $file).replace("$find", $replace) | Set-Content $file}
 function which($name) {Get-Command $name | Select-Object -ExpandProperty Definition}
 function export($name, $value) {Set-Item -Force -Path "env:$name" -Value $value;}
@@ -242,10 +162,6 @@ function pgrep($name) {Get-Process $name}
 
 # Zoxide
 Invoke-Expression (& { (zoxide init --hook pwd powershell | Out-String) })
-
-# Set prompt for prettiness
-Invoke-Expression (&starship init powershell)
-# oh-my-posh init pwsh --config "~\AppData\Local\Programs\oh-my-posh\themes\talos.omp.json" | Invoke-Expression
 
 # Import the Chocolatey Profile that contains the necessary code to enable
 # tab-completions to function for `choco`.

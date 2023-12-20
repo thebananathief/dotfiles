@@ -1,23 +1,26 @@
 #MaxThreadsPerHotkey 2
 #SingleInstance force
 
-LocalAppData := ""
-EnvGet, LocalAppData, LocalAppData
+LocalAppData := EnvGet("LOCALAPPDATA")
+Roaming := EnvGet("APPDATA")
+
 ; Quick app binds
 ; Win + A - Terminal
 ;       D - Obsidian
 ;       C - VSCode
 ;       S - DevToys
+;       S - Spotify
 ;       W - Close window
 #a::Run "wt.exe"
-#d::Run "%LocalAppData%\Obsidian\Obsidian.exe"
-#c::Run "%LocalAppData%\Programs\VSCodium\VSCodium.exe"
-#s::Run "shell:appsFolder\64360VelerSoftware.DevToys_j80j2txgjg9dj!App"
+#d::Run LocalAppData "\Obsidian\Obsidian.exe"
+#c::Run LocalAppData "\Programs\VSCodium\VSCodium.exe"
+; #s::Run "shell:appsFolder\64360VelerSoftware.DevToys_j80j2txgjg9dj!App"
+#s::Run Roaming "\Spotify\Spotify.exe"
 #w::!F4
 
 ; Rocker
-~LButton & RButton::Browser_Forward
-~RButton & LButton::Browser_Back
+; ~LButton & RButton::Browser_Forward
+; ~RButton & LButton::Browser_Back
 
 ; AFK loop
 toggle := false
