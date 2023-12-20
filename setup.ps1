@@ -180,7 +180,10 @@ New-Item -ItemType SymbolicLink -Force -Path `"$env:LOCALAPPDATA\nvim`" -Value `
 # Create the symlinks with admin privs
 Start-Process -FilePath "pwsh.exe" -Wait -Verb RunAs -ArgumentList "-NoProfile -Command `"$Cmd`""
 # Print the newly created links to our original terminal
-Get-Item "$env:USERPROFILE\.config\starship.toml","$PROFILE","$env:LOCALAPPDATA\Packages\$WTFamilyName\LocalState\settings.json","$env:LOCALAPPDATA\nvim"
+Get-Item "$env:USERPROFILE\.config\starship.toml",
+"$PROFILE",
+"$env:LOCALAPPDATA\Packages\$WTFamilyName\LocalState\settings.json",
+"$env:LOCALAPPDATA\nvim"
 
 # Re-initialize the powershell profile
 & $profile

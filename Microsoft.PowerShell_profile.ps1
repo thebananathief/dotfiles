@@ -23,31 +23,22 @@ $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
 $principal = New-Object Security.Principal.WindowsPrincipal $identity
 $isAdmin = $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 
-# Github repo shortcuts
-function g($repo) {
-  Set-Location "$env:USERPROFILE/github"
-
-  switch ($repo) {
-    "t" {
-      Set-Location "infra"
-      break}
-    "d" {
-      Set-Location "dotfiles"
-      break}
-    "n" {
-      Set-Location "nixdots"
-      break}
-  }
-}
-
 # Git helpers
 function gg {
     git add --all
-    git commit -m "$args"
+    if ($args.Count -eq 0) {
+        git commit -m "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') EST"
+    } else {
+        git commit -m "$args"
+    }
 }
 function gt {
     git add --all
-    git commit -m "$args"
+    if ($args.Count -eq 0) {
+        git commit -m "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') EST"
+    } else {
+        git commit -m "$args"
+    }
     git push
 }
 function ga { git add --all }
@@ -56,7 +47,6 @@ function gd { git diff }
 function gh { git log --graph -5 }
 function gf { git status }
 
-function arc { edit $PROFILE }
 function arc { edit $PROFILE }
 function nic { edit "$env:USERPROFILE\github\nixdots" }
 # function vic { edit "$env:USERPROFILE\github\dotfiles\.config\nvim" }
