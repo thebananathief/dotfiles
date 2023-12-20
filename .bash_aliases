@@ -29,7 +29,8 @@ alias gh='git log --graph -5'
 alias gf='git status'
 
 # Quick NIX actions
-alias nic='sudo -E nvim ~/github/nixdots'
+# alias nic='sudo -E nvim ~/github/nixdots'
+alias nic='edit ~/github/nixdots'
 alias nis='sudo nixos-rebuild switch'
 alias gnis='cd ~/github/nixdots && gb && nis'
 alias nib='sudo nixos-rebuild boot'
