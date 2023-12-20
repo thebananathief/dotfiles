@@ -82,7 +82,6 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 # Systemctl shortened commands
 alias sc='systemctl'
 alias scf='systemctl list-units --failed'
-alias failed='scf'
 
 # Alias to show the date
 alias da='date "+%Y-%m-%d %A %T %Z"'
