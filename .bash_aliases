@@ -1,7 +1,4 @@
-# Use fzf, rg, yazi, find
-
-export PATH="/home/cameron/Downloads:$PATH"
-alias fp='fontpreview-ueberzug'
+# Use fzf, rg, yazi, find, zoxide
 
 # Always make ripgrep case-insensitive
 alias rg='rg -S'
@@ -44,7 +41,7 @@ np (){
 npy (){
   file=$( eza --color=never -D /nix/store | fzf --preview='tree /nix/store/{}')
   echo "/nix/store/$file" | wl-copy
-  yazi -c "/nix/store/$file"
+  yazi "/nix/store/$file"
 }
 
 # Copy path
@@ -84,6 +81,8 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 
 # Systemctl shortened commands
 alias sc='systemctl'
+alias scf='systemctl list-units --failed'
+alias failed='scf'
 
 # Alias to show the date
 alias da='date "+%Y-%m-%d %A %T %Z"'
@@ -110,19 +109,18 @@ alias adm='sudo -s'
 alias rmd='rm  --recursive --force --verbose '
 
 # Alias's for multiple directory listing commands
-alias ls="ls -AFh --color=always" # add colors and file type extensions
-alias lx="ls -lXBh" # sort by extension
-alias lk="ls -lSrh" # sort by size
-alias lc="ls -lcrh" # sort by change time
-alias lu="ls -lurh" # sort by access time
-alias lr="ls -lRh" # recursive ls
-alias lt="ls -ltrh" # sort by date
-alias lw="ls -xAh" # wide listing format
-alias ll="ls -Fls" # long listing format
-alias labc="ls -lAp" #alphabetical sort
-alias ldir="ls -l | egrep '^d'" # directories only
+# alias ls="ls -AFh --color=always" # add colors and file type extensions
+# alias lx="ls -lXBh" # sort by extension
+# alias lk="ls -lSrh" # sort by size
+# alias lc="ls -lcrh" # sort by change time
+# alias lu="ls -lurh" # sort by access time
+# alias lr="ls -lRh" # recursive ls
+# alias lt="ls -ltrh" # sort by date
+# alias lw="ls -xAh" # wide listing format
+# alias ll="ls -Fls" # long listing format
+# alias labc="ls -lAp" #alphabetical sort
+# alias ldir="ls -l | egrep '^d'" # directories only
 # alias lf="ls -l | egrep -v '^d'" # files only
-# alias lf='nnn -H'
 alias lf="yazi"
 
 # alias chmod commands
@@ -168,8 +166,15 @@ alias ungz='tar -xvzf'
 
 # Show all logs in /var/log
 alias logs="sudo find /var/log -type f -exec file {} \; | grep 'text' | cut -d' ' -f1 | sed -e's/:$//g' | grep -v '[0-9]$' | xargs tail -f"
+log () {
+	journalctl -u $1.service | bat -l log --plain --pager 'less -RF +G'
+}
 alias tailf="spin -f"
 # alias spin="spin -f"
+ 
+# Get all podman+container logs from today, reverse, format and page
+alias plog='journalctl -S "today" | bat -l log --plain --pager "less -RF +G"'
+# alias plog="journalctl -u podman-.service -S 'today' | bat -l log --plain --pager 'less -RF +G'"
 
 # KITTY - alias to be able to use kitty features when
 # connecting to remote servers(e.g use tmux on remote server)
