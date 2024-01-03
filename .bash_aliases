@@ -6,7 +6,12 @@ alias rg='rg -S'
 # Git helpers
 gg() {
 	git add --all
-	git commit -m "$1"
+	if [ -z "$1" ]; then
+		timestamp=$(date '+%Y-%m-%d %H:%M:%S %Z')
+		git commit -m "$timestamp"
+	else
+		git commit -m "$1"
+	fi
 	}
 gt() {
 	git add --all
@@ -24,6 +29,8 @@ alias gb='git pull'
 alias gd='git diff'
 alias gh='git log --graph -5'
 alias gf='git status'
+
+alias j='just'
 
 # Quick NIX actions
 # alias nic='sudo -E nvim ~/github/nixdots'
