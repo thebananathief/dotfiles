@@ -117,6 +117,7 @@ elseif (Test-CommandExists notepad) { $EDITOR='notepad' ; $VISUAL='notepad' }
 Set-Alias -Name edit -Value $EDITOR
 Set-Alias -Name e -Value $EDITOR
 Set-Alias -Name code -Value $VISUAL
+Set-Alias -Name c -Value $VISUAL
 
 function Get-PubIP {
     Write-Host "External IP: "(Invoke-WebRequest http://ifconfig.me/ip).Content
