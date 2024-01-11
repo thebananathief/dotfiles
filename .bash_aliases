@@ -174,7 +174,7 @@ alias ungz='tar -xvzf'
 # Show all logs in /var/log
 alias logs="sudo find /var/log -type f -exec file {} \; | grep 'text' | cut -d' ' -f1 | sed -e's/:$//g' | grep -v '[0-9]$' | xargs tail -f"
 log () {
-	journalctl -u $1.service | bat -l log --plain --pager 'less -RF +G'
+	journalctl -u $1.service -f --output cat # | bat -l log --plain --pager 'less -RF +G'
 }
 alias tailf="spin -f"
 # alias spin="spin -f"
