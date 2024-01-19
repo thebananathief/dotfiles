@@ -105,7 +105,7 @@ Function Test-CommandExists {
 } 
 
 # If your favorite editor is not here, add an elseif and ensure that the directory it is installed in exists in your $env:Path
-$EDITOR = 'nvim'
+$env:EDITOR = 'nvim'
 $VISUAL = 'codium'
 if (Test-CommandExists nvim) { $EDITOR='nvim' }
 elseif (Test-CommandExists code) { $EDITOR='code' ; $VISUAL='code' }
