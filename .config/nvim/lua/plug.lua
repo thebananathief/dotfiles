@@ -28,7 +28,7 @@ require("lazy").setup({
       "nvim-lua/plenary.nvim",
     },
     keys = {
-      { "<leader>y", "<cmd>Yazi<CR>", desc = "Toggle Yazi" },
+      { "<leader>u", "<cmd>Yazi<CR>", desc = "Toggle Yazi" },
     },
   },
   { 'akinsho/toggleterm.nvim',
@@ -80,6 +80,36 @@ require("lazy").setup({
     },
     lazy = false,
   },
+  { "ThePrimeagen/refactoring.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    config = function()
+      require("refactoring").setup({
+        prompt_func_return_type = {
+          go = true,
+          java = true,
+
+          cpp = true,
+          c = true,
+          h = true,
+          hpp = true,
+          cxx = true,
+        },
+        prompt_func_param_type = {
+          go = true,
+          java = true,
+
+          cpp = true,
+          c = true,
+          h = true,
+          hpp = true,
+          cxx = true,
+        },
+      })
+    end,
+  },
   { "nvim-tree/nvim-tree.lua",
     version = "*",
     dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -99,11 +129,26 @@ require("lazy").setup({
       }
     end
   },
-  { 'feline-nvim/feline.nvim',
-    config = function() require('feline').setup() end
+  { 'nvim-lualine/lualine.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    config = function() require('lualine').setup() end
   },
   { "nvim-telescope/telescope.nvim", tag = '0.1.4',
     dependencies = { 'nvim-lua/plenary.nvim' },
+  },
+  { 'romgrk/barbar.nvim',
+    dependencies = {
+      'lewis6991/gitsigns.nvim', -- OPTIONAL: for git status
+      'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
+    },
+    init = function() vim.g.barbar_auto_setup = false end,
+    opts = {
+      -- lazy.nvim will automatically call setup for you. put your options here, anything missing will use the default:
+      -- animation = true,
+      -- insert_at_start = true,
+      -- …etc.
+    },
+    version = '^1.0.0', -- optional: only update when a new 1.x version is released
   },
   { "catppuccin/nvim",
     name = "catppuccin",
@@ -123,6 +168,8 @@ require("lazy").setup({
 
 vim.cmd.colorscheme "catppuccin"
 vim.g.catppuccin_flavour = 'mocha'
+
+vim.g.tagbar_ctags_bin = "/run/current-system/sw/bin/ctags"
 
 local Terminal  = require('toggleterm.terminal').Terminal
 

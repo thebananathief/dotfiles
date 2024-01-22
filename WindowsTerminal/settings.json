@@ -15,10 +15,6 @@
             "command": "paste"
         },
         {
-            "command": "find",
-            "keys": "ctrl+shift+f"
-        },
-        {
             "command": 
             {
                 "action": "splitPane",
@@ -26,6 +22,10 @@
                 "splitMode": "duplicate"
             },
             "keys": "alt+shift+d"
+        },
+        {
+            "command": "find",
+            "keys": "ctrl+shift+f"
         },
         {
             "command": "unbound",
@@ -41,9 +41,11 @@
         }
     ],
     "alwaysShowNotificationIcon": true,
+    "confirmCloseAllTabs": false,
     "copyFormatting": "none",
     "copyOnSelect": true,
     "defaultProfile": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
+    "focusFollowMouse": false,
     "initialCols": 80,
     "initialRows": 20,
     "launchMode": "default",
@@ -63,26 +65,21 @@
             "experimental.retroTerminalEffect": false,
             "font": 
             {
-                "face": "JetBrainsMono NF",
-                "size": 11.0
+                "face": "JetBrainsMono Nerd Font",
+                "size": 10.0
             },
-            "opacity": 80,
+            "opacity": 90,
+            "padding": "5",
             "useAcrylic": false
         },
         "list": 
         [
             {
-                "commandline": "pwsh.exe -NoLogo -NoExit",
+                "commandline": "pwsh.exe -NoLogo",
                 "guid": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
                 "hidden": false,
                 "name": "PowerShell",
                 "source": "Windows.Terminal.PowershellCore"
-            },
-            {
-                "guid": "{58ad8b0c-3ef8-5f4d-bc6f-13e4c00f2530}",
-                "hidden": false,
-                "name": "Debian",
-                "source": "Windows.Terminal.Wsl"
             },
             {
                 "commandline": "ssh talos",
@@ -94,7 +91,7 @@
             {
                 "commandline": "ssh talosdev",
                 "guid": "{1ca3116a-300a-5d14-b92c-4ebd18d6eab1}",
-                "hidden": false,
+                "hidden": true,
                 "icon": "\ud83e\udd16",
                 "name": "Talos DEV"
             },
@@ -107,18 +104,6 @@
                 "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
                 "hidden": false,
                 "name": "Windows PowerShell"
-            },
-            {
-                "guid": "{4bb5694a-b5bb-5eff-8f50-30a36beaa87f}",
-                "hidden": false,
-                "name": "Developer Command Prompt for VS 2022",
-                "source": "Windows.Terminal.VisualStudio"
-            },
-            {
-                "guid": "{94a15e39-60f6-5380-ab3d-835aee8fa61e}",
-                "hidden": false,
-                "name": "Developer PowerShell for VS 2022",
-                "source": "Windows.Terminal.VisualStudio"
             }
         ]
     },
