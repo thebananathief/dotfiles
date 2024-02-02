@@ -58,15 +58,20 @@ New-Item -ItemType SymbolicLink -Force -Path `"$env:APPDATA\Microsoft\Windows\St
 New-Item -ItemType SymbolicLink -Force -Path `"$env:ProgramFiles\Nilesoft Shell\imports\custom.nss`" -Value `"$GITPATH\Nilesoft Shell\custom.nss`";
 "@
   # Create the symlinks with admin privs
-  # Start-Process -FilePath "pwsh.exe" -Wait -Verb RunAs -ArgumentList "-NoProfile -NoExit -Command '$Cmd'"
+  Start-Process -FilePath "pwsh.exe" -Wait -Verb RunAs -ArgumentList "-NoProfile -NoExit -Command '$Cmd'"
   # $GITPATH
-  sudo $Cmd
+  # sudo $Cmd
   
   # Print the newly created links to our original terminal
-  # Get-Item "$PROFILE"
-  # Get-Item "$env:LOCALAPPDATA\Packages\$WTFamilyName\LocalState\settings.json"
-  # Get-Item "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup\Passive.ahk"
-  # Get-Item "$env:ProgramFiles\Nilesoft Shell\imports\custom.nss"
+  Get-Item "$PROFILE"
+  Get-Item "$env:LOCALAPPDATA\Packages\$WTFamilyName\LocalState\settings.json"
+  Get-Item "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup\Passive.ahk"
+  Get-Item "$env:ProgramFiles\Nilesoft Shell\imports\custom.nss"
+
+# Remove-Item -Force `"$PROFILE`";
+# Remove-Item -Force `"$env:LOCALAPPDATA\Packages\$WTFamilyName\LocalState\settings.json``";
+# Remove-Item -Force `"$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup\Passive.ahk`";
+# Remove-Item -Force `"$env:ProgramFiles\Nilesoft Shell\imports\custom.nss`";
 }
 
 
