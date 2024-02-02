@@ -57,6 +57,7 @@ function bd { Set-Location - }
 function cd.. { Set-Location .. }
 function cd... { Set-Location ..\.. }
 function cd.... { Set-Location ..\..\.. }
+function ll { Get-ChildItem -Force }
 Set-Alias -Name .. -Value cd..
 Set-Alias -Name ... -Value cd...
 Set-Alias -Name .... -Value cd....
