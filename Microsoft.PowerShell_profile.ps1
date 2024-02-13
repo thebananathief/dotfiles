@@ -48,7 +48,7 @@ function gh { git log --graph -5 }
 function gf { git status }
 
 function arc { edit $PROFILE }
-function nic { edit "$env:USERPROFILE\github\nixdots" }
+function nic { edit "$env:USERPROFILE\coding\nixdots" }
 # function vic { edit "$env:USERPROFILE\github\dotfiles\.config\nvim" }
 function vic { edit "$env:USERPROFILE\appdata\local\nvim" }
 
@@ -109,7 +109,7 @@ Function Test-CommandExists {
 
 # If your favorite editor is not here, add an elseif and ensure that the directory it is installed in exists in your $env:Path
 $env:EDITOR = 'nvim'
-$env:VISUAL = 'code'
+$env:VISUAL = 'nvim'
 
 Set-Alias -Name edit -Value $env:EDITOR
 Set-Alias -Name e -Value $env:EDITOR
