@@ -1,14 +1,12 @@
+$ErrorActionPreference = 'Stop'
 
 $GITPATH = $PWD.Path
 Write-Host "GITPATH = $GITPATH"
 
 function Install-Programs {
-  Install-Module -Name Terminal-Icons -Repository PSGallery
-  
-  if ((Get-Command scoop) -eq "") {
-    Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
-    Invoke-RestMethod get.scoop.sh | Invoke-Expression
-  }
+  # Errors if already installed
+  # Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+  # Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
 
   scoop bucket add nerd-fonts
   scoop bucket add extras
@@ -17,15 +15,39 @@ function Install-Programs {
   # https://scoop.sh/#/apps
   # https://winget.run/
 
-  @(  
-    # "valinet.ExplorerPatcher",
+  @(
   #   "wandersick.ChMac",
-  #   "IrfanSkiljan.IrfanView",
     "Bitwarden.CLI",
+    "Neovim.Neovim",
     "Spotify.Spotify",
     "Mega.MEGASync",
-    "Playnite.Playnite",
-    "tailscale.tailscale"
+    "tailscale.tailscale",
+    "MullvadVPN.MullvadVPN",
+    "Nilesoft.Shell",
+    # "IrfanSkiljan.IrfanView",
+    "AutoHotkey.AutoHotkey",
+    # "dbeaver.dbeaver",
+    "DuongDieuPhap.ImageGlass",
+    "Audacity.Audacity",
+    "Mozilla.Firefox",
+    "Discord.Discord",
+    "Obsidian.Obsidian",
+    "M2Team.NanaZip",
+    "Microsoft.VisualStudio.2022.Community",
+    "Microsoft.VisualStudioCode",
+    "Famatech.AdvancedIPScanner",
+    "Git.Git",
+    "JesseDuffield.lazygit",
+    "AntibodySoftware.WizFile",
+    "AntibodySoftware.WizTree",
+    "WinMerge.WinMerge",
+    "Microsoft.PowerToys",
+    "Transmission.Transmission",
+    "Elgato.WaveLink",
+    
+    "PrismLauncher.PrismLauncher",
+    "Valve.Steam",
+    "Playnite.Playnite"
   ) | ForEach-Object {
       winget install -e --exact --accept-source-agreements --accept-package-agreements --id $_
   }
@@ -43,7 +65,7 @@ function Install-NileSoft {
   $insertLine = "import 'imports/custom.nss'"
   $content = Get-Content -Tail 1 $nssPath
   if ($content -ne $insertLine) {
-
+    # Copy-Item -Path "$GITPATH\Nilesoft Shell\custom.nss" -Destination "$env:ProgramFiles\Nilesoft Shell\imports\custom.nss"
     Add-Content $nssPath $insertLine
   }
 }
@@ -52,15 +74,15 @@ function Install-Symlinks {
   Write-Host "Creating/updating symbolic links..."
   $WTFamilyName = $(Get-AppxPackage | Where-Object Name -eq Microsoft.WindowsTerminal).PackageFamilyName
   $Cmd = @"
-New-Item -ItemType SymbolicLink -Force -Path `"$PROFILE`" -Value `"$GITPATH\Microsoft.PowerShell_profile.ps1`";
+New-Item -ItemType SymbolicLink -Force -Path `'$PROFILE`' -Value `"$GITPATH\Microsoft.PowerShell_profile.ps1`";
 New-Item -ItemType SymbolicLink -Force -Path `"$env:LOCALAPPDATA\Packages\$WTFamilyName\LocalState\settings.json`" -Value `"$GITPATH\WindowsTerminal\settings.json`";
 New-Item -ItemType SymbolicLink -Force -Path `"$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup\Passive.ahk`" -Value `"$GITPATH\Passive.ahk`";
-New-Item -ItemType SymbolicLink -Force -Path `"$env:ProgramFiles\Nilesoft Shell\imports\custom.nss`" -Value `"$GITPATH\Nilesoft Shell\custom.nss`";
+New-Item -ItemType SymbolicLink -Force -Path `"$env:ProgramFiles\Nilesoft Shell\imports\custom.nss`" -Value `"$GITPATH\Nilesoft Shell\custom.nss`"
 "@
   # Create the symlinks with admin privs
   Start-Process -FilePath "pwsh.exe" -Wait -Verb RunAs -ArgumentList "-NoProfile -NoExit -Command '$Cmd'"
   # $GITPATH
-  # sudo $Cmd
+  # sudo "$Cmd"
   
   # Print the newly created links to our original terminal
   Get-Item "$PROFILE"
@@ -75,7 +97,7 @@ New-Item -ItemType SymbolicLink -Force -Path `"$env:ProgramFiles\Nilesoft Shell\
 }
 
 
-# Install-Programs
+Install-Programs
 # Install-NeovimPrf
-# Install-NileSoft
+Install-NileSoft
 Install-SymLinks

@@ -48,9 +48,14 @@ function gh { git log --graph -5 }
 function gf { git status }
 
 function arc { edit $PROFILE }
-function nic { edit "$env:USERPROFILE\coding\nixdots" }
+function nic { edit "$env:USERPROFILE\code\nixdots" }
 # function vic { edit "$env:USERPROFILE\github\dotfiles\.config\nvim" }
-function vic { edit "$env:USERPROFILE\appdata\local\nvim" }
+function vic { 
+    Push-Location "$env:USERPROFILE\appdata\local\nvim"
+    edit .
+}
+
+function talos { ssh talos }
 
 # Useful shortcuts for traversing directories
 function bd { Set-Location - }
@@ -58,6 +63,7 @@ function cd.. { Set-Location .. }
 function cd... { Set-Location ..\.. }
 function cd.... { Set-Location ..\..\.. }
 function ll { Get-ChildItem -Force }
+function l { Get-ChildItem -Force }
 Set-Alias -Name .. -Value cd..
 Set-Alias -Name ... -Value cd...
 Set-Alias -Name .... -Value cd....
@@ -109,12 +115,10 @@ Function Test-CommandExists {
 
 # If your favorite editor is not here, add an elseif and ensure that the directory it is installed in exists in your $env:Path
 $env:EDITOR = 'nvim'
-$env:VISUAL = 'nvim'
+$env:VISUAL = 'code'
 
 Set-Alias -Name edit -Value $env:EDITOR
 Set-Alias -Name e -Value $env:EDITOR
-Set-Alias -Name code -Value $env:VISUAL
-Set-Alias -Name c -Value $env:VISUAL
 
 function Get-PubIP {
     Write-Host "External IP: "(Invoke-WebRequest http://ifconfig.me/ip).Content

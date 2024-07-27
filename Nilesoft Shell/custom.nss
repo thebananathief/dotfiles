@@ -11,9 +11,11 @@ modify(where=this.name=="Open with Visual Studio"
 
 // WinMerge / WizTree
 modify(where=this.name=="WizTree"
-  pos=pos.top menu='file manage')
+  pos=pos.top menu=title.more_options)
+modify(where=this.name=="WizFile"
+  pos=pos.top menu=title.more_options)
 modify(where=this.name=="WinMerge"
-  pos=pos.top menu='file manage')
+  pos=pos.top menu=title.more_options)
 
 // Send with / Scan with
 modify(find="Scan with"
@@ -41,16 +43,16 @@ modify(where=this.id(id.send_to,id.share,id.create_shortcut,id.set_as_desktop_ba
 
 // PowerToys
 modify(find="What's using this file"
-  pos=pos.top menu='file manage')
+  pos=pos.top menu=title.more_options)
 modify(find="PowerRename"
-  pos=pos.top menu='file manage')
+  pos=pos.top menu=title.more_options)
 
 // 7zip's checksums
 modify(where=this.name=="7-Zip"
   pos=4)
 
 //////// Adding in stuff ////////
-item(title='VSCodium' image=[\uE272, #22A7F2] cmd='codium' args='"@sel.path"'
+item(title='VSCode' image=[\uE272, #22A7F2] cmd='code' args='"@sel.path"'
   pos=8)
 item(where=package.exists("WindowsTerminal") title=title.Windows_Terminal tip=tip_run_admin admin=has_admin image='@package.path("WindowsTerminal")\WindowsTerminal.exe' cmd='wt.exe' arg='-d "@sel.path\."'
   pos=8)

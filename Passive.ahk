@@ -13,11 +13,12 @@ ProgramFiles := EnvGet("ProgramFiles")
 ;       S - Spotify
 ;       W - Close window
 #a::Run "wt.exe"
-#d::Run LocalAppData "\Obsidian\Obsidian.exe"
+#d::Run LocalAppData "\Programs\Obsidian\Obsidian.exe"
 #c::Run LocalAppData "\Programs\VSCodium\VSCodium.exe"
 ; #s::Run "shell:appsFolder\64360VelerSoftware.DevToys_j80j2txgjg9dj!App"
 #s::Run Roaming "\Spotify\Spotify.exe"
-#f::Run ProgramFiles "\Mozilla Firefox\firefox.exe"
+#f::Run "shell:appsFolder\TheBrowserCompany.Arc_ttt1ap7aakyb4!Arc"
+; #f::Run ProgramFiles "\Mozilla Firefox\firefox.exe"
 #w::!F4
 
 ; Rocker
@@ -25,16 +26,17 @@ ProgramFiles := EnvGet("ProgramFiles")
 ; ~RButton & LButton::Browser_Back
 
 ; AFK loop
-toggle := false
-+^n::{
-  global toggle := !toggle
-  Loop {
-    Send "zZz..."
-    Sleep(5000)
-  } until !toggle
-}
+; toggle := false
+; +^n::{
+;   global toggle := !toggle
+;   Loop {
+;     Send "zZz..."
+;     Sleep(5000)
+;   } until !toggle
+; }
 
 ; Split keyboard gaming mode toggle
+; Moves a bunch of keys around that are used for games
 sgamemode := false
 :*:poiu::
 {
