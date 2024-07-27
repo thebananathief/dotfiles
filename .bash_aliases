@@ -58,7 +58,7 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 alias sc='systemctl'
 alias scf='systemctl list-units --failed'
 alias rhit='systemctl reboot'
-alias shit='systemctl shutdown'
+alias shit='systemctl poweroff'
 
 # Alias to show the date
 alias da='date "+%Y-%m-%d %A %T %Z"'
