@@ -1,3 +1,11 @@
+immich (){
+	case $1 in
+		up) sudo systemctl start docker-immich-{ml,server,microservices,postgres,redis} ;;
+	down) sudo systemctl stop docker-immich-{ml,server,microservices,postgres,redis} ;;
+		 *) echo "type down or up" ;;
+	esac
+}
+
 # Find nix package location and copy
 np (){
   file=$( eza --color=never -D /nix/store | fzf --preview='tree /nix/store/{}')
@@ -18,6 +26,8 @@ cpl (){
 
 # Quick SSH
 alias talos='ssh talos'
+
+alias lsgpu='sudo intel_gpu_top'
 
 # Copy font
 # fontc (){
@@ -47,6 +57,8 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 # Systemctl shortened commands
 alias sc='systemctl'
 alias scf='systemctl list-units --failed'
+alias rhit='systemctl reboot'
+alias shit='systemctl shutdown'
 
 # Alias to show the date
 alias da='date "+%Y-%m-%d %A %T %Z"'
@@ -114,18 +126,12 @@ command_exists () {
 # Show open ports
 alias openports='netstat -nape --inet'
 
-# Alias's for safe and forced reboots
-alias rhit='sudo shutdown -r now'
-alias rhitf='sudo shutdown -r -n now'
-alias shit='sudo shutdown now'
-
 # Alias's to show disk space and space used in a folder
-alias diskspace="du -Sh | sort -n -r |more"
-alias folders='du -h --max-depth=1'
-alias folderssort='find . -maxdepth 1 -type d -print0 | xargs -0 du -sk | sort -rn'
+alias dff='df --output=target,source,fstype,size,used,avail,pcent -h | (sed -u 1q; sort -k 1,1)'
+alias diskspace="du -Sh | sort -nr | more"
+alias folders='du -h -d1 | sort -hr'
 alias tree='tree -CAhF --dirsfirst'
 alias treed='tree -CAFd'
-alias dff='df -hT | sort -d'
 
 # Alias's for archives
 alias mktar='tar -cvf'
