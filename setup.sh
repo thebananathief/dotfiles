@@ -15,21 +15,20 @@ checkEnv() {
 }
 
 linkConfig() {
-    ## Check if a bashrc file is already there.
-    OLD_BASHRC="${HOME}/.bashrc"
-    if [[ -e ${OLD_BASHRC} ]]; then
-        echo -e "${YELLOW}Moving old bash config file to ${HOME}/.bashrc.bak${RC}"
-        if ! mv ${OLD_BASHRC} ${HOME}/.bashrc.bak; then
-            echo -e "${RED}Can't move the old bash config file!${RC}"
+    ## Check if a zshrc file is already there.
+    OLD_ZSHRC="${HOME}/.zshrc"
+    if [[ -e ${OLD_ZSHRC} ]]; then
+        echo -e "${YELLOW}Moving old bash config file to ${HOME}/.zshrc.bak${RC}"
+        if ! mv ${OLD_ZSHRC} ${HOME}/.zshrc.bak; then
+            echo -e "${RED}Can't move the old zshrc file!${RC}"
             exit 1
         fi
     fi
 
     echo -e "${YELLOW}Linking new config files...${RC}"
-    ## Make symbolic link.
-    ln -svf ${GITPATH}/.bashrc ${HOME}/.bashrc
-    ln -svf ${GITPATH}/starship.toml ${HOME}/.config/starship.toml
-    ln -svf ${GITPATH}/nvim ${HOME}/.config/nvim
+    ## Make symbolic links
+    ln -svf ${GITPATH}/.zshrc ${HOME}/.zshrc
+    ln -svf ${GITPATH}/.bash_aliases ${HOME}/.bash_aliases
 }
 
 checkEnv

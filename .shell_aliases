@@ -9,7 +9,37 @@ alias se='sedit'
 
 # Quick file edits
 alias zshrc='${=EDITOR} ~/.zshrc'
-alias arc='${=EDITOR} ~/.oh-my-zsh/custom/profile.zsh'
+alias vimc='${=EDITOR} ~/.config/nvim/lua/user'
+arc() {
+	local dirs=(
+		"~/.oh-my-zsh/custom/profile.zsh"
+		"~/.shell_aliases"
+	)
+	for dir in "${dirs[@]}"; do
+		# Check if directory exists and we have read+write permissions
+		if [[ -d "$dir" ]] && [[ -r "$dir" ]] && [[ -w "$dir" ]]; then
+			cd "$dir" && $EDITOR "$dir"
+		elif [[ -d "$dir" ]]
+			sudo -E $EDITOR "$dir"
+		fi
+	done
+}
+nic() {
+	local dirs=(
+		"~/github/nixdots"
+		"~/code/nixdots"
+		"~/nixdots"
+		"/etc/nixos/nixdots"
+	)
+	for dir in "${dirs[@]}"; do
+		# Check if directory exists and we have read+write permissions
+		if [[ -d "$dir" ]] && [[ -r "$dir" ]] && [[ -w "$dir" ]]; then
+			cd "$dir" && $EDITOR "$dir"
+		elif [[ -d "$dir" ]]
+			sudo -E $EDITOR "$dir"
+		fi
+	done
+}
 
 
 # Change default commands
@@ -30,6 +60,9 @@ alias rhit='systemctl reboot'
 alias shit='systemctl poweroff'
 alias j='just'
 alias treed='tree -d'
+alias cd..='cd ..'
+alias cd...='cd ...'
+alias cd....='cd ....'
 
 
 # Logging / printing functions
@@ -37,7 +70,6 @@ export LESS='-RKF'
 export MANPAGER="sh -c 'col -bx | bat -pl man'"
 export MANROFFOPT="-c"
 alias bat='bat -ppl log'
-alias logs="sudo find /var/log -type f -exec file {} \; | grep 'text' | cut -d' ' -f1 | sed -e's/:$//g' | grep -v '[0-9]$' | xargs tail -f"
 
 # Follows the file's output, showing a live log
 alias lgf="tail -f -n100 $1 | bat"
@@ -60,24 +92,6 @@ alias dff='df --output=target,source,fstype,size,used,avail,pcent -h | (sed -u 1
 alias dfa='du -h -d1 | sort -hr'
 
 
-nic() {
-	local dirs=(
-		"~/github/nixdots"
-		"~/code/nixdots"
-		"~/nixdots"
-		"/etc/nixos/nixdots"
-	)
-
-	for dir in "${dirs[@]}"; do
-		# Check if directory exists and we have read+write permissions
-		if [[ -d "$dir" ]] && [[ -r "$dir" ]] && [[ -w "$dir" ]]; then
-			cd "$dir" && $EDITOR "$dir"
-		elif [[ -d "$dir" ]]
-			sudo -E $EDITOR "$dir"
-		fi
-	done
-}
-
 immich() {
 	case $1 in
 		up) sudo systemctl start docker-immich-{ml,server,microservices,postgres,redis} ;;
@@ -86,20 +100,6 @@ immich() {
 	esac
 }
 
-alias lsgpu='sudo intel_gpu_top'
-
-# Copy font from yad list
-alias fonts='yad --font | wl-copy'
-
-# Quick edit shell configs
-alias vic='edit ~/.config/nvim/lua/user'
-alias zrc='edit ~/.zshrc'
-alias brc='edit ~/.bashrc'
-alias arc='edit ~/.bash_aliases'
-alias rbrc='sudoedit /etc/bash.bashrc'
-
-# Duplicate the terminal
-alias dup='${=TERMINAL} --working-directory "$(pwd)" &'
 
 # Allows aliases to be used after sudo
 alias sudo='sudo '
@@ -109,6 +109,12 @@ alias adm='sudo -s'
 alias rmd='rm  --recursive --force --verbose '
 # Neovim's swap directory which annoys me sometimes
 alias vds='rm -f ~/.local/state/nvim/swap/*'
+# Top 10 processes by CPU usage
+alias topcpu="/bin/ps -eo pcpu,pid,user,args | sort -k 1 -r | head -10"
+# Show open ports
+alias openports='netstat -nape --inet'
+# Count all files (recursively) in the current folder
+alias countfiles="for t in files links directories; do echo \`find . -type \${t:0:1} | wc -l\` \$t; done 2> /dev/null"
 
 # alias ls="ls -AFh --color=always" # add colors and file type extensions
 # alias lx="ls -lXBh" # sort by extension
@@ -122,32 +128,7 @@ alias vds='rm -f ~/.local/state/nvim/swap/*'
 # alias labc="ls -lAp" #alphabetical sort
 # alias ldir="ls -l | egrep '^d'" # directories only
 # alias lf="ls -l | egrep -v '^d'" # files only
-alias cd..='cd ..'
-alias cd...='cd ...'
-alias cd....='cd ....'
-alias lf="yazi"
-alias ii='thunar'
 
-# Top 10 processes by CPU usage
-alias topcpu="/bin/ps -eo pcpu,pid,user,args | sort -k 1 -r | head -10"
-# Show open ports
-alias openports='netstat -nape --inet'
-
-# Count all files (recursively) in the current folder
-alias countfiles="for t in files links directories; do echo \`find . -type \${t:0:1} | wc -l\` \$t; done 2> /dev/null"
-
-
-# Find nix package location and copy
-np (){
-  file=$( eza --color=never -D /nix/store | fzf --preview='tree /nix/store/{}')
-  echo "/nix/store/$file"
-  echo "/nix/store/$file" | wl-copy
-}
-npy (){
-  file=$( eza --color=never -D /nix/store | fzf --preview='tree /nix/store/{}')
-  echo "/nix/store/$file" | wl-copy
-  yazi "/nix/store/$file"
-}
 
 # Searches for text in all files in the current folder
 ftext () {
@@ -228,6 +209,7 @@ up () {
 # 		builtin cd ~ && ls
 # 	fi
 # }
+
 
 # Show the current distribution
 distribution () {
