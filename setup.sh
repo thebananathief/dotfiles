@@ -8,7 +8,7 @@ GREEN='\e[32m'
 checkEnv() {
     ## Check if the current directory is writable.
     GITPATH="$(dirname "$(realpath "$0")")"
-    if [[ ! -w ${GITPATH} ]]; then
+    if [ ! -w ${GITPATH} ]; then
         echo -e "${RED}Can't write to ${GITPATH}${RC}"
         exit 1
     fi
@@ -17,7 +17,7 @@ checkEnv() {
 linkConfig() {
     ## Check if a zshrc file is already there.
     OLD_ZSHRC="${HOME}/.zshrc"
-    if [[ -e ${OLD_ZSHRC} ]]; then
+    if [ -e ${OLD_ZSHRC} ]; then
         echo -e "${YELLOW}Moving old bash config file to ${HOME}/.zshrc.bak${RC}"
         if ! mv ${OLD_ZSHRC} ${HOME}/.zshrc.bak; then
             echo -e "${RED}Can't move the old zshrc file!${RC}"
