@@ -39,10 +39,10 @@ plugins=(
 	sudo # Doubletap ESC to prepend current or previous command with sudo
 	ssh # Adds quick SSH commands based on hosts in .ssh/config
 	z
-	zsh-autosuggestions
-	zsh-syntax-highlighting
-	fast-syntax-highlighting
-	zsh-autocomplete
+	zsh-autosuggestions # https://github.com/zsh-users/zsh-autosuggestions
+	zsh-syntax-highlighting # https://github.com/zsh-users/zsh-syntax-highlighting
+	fast-syntax-highlighting # https://github.com/zdharma-continuum/fast-syntax-highlighting
+	zsh-autocomplete # https://github.com/marlonrichert/zsh-autocomplete
 	# fzf
 )
 

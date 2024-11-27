@@ -105,6 +105,8 @@ immich() {
 alias sudo='sudo '
 alias adm='sudo -s'
 
+# Convert all files in current directory recursively to LF line endings
+alias dr='find . -type f -print0 | xargs -0 dos2unix'
 # Remove a directory and all files
 alias rmd='rm  --recursive --force --verbose '
 # Neovim's swap directory which annoys me sometimes
