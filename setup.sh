@@ -28,7 +28,7 @@ linkConfig() {
     echo -e "${YELLOW}Linking new config files...${RC}"
     ## Make symbolic links
     ln -svf ${GITPATH}/.zshrc ${HOME}/.zshrc
-    ln -svf ${GITPATH}/.bash_aliases ${HOME}/.bash_aliases
+    ln -svf ${GITPATH}/.shell_aliases ${HOME}/.shell_aliases
 }
 
 checkEnv
