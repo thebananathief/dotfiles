@@ -19,7 +19,7 @@ arc() {
 		# Check if directory exists and we have read+write permissions
 		if [[ -d "$dir" ]] && [[ -r "$dir" ]] && [[ -w "$dir" ]]; then
 			cd "$dir" && $EDITOR "$dir"
-		elif [[ -d "$dir" ]]
+		elif [[ -d "$dir" ]]; then
 			sudo -E $EDITOR "$dir"
 		fi
 	done
@@ -35,7 +35,7 @@ nic() {
 		# Check if directory exists and we have read+write permissions
 		if [[ -d "$dir" ]] && [[ -r "$dir" ]] && [[ -w "$dir" ]]; then
 			cd "$dir" && $EDITOR "$dir"
-		elif [[ -d "$dir" ]]
+		elif [[ -d "$dir" ]]; then
 			sudo -E $EDITOR "$dir"
 		fi
 	done
