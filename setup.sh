@@ -12,6 +12,20 @@ checkEnv() {
         echo -e "${RED}Can't write to ${GITPATH}${RC}"
         exit 1
     fi
+
+    # Check if ZSH is installed
+    if ! command -v zsh >/dev/null 2>&1; then
+        echo -e "${RED}ZSH must be installed!${RC}"
+        exit 1
+    fi
+
+    # Check if oh-my-zsh is installed
+    if [ ! -d "$ZSH" ]; then
+        echo -e "${RED}oh-my-zsh must be installed!${RC}"
+        echo -e "URL: https://ohmyz.sh/#install"
+        echo -e 'CMD: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"'
+        exit 1
+    fi
 }
 
 linkConfig() {
@@ -27,14 +41,13 @@ linkConfig() {
 
     echo -e "${YELLOW}Linking new config files...${RC}"
     ## Make symbolic links
-    ln -svf ${GITPATH}/.zshrc ${HOME}/.zshrc
-    ln -svf ${GITPATH}/.shell_aliases ${HOME}/.shell_aliases
+    ln -sv ${GITPATH}/.zshrc ${HOME}/.zshrc
+    # ln -sv ${GITPATH}/.shell_aliases ${HOME}/.shell_aliases
+    ln -sv ${GITPATH}/.shell_aliases ${HOME}/.oh-my-zsh/custom/profile.zsh
 }
 
 checkEnv
 
 if linkConfig; then
-    echo -e "${GREEN}Done!\nrestart your shell to see the changes.${RC}"
-else
-    echo -e "${RED}Something went wrong!${RC}"
+    echo -e "${GREEN}Done!\nRestart your shell to see the changes.${RC}"
 fi
