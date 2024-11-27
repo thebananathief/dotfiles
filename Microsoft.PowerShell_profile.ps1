@@ -47,12 +47,15 @@ function gd { git diff }
 function gh { git log --graph -5 }
 function gf { git status }
 
-function arc { edit $PROFILE }
-function nic { edit "$env:USERPROFILE\code\nixdots" }
+function arc { 
+    edit $PROFILE
+}
+function nic { code "$env:USERPROFILE\code\nixdots" }
 # function vic { edit "$env:USERPROFILE\github\dotfiles\.config\nvim" }
 function vic { 
     Push-Location "$env:USERPROFILE\appdata\local\nvim"
     edit .
+    Pop-Location
 }
 
 function talos { ssh talos }
