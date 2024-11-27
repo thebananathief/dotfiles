@@ -127,10 +127,10 @@ command_exists () {
 alias openports='netstat -nape --inet'
 
 # Alias's to show disk space and space used in a folder
+alias duff='duf -only-mp "/mnt*"'
 alias dff='df --output=target,source,fstype,size,used,avail,pcent -h | (sed -u 1q; sort -k 1,1)'
-alias diskspace="du -Sh | sort -nr | more"
-alias folders='du -h -d1 | sort -hr'
-alias tree='tree -CAhF --dirsfirst'
+alias dfa='du -h -d1 | sort -hr'
+alias tree='tree -CAF --dirsfirst'
 alias treed='tree -CAFd'
 
 # Alias's for archives
@@ -141,13 +141,22 @@ alias untar='tar -xvf'
 alias unbz2='tar -xvjf'
 alias ungz='tar -xvzf'
 
-# Show all logs in /var/log
-alias logs="sudo find /var/log -type f -exec file {} \; | grep 'text' | cut -d' ' -f1 | sed -e's/:$//g' | grep -v '[0-9]$' | xargs tail -f"
-log () {
-	journalctl -u $1.service -f | tspin
+# Format a 'man' page or '--help'
+mn () {
+  exec=$@
+  $@ | bat -l help --style header --file-name="$exec"
 }
-alias loga='journalctl -u $1.service | tspin'
-alias tailf="tspin -f"
+
+# Show all logs in /var/log
+alias lgf="bat --pager=never -l log --style=plain"
+alias lg="bat --pager 'less -KRF +G' --style=plain -l log"
+alias logs="sudo find /var/log -type f -exec file {} \; | grep 'text' | cut -d' ' -f1 | sed -e's/:$//g' | grep -v '[0-9]$' | xargs tail -f"
+jlgf () {
+	journalctl --no-pager -fu $@ | lgf
+}
+jlg () {
+	journalctl --no-pager -u $@ | lg
+}
 
 # KITTY - alias to be able to use kitty features when
 # connecting to remote servers(e.g use tmux on remote server)
