@@ -1,4 +1,84 @@
-immich (){
+
+# Text editing
+export EDITOR='nvim'
+alias edit='${=EDITOR} $@'
+alias sedit='sudo -E edit'
+alias e='edit'
+alias se='sedit'
+
+
+# Quick file edits
+alias zshrc='${=EDITOR} ~/.zshrc'
+alias arc='${=EDITOR} ~/.oh-my-zsh/custom/profile.zsh'
+
+
+# Change default commands
+alias rm='rm -iv'
+alias cp='cp -v'
+alias mv='mv -v'
+alias mkdir='mkdir -p'
+alias ping='ping -c 10'
+alias tree='tree -CAF --dirsfirst'
+#alias ps='ps auxf'
+
+
+# Shorthand commands
+alias jc='journalctl'
+alias sc='systemctl'
+alias scf='systemctl list-units --failed'
+alias rhit='systemctl reboot'
+alias shit='systemctl poweroff'
+alias j='just'
+alias treed='tree -d'
+
+
+# Logging / printing functions
+export LESS='-RKF'
+export MANPAGER="sh -c 'col -bx | bat -pl man'"
+export MANROFFOPT="-c"
+alias bat='bat -ppl log'
+alias logs="sudo find /var/log -type f -exec file {} \; | grep 'text' | cut -d' ' -f1 | sed -e's/:$//g' | grep -v '[0-9]$' | xargs tail -f"
+
+# Follows the file's output, showing a live log
+alias lgf="tail -f -n100 $1 | bat"
+# Follow a systemd unit's output
+function jlgf() {
+	journalctl -u $@ -f --lines=100 --no-pager | bat
+}
+
+# Opens the file, goes to the bottom, interactive so you can navigate it
+alias lg='bat --paging=auto --pager="less +G" -pl log $@'
+# Open a systemd unit's log
+function jlg() {
+	journalctl --no-pager -u $@ | bat --pager='less +G'
+}
+
+
+# Show disk space
+alias duff='duf -only-mp "/mnt*"'
+alias dff='df --output=target,source,fstype,size,used,avail,pcent -h | (sed -u 1q; sort -k 1,1)'
+alias dfa='du -h -d1 | sort -hr'
+
+
+nic() {
+	local dirs=(
+		"~/github/nixdots"
+		"~/code/nixdots"
+		"~/nixdots"
+		"/etc/nixos/nixdots"
+	)
+
+	for dir in "${dirs[@]}"; do
+		# Check if directory exists and we have read+write permissions
+		if [[ -d "$dir" ]] && [[ -r "$dir" ]] && [[ -w "$dir" ]]; then
+			cd "$dir" && $EDITOR "$dir"
+		elif [[ -d "$dir" ]]
+			sudo -E $EDITOR "$dir"
+		fi
+	done
+}
+
+immich() {
 	case $1 in
 		up) sudo systemctl start docker-immich-{ml,server,microservices,postgres,redis} ;;
 	down) sudo systemctl stop docker-immich-{ml,server,microservices,postgres,redis} ;;
@@ -6,35 +86,9 @@ immich (){
 	esac
 }
 
-# Find nix package location and copy
-np (){
-  file=$( eza --color=never -D /nix/store | fzf --preview='tree /nix/store/{}')
-  echo "/nix/store/$file"
-  echo "/nix/store/$file" | wl-copy
-}
-npy (){
-  file=$( eza --color=never -D /nix/store | fzf --preview='tree /nix/store/{}')
-  echo "/nix/store/$file" | wl-copy
-  yazi "/nix/store/$file"
-}
-
-# Copy path
-cpl (){
-  echo "$PWD/$1"
-  echo "$PWD/$1" | wl-copy
-}
-
-# Quick SSH
-alias talos='ssh talos'
-
 alias lsgpu='sudo intel_gpu_top'
 
-# Copy font
-# fontc (){
-#   font=$(fc-list : file family style | fzf --preview 'ueberzugpp {1}')
-#   echo $font
-#   $font | wl-copy
-# }
+# Copy font from yad list
 alias fonts='yad --font | wl-copy'
 
 # Quick edit shell configs
@@ -44,40 +98,8 @@ alias brc='edit ~/.bashrc'
 alias arc='edit ~/.bash_aliases'
 alias rbrc='sudoedit /etc/bash.bashrc'
 
-# Quick NIX actions
-# alias nic='sudo -E nvim ~/github/nixdots'
-alias nic='edit ~/github/nixdots'
-alias nis='sudo nixos-rebuild switch'
-alias gnis='cd ~/github/nixdots && gb && nis'
-alias nib='sudo nixos-rebuild boot'
-alias nip="nix-build '<nixpkgs>' --no-build-output -A"
-
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
-# Systemctl shortened commands
-alias sc='systemctl'
-alias scf='systemctl list-units --failed'
-alias rhit='systemctl reboot'
-alias shit='systemctl poweroff'
-
-# Alias to show the date
-alias da='date "+%Y-%m-%d %A %T %Z"'
-
-# Alias's to modified commands
-alias cp='cp -i'
-alias mv='mv -i'
-#alias rm='trash -v'
-alias mkdir='mkdir -p'
-#alias ps='ps auxf'
-alias ping='ping -c 10'
-alias less='less -R'
-alias cls='clear'
-alias multitail='multitail --no-repeat -c'
-alias freshclam='sudo freshclam'
-alias dup='alacritty --working-directory "$(pwd)" &'
-alias rg='rg -S'
-alias j='just'
-
+# Duplicate the terminal
+alias dup='${=TERMINAL} --working-directory "$(pwd)" &'
 
 # Allows aliases to be used after sudo
 alias sudo='sudo '
@@ -106,99 +128,25 @@ alias cd....='cd ....'
 alias lf="yazi"
 alias ii='thunar'
 
-# alias chmod commands
-alias mx='chmod a+x'
-alias 000='chmod -R 000'
-alias 644='chmod -R 644'
-alias 666='chmod -R 666'
-alias 755='chmod -R 755'
-alias 777='chmod -R 777'
-
+# Top 10 processes by CPU usage
 alias topcpu="/bin/ps -eo pcpu,pid,user,args | sort -k 1 -r | head -10"
+# Show open ports
+alias openports='netstat -nape --inet'
 
 # Count all files (recursively) in the current folder
 alias countfiles="for t in files links directories; do echo \`find . -type \${t:0:1} | wc -l\` \$t; done 2> /dev/null"
 
-command_exists () {
-    command -v $1 >/dev/null 2>&1;
+
+# Find nix package location and copy
+np (){
+  file=$( eza --color=never -D /nix/store | fzf --preview='tree /nix/store/{}')
+  echo "/nix/store/$file"
+  echo "/nix/store/$file" | wl-copy
 }
-
-# Show open ports
-alias openports='netstat -nape --inet'
-
-# Alias's to show disk space and space used in a folder
-alias duff='duf -only-mp "/mnt*"'
-alias dff='df --output=target,source,fstype,size,used,avail,pcent -h | (sed -u 1q; sort -k 1,1)'
-alias dfa='du -h -d1 | sort -hr'
-alias tree='tree -CAF --dirsfirst'
-alias treed='tree -CAFd'
-
-# Alias's for archives
-alias mktar='tar -cvf'
-alias mkbz2='tar -cvjf'
-alias mkgz='tar -cvzf'
-alias untar='tar -xvf'
-alias unbz2='tar -xvjf'
-alias ungz='tar -xvzf'
-
-# Format a 'man' page or '--help'
-mn () {
-  exec=$@
-  $@ | bat -l help --style header --file-name="$exec"
-}
-
-# Show all logs in /var/log
-alias lgf="bat --pager=never -l log --style=plain"
-alias lg="bat --pager 'less -KRF +G' --style=plain -l log"
-alias logs="sudo find /var/log -type f -exec file {} \; | grep 'text' | cut -d' ' -f1 | sed -e's/:$//g' | grep -v '[0-9]$' | xargs tail -f"
-jlgf () {
-	journalctl --no-pager -fu $@ | lgf
-}
-jlg () {
-	journalctl --no-pager -u $@ | lg
-}
-
-# KITTY - alias to be able to use kitty features when
-# connecting to remote servers(e.g use tmux on remote server)
-alias kssh="kitty +kitten ssh"
-
-alias e='edit'
-alias sedit='sudo -E edit'
-alias se='sedit'
-# "sudoedit" is also a command provided by sudo to launch your
-# default editor and safely edit a read-only file
-
-#######################################################
-# SPECIAL FUNCTIONS
-#######################################################
-
-# Universal text editor functions
-edit () {
-  $EDITOR "$@"
-}
-
-# Extracts any archive(s) (if unp isn't installed)
-extract () {
-	for archive in "$@"; do
-		if [ -f "$archive" ] ; then
-			case $archive in
-				*.tar.bz2)   tar xvjf $archive    ;;
-				*.tar.gz)    tar xvzf $archive    ;;
-				*.bz2)       bunzip2 $archive     ;;
-				*.rar)       rar x $archive       ;;
-				*.gz)        gunzip $archive      ;;
-				*.tar)       tar xvf $archive     ;;
-				*.tbz2)      tar xvjf $archive    ;;
-				*.tgz)       tar xvzf $archive    ;;
-				*.zip)       unzip $archive       ;;
-				*.Z)         uncompress $archive  ;;
-				*.7z)        7z x $archive        ;;
-				*)           echo "don't know how to extract '$archive'..." ;;
-			esac
-		else
-			echo "'$archive' is not a valid file!"
-		fi
-	done
+npy (){
+  file=$( eza --color=never -D /nix/store | fzf --preview='tree /nix/store/{}')
+  echo "/nix/store/$file" | wl-copy
+  yazi "/nix/store/$file"
 }
 
 # Searches for text in all files in the current folder
@@ -281,11 +229,6 @@ up () {
 # 	fi
 # }
 
-# Returns the last 2 fields of the working directory
-pwdtail () {
-	pwd|awk -F/ '{nlast = NF -1;print $nlast"/"$NF}'
-}
-
 # Show the current distribution
 distribution () {
 	local dtype
@@ -358,23 +301,8 @@ ver () {
 	fi
 }
 
-# Show current network information
-netinfo () {
-	echo "--------------- Network Information ---------------"
-	ip a show wifi2 | grep "inet" | awk -F' ' '{print $2}'
-	ip a show wifi2 | grep "inet" | awk -F' ' '{print $4}'
-	ip l show wifi2 | grep "link" | awk -F' ' '{print $2}'
-	echo "---------------------------------------------------"
-}
-
 # IP address lookup
 getip () {
-	# Dumps a list of all IP addresses for every device
-	# /sbin/ifconfig |grep -B1 "inet addr" |awk '{ if ( $1 == "inet" ) { print $2 } else if ( $2 == "Link" ) { printf "%s:" ,$1 } }' |awk -F: '{ print $1 ": " $3 }';
-
-	# Internal IP Lookup
-	echo -n "Internal IP: " ; ip a show wifi2 | grep "inet" | awk -F' ' '{print $2}'
-
 	# External IP Lookup
 	echo -n "External IP: " ; curl http://ifconfig.me/ip
 }
