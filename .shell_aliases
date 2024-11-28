@@ -6,20 +6,23 @@ alias sedit='sudo -E edit'
 alias e='edit'
 alias se='sedit'
 
+export VISUAL='code'
 
 # Quick file edits
 alias zshrc='${=EDITOR} ~/.zshrc'
 alias vimc='${=EDITOR} ~/.config/nvim/lua/user'
 arc() {
 	local dirs=(
-		"~/.oh-my-zsh/custom/profile.zsh"
-		"~/.shell_aliases"
+		"$HOME/.oh-my-zsh/custom/profile.zsh"
+		"$HOME/.shell_aliases"
+		"$HOME/github/dotfiles/.shell_aliases"
+		"$HOME/code/dotfiles/.shell_aliases"
 	)
 	for dir in "${dirs[@]}"; do
 		# Check if directory exists and we have read+write permissions
-		if [[ -d "$dir" ]] && [[ -r "$dir" ]] && [[ -w "$dir" ]]; then
-			cd "$dir" && $EDITOR "$dir"
-		elif [[ -d "$dir" ]]; then
+		if [[ -r "$dir" ]] && [[ -w "$dir" ]]; then
+			cd "$dir" && $VISUAL "$dir"
+		elif [[ -e "$dir" ]]; then
 			sudo -E $EDITOR "$dir"
 		fi
 	done
@@ -33,8 +36,8 @@ nic() {
 	)
 	for dir in "${dirs[@]}"; do
 		# Check if directory exists and we have read+write permissions
-		if [[ -d "$dir" ]] && [[ -r "$dir" ]] && [[ -w "$dir" ]]; then
-			cd "$dir" && code "$dir"
+		if [[ -r "$dir" ]] && [[ -w "$dir" ]]; then
+			cd "$dir" && $VISUAL "$dir"
 		elif [[ -d "$dir" ]]; then
 			sudo -E $EDITOR "$dir"
 		fi
