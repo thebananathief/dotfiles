@@ -83,6 +83,8 @@ export MANPAGER="sh -c 'col -bx | bat -pl man'"
 export MANROFFOPT="-c"
 # export SYSTEMD_LESS="RKFXSM"
 alias bat='bat -ppl log'
+# Usage: <command> | h
+alias h='bat -l help'
 
 # Follows the file's output, showing a live log
 alias lgf="tail -f -n100 $1 | bat"
