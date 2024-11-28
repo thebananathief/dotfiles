@@ -26,9 +26,9 @@ arc() {
 }
 nic() {
 	local dirs=(
-		"~/github/nixdots"
-		"~/code/nixdots"
-		"~/nixdots"
+		"$HOME/github/nixdots"
+		"$HOME/code/nixdots"
+		"$HOME/nixdots"
 		"/etc/nixos/nixdots"
 	)
 	for dir in "${dirs[@]}"; do
