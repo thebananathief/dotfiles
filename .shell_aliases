@@ -21,7 +21,7 @@ arc() {
 	for dir in "${dirs[@]}"; do
 		# Check if directory exists and we have read+write permissions
 		if [[ -r "$dir" ]] && [[ -w "$dir" ]]; then
-			cd "$dir" && $VISUAL "$dir"
+			$VISUAL "$dir"
 		elif [[ -e "$dir" ]]; then
 			sudo -E $EDITOR "$dir"
 		fi
