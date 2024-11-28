@@ -12,18 +12,18 @@ export VISUAL='code'
 alias zshrc='${=EDITOR} ~/.zshrc'
 alias vimc='${=EDITOR} ~/.config/nvim/lua/user'
 arc() {
-	local dirs=(
+	local files=(
 		"$HOME/.oh-my-zsh/custom/profile.zsh"
 		"$HOME/.shell_aliases"
 		"$HOME/github/dotfiles/.shell_aliases"
 		"$HOME/code/dotfiles/.shell_aliases"
 	)
-	for dir in "${dirs[@]}"; do
+	for file in "${files[@]}"; do
 		# Check if directory exists and we have read+write permissions
-		if [[ -r "$dir" ]] && [[ -w "$dir" ]]; then
-			$VISUAL "$dir"
-		elif [[ -e "$dir" ]]; then
-			sudo -E $EDITOR "$dir"
+		if [[ -r "$file" ]] && [[ -w "$file" ]]; then
+			cd "$(dirname "$file")" &&	$VISUAL "$file"
+		elif [[ -e "$file" ]]; then
+			sudo -E $EDITOR "$file"
 		fi
 	done
 }
