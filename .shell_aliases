@@ -69,9 +69,19 @@ alias cd....='cd ....'
 
 
 # Logging / printing functions
+# Quick less man:
+#		-R raw control characters (only ANSI and OSC 8 sequences are output in raw form)
+#		-F quit if one screen or less height
+#		-K quit on interrupt (Ctrl+C)
+#		-X disable sending termcap init and deinit strings to the terminal (sometimes used if a program does a weird deinit)
+# 	-S chop long lines instead of wrapping them (this enables paging with the right arrow key to see the long lines)
+#		-M causes less to prompt more verbosely
+#		-s squeeze blank lines (don't show repeating newlines)
+#		-c clear screen, then show stuff
 export LESS='-RKF'
 export MANPAGER="sh -c 'col -bx | bat -pl man'"
 export MANROFFOPT="-c"
+# export SYSTEMD_LESS="RKFXSM"
 alias bat='bat -ppl log'
 
 # Follows the file's output, showing a live log
