@@ -34,7 +34,7 @@ nic() {
 	for dir in "${dirs[@]}"; do
 		# Check if directory exists and we have read+write permissions
 		if [[ -d "$dir" ]] && [[ -r "$dir" ]] && [[ -w "$dir" ]]; then
-			cd "$dir" && $EDITOR "$dir"
+			cd "$dir" && code "$dir"
 		elif [[ -d "$dir" ]]; then
 			sudo -E $EDITOR "$dir"
 		fi
