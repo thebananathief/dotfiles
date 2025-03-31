@@ -12,13 +12,13 @@ ProgramFiles := EnvGet("ProgramFiles")
 ;       S - DevToys
 ;       S - Spotify
 ;       W - Close window
-#a::Run "wt.exe"
+#t::Run "wt.exe"
 #d::Run LocalAppData "\Programs\Obsidian\Obsidian.exe"
 #c::Run LocalAppData "\Programs\VSCodium\VSCodium.exe"
 ; #s::Run "shell:appsFolder\64360VelerSoftware.DevToys_j80j2txgjg9dj!App"
 #s::Run Roaming "\Spotify\Spotify.exe"
-#f::Run "shell:appsFolder\TheBrowserCompany.Arc_ttt1ap7aakyb4!Arc"
-; #f::Run ProgramFiles "\Mozilla Firefox\firefox.exe"
+; #f::Run "shell:appsFolder\TheBrowserCompany.Arc_ttt1ap7aakyb4!Arc"
+#f::Run ProgramFiles "\Mozilla Firefox\firefox.exe"
 #w::!F4
 
 ; Rocker
