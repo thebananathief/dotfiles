@@ -1,30 +1,19 @@
-# dotfiles
-Setup scripts for Linux and Windows (and an option to install extra programs)
 
-## Windows
-WindowsTerminal may give an error mid-way through. User input required for prompt choice and you need to approve Admin privs for making symbolic links.
-```
-git clone https://github.com/thebananathief/shell-setup.git \
-Set-Location shell-setup \
-./setup.ps1
-```
-*This will install*
-- [`scoop`](https://github.com/ScoopInstaller/Scoop) - `neovim`, `neofetch`, `JetBrainsMono-NF`, `starship`
-- Terminal-Icons module
-- PowerShell Core and configure profile - profile is symlinked to repo's
-- WindowsTerminal and configure settings - settings are symlinked to repo's
-- ~/config/starship.toml is symlinked to repo's
+# WSL Arch bootstrap packages
+(May need to first look at /etc/wsl.conf)
 
-NOTE: Administrator privs are only needed for the symlinks
+Base crap
+`sudo pacman -Syu`
+`sudo pacman -S --noconfirm --needed git base-devel vi`
 
-## Linux
-```
-git clone https://github.com/thebananathief/shell-setup.git &&\
-cd shell-setup &&\
-chmod +x ./setup.sh &&\
-./setup.sh
-```
-*This will install*
-- `starship`, `multitail`, `tree`, `neovim`, `tldr`, `neofetch`, `htop`, `smartmontools`, `ethtool`, `autojump`
-- ~/config/starship.toml is symlinked to repo's
-- ~/.bashrc is symlinked to repo's
+Yay wrapper for pacman
+`git clone https://aur.archlinux.org/yay-bin.git && cd yay-bin && makepkg -si`
+
+Rest of packages with yay
+`yay -S jq jujutsu ripgrep`
+
+Bun
+`curl -fsSL https://bun.sh/install | bash`
+
+Add user to wheel group and authorize for `sudo` impersonation
+`usermod -aG wheel cameron && visudo`
