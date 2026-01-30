@@ -71,15 +71,5 @@ eval "$(intelli-shell init zsh)"
 
 source <(jj util completion zsh)
 
-# Auto-Warpify
-[[ "$-" == *i* ]] && printf 'P$f{"hook": "SourcedRcFileForWarp", "value": { "shell": "zsh", "uname": "Linux" }}œ' 
-
 alias hx='helix'
 
-export HLC_DB_PASSWORD_TCUSKYNET="BfMpxxhuBe!!!jkQ0yX6i8Zo"
-export HLC_DB_PASSWORD_DEVSKYNET="BfMpxxhuBe!!!jkQ0yX6i8Zo"
-export HLC_DB_PASSWORD_SKYNET="BaLkYraDXLk!sXFxG0n@2?r$"
-export HLC_DB_PASSWORD_TCUSQL="BaLkYraDXLk!sXFxG0n@2?r$"
-export HLC_DB_PASSWORD_MTS="tcumts2"
-export HLC_DB_PASSWORD_LABELSYSTEM="BaLkYraDXLk!sXFxG0n@2?r$"
-export HLC_DB_PASSWORD_COLOSSUS="BaLkYraDXLk!sXFxG0n@2?r$"
