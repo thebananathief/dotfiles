@@ -57,3 +57,29 @@ source $ZSH/oh-my-zsh.sh
 # zstyle ':autocomplete:*' delay 0
 zstyle ':autocomplete:*' ignored-input '..##'
 # zstyle -e ':autocomplete:*:*' list-lines 'reply=( $(( LINES / 4 )) )'
+
+# IntelliShell
+export INTELLI_HOME="/home/cameron/.local/share/intelli-shell"
+# export INTELLI_SEARCH_HOTKEY='^@'
+# export INTELLI_VARIABLE_HOTKEY='^l'
+# export INTELLI_BOOKMARK_HOTKEY='^b'
+# export INTELLI_FIX_HOTKEY='^x'
+# export INTELLI_SKIP_ESC_BIND=0
+# alias is="intelli-shell"
+export PATH="$INTELLI_HOME/bin:$PATH"
+eval "$(intelli-shell init zsh)"
+
+source <(jj util completion zsh)
+
+# Auto-Warpify
+[[ "$-" == *i* ]] && printf 'P$f{"hook": "SourcedRcFileForWarp", "value": { "shell": "zsh", "uname": "Linux" }}œ' 
+
+alias hx='helix'
+
+export HLC_DB_PASSWORD_TCUSKYNET="BfMpxxhuBe!!!jkQ0yX6i8Zo"
+export HLC_DB_PASSWORD_DEVSKYNET="BfMpxxhuBe!!!jkQ0yX6i8Zo"
+export HLC_DB_PASSWORD_SKYNET="BaLkYraDXLk!sXFxG0n@2?r$"
+export HLC_DB_PASSWORD_TCUSQL="BaLkYraDXLk!sXFxG0n@2?r$"
+export HLC_DB_PASSWORD_MTS="tcumts2"
+export HLC_DB_PASSWORD_LABELSYSTEM="BaLkYraDXLk!sXFxG0n@2?r$"
+export HLC_DB_PASSWORD_COLOSSUS="BaLkYraDXLk!sXFxG0n@2?r$"
